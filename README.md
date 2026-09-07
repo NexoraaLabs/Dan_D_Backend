@@ -40,9 +40,11 @@ See `backend/README.md` for setup and what's stubbed vs. real.
 5. **Image storage.** `.env.example` has S3 placeholders; nothing uploads
    there yet — `POST /api/items` takes image URLs, assuming upload happens
    client-side or via a small pre-signed-URL endpoint still to be added.
-6. **Real-time delivery.** Messaging and notifications are REST-only
-   (poll-based). `socket.io` is installed but not wired up — needed for live
-   chat and live auction bid updates.
+6. **Real-time delivery.** ~~Messaging~~ is now live over WebSocket
+   (JWT-authenticated Socket.IO — message push, typing, read receipts; see
+   `backend/src/realtime/`). Live auction bid updates and general
+   notifications are still REST-only (poll-based) — `socket.io` is wired up
+   for chat but not yet reused for those.
 7. **Push notifications.** `DeviceToken` model exists; nothing sends to FCM/APNs
    yet.
 8. **Maps/geocoding.** Dealer "nearby" search takes raw lat/lng from the

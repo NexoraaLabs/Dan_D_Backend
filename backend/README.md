@@ -30,6 +30,9 @@ integration without needing to read this source:
   `bearerToken` variable that auto-populates from the response of
   Register/Login/Refresh, so every other request just works after one login
   call.
+- **Plain reference doc:** `API-REFERENCE.md` — every endpoint plus the
+  WebSocket chat event contract, as example JSON, no tooling required to
+  read it.
 
 Auth for every protected endpoint: `Authorization: Bearer <accessToken>` from
 `/api/auth/login` or `/api/auth/register`; refresh with `/api/auth/refresh`
@@ -55,6 +58,9 @@ src/modules/<name>/        one module per proposal feature area:
                             wishlist, marketplace, auctions, trades, orders,
                             checkout-profile (shipping addresses + cards),
                             messages, notifications, dealers
+src/realtime/               Socket.IO: JWT-authenticated chat (message send,
+                            typing, read receipts), shared by REST and socket
+                            paths via modules/messages/messages.service.ts
 ```
 
 Each route handler has a comment naming the Figma screen(s) it backs, so it's
@@ -75,7 +81,9 @@ Real, with actual business logic and validation:
   ownership), reject, cancel
 - Orders: checkout, order-request price negotiation, order status
   progression (PAID -> SHIPPED -> DELIVERED) with valid-transition checks
-- Messaging: 1:1 conversations, send/read
+- Messaging: 1:1 conversations, send/read, **live over WebSocket** (message
+  push, typing indicators, read receipts — see `src/realtime/`), with REST
+  as a fallback/for initial page loads
 - Notifications: created as a side effect of the above, list/mark-read
 
 Stubbed (see top-level `README.md` blockers list for why):
@@ -83,4 +91,5 @@ Stubbed (see top-level `README.md` blockers list for why):
   immediately instead of calling a real processor
 - Forgot-password OTP delivery (no email/SMS provider wired up)
 - Image upload (`POST /api/items` takes ready-made URLs, not files)
-- Push notifications, WebSocket delivery for chat/live bidding
+- Push notifications (FCM/APNs) and live WebSocket updates for
+  auctions/bidding — chat is the only realtime feature so far
