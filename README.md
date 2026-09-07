@@ -4,6 +4,10 @@ Collector & trading platform mobile app — implementation workspace, derived fr
 `Dan_D_Collections.docx` (Exhibit C business proposal) and the `dc.html`
 Figma clickthrough prototype (136 screens).
 
+**Start here every session: [`PROGRESS.md`](./PROGRESS.md)** — what's built,
+what's stubbed, and the decisions currently blocking further work. Update it
+before wrapping up whenever something on it changes.
+
 ## What's here
 
 - `backend/` — Node.js + TypeScript + Express + Prisma (MySQL) API. Backend-first
