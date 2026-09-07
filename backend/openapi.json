@@ -1,0 +1,705 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DAN D Collection API",
+    "version": "0.1.0",
+    "description": "Collector & trading platform backend. Auth is JWT bearer (access token from /auth/login or /auth/register, refreshed via /auth/refresh). All endpoints below are prefixed with the `/api` server base except /health."
+  },
+  "servers": [
+    { "url": "http://localhost:4000", "description": "Local dev" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": { "error": { "type": "string" }, "details": {} }
+      },
+      "AuthSession": {
+        "type": "object",
+        "properties": {
+          "accessToken": { "type": "string" },
+          "refreshToken": { "type": "string" }
+        }
+      },
+      "Plan": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "code": { "type": "string", "enum": ["FREE", "SILVER", "GOLD", "PLATINUM"] },
+          "name": { "type": "string" },
+          "priceCents": { "type": "integer" },
+          "billingPeriod": { "type": "string" },
+          "itemLimit": { "type": "integer", "nullable": true }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "email": { "type": "string", "format": "email" },
+          "username": { "type": "string" },
+          "fullName": { "type": "string", "nullable": true },
+          "avatarUrl": { "type": "string", "nullable": true },
+          "bio": { "type": "string", "nullable": true },
+          "phone": { "type": "string", "nullable": true },
+          "lat": { "type": "number", "nullable": true },
+          "lng": { "type": "number", "nullable": true },
+          "address": { "type": "string", "nullable": true },
+          "planId": { "type": "integer", "nullable": true },
+          "plan": { "$ref": "#/components/schemas/Plan" },
+          "trialEndsAt": { "type": "string", "format": "date-time", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "PublicUser": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "username": { "type": "string" },
+          "fullName": { "type": "string", "nullable": true },
+          "avatarUrl": { "type": "string", "nullable": true },
+          "bio": { "type": "string", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "icon": { "type": "string", "nullable": true },
+          "parentId": { "type": "integer", "nullable": true },
+          "children": { "type": "array", "items": { "$ref": "#/components/schemas/Category" } }
+        }
+      },
+      "Collection": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "ownerId": { "type": "integer" },
+          "name": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "coverImageUrl": { "type": "string", "nullable": true },
+          "eventDate": { "type": "string", "format": "date-time", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ItemImage": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "url": { "type": "string" },
+          "position": { "type": "integer" }
+        }
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "ownerId": { "type": "integer" },
+          "collectionId": { "type": "integer", "nullable": true },
+          "categoryId": { "type": "integer", "nullable": true },
+          "title": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "status": { "type": "string", "enum": ["HAVE", "WANT", "FOR_TRADE", "SHOWCASE"] },
+          "condition": { "type": "string", "nullable": true },
+          "brand": { "type": "string", "nullable": true },
+          "year": { "type": "integer", "nullable": true },
+          "estimatedValueCents": { "type": "integer", "nullable": true },
+          "images": { "type": "array", "items": { "$ref": "#/components/schemas/ItemImage" } },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Wishlist": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "userId": { "type": "integer" },
+          "categoryId": { "type": "integer", "nullable": true },
+          "query": { "type": "string" },
+          "matchedItemId": { "type": "integer", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "MarketplaceListing": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "itemId": { "type": "integer" },
+          "item": { "$ref": "#/components/schemas/Item" },
+          "sellerId": { "type": "integer" },
+          "listingType": { "type": "string", "enum": ["SALE", "TRADE", "AUCTION"] },
+          "priceCents": { "type": "integer", "nullable": true },
+          "status": { "type": "string", "enum": ["ACTIVE", "SOLD", "CANCELLED", "EXPIRED"] },
+          "auction": { "$ref": "#/components/schemas/Auction" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Auction": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "listingId": { "type": "integer" },
+          "startPriceCents": { "type": "integer" },
+          "currentPriceCents": { "type": "integer" },
+          "bidIncrementCents": { "type": "integer" },
+          "startsAt": { "type": "string", "format": "date-time" },
+          "endsAt": { "type": "string", "format": "date-time" },
+          "status": { "type": "string", "enum": ["SCHEDULED", "LIVE", "ENDED"] },
+          "winnerId": { "type": "integer", "nullable": true },
+          "bids": { "type": "array", "items": { "$ref": "#/components/schemas/Bid" } }
+        }
+      },
+      "Bid": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "auctionId": { "type": "integer" },
+          "bidderId": { "type": "integer" },
+          "amountCents": { "type": "integer" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "TradeOfferItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "itemId": { "type": "integer" },
+          "item": { "$ref": "#/components/schemas/Item" },
+          "side": { "type": "string", "enum": ["GIVE", "GET"] },
+          "ownerId": { "type": "integer" }
+        }
+      },
+      "TradeRequest": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "initiatorId": { "type": "integer" },
+          "recipientId": { "type": "integer" },
+          "status": { "type": "string", "enum": ["PENDING", "ACCEPTED", "REJECTED", "CANCELLED", "COMPLETED"] },
+          "message": { "type": "string", "nullable": true },
+          "offerItems": { "type": "array", "items": { "$ref": "#/components/schemas/TradeOfferItem" } },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ShippingAddress": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "userId": { "type": "integer" },
+          "fullName": { "type": "string" },
+          "line1": { "type": "string" },
+          "line2": { "type": "string", "nullable": true },
+          "city": { "type": "string" },
+          "state": { "type": "string" },
+          "zip": { "type": "string" },
+          "country": { "type": "string" },
+          "phone": { "type": "string", "nullable": true },
+          "isDefault": { "type": "boolean" }
+        }
+      },
+      "PaymentMethod": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "userId": { "type": "integer" },
+          "brand": { "type": "string" },
+          "last4": { "type": "string" },
+          "expMonth": { "type": "integer" },
+          "expYear": { "type": "integer" },
+          "isDefault": { "type": "boolean" }
+        }
+      },
+      "OrderItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "itemId": { "type": "integer" },
+          "item": { "$ref": "#/components/schemas/Item" },
+          "priceCents": { "type": "integer" }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "listingId": { "type": "integer" },
+          "buyerId": { "type": "integer" },
+          "sellerId": { "type": "integer" },
+          "status": { "type": "string", "enum": ["PENDING", "PAID", "SHIPPED", "DELIVERED", "CANCELLED"] },
+          "totalCents": { "type": "integer" },
+          "trackingNumber": { "type": "string", "nullable": true },
+          "items": { "type": "array", "items": { "$ref": "#/components/schemas/OrderItem" } },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "OrderRequest": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "listingId": { "type": "integer" },
+          "buyerId": { "type": "integer" },
+          "sellerId": { "type": "integer" },
+          "offerAmountCents": { "type": "integer" },
+          "status": { "type": "string", "enum": ["PENDING", "ACCEPTED", "REJECTED"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Conversation": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "participants": { "type": "array", "items": { "type": "object", "properties": { "userId": { "type": "integer" }, "user": { "$ref": "#/components/schemas/PublicUser" } } } },
+          "messages": { "type": "array", "items": { "$ref": "#/components/schemas/Message" } }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "conversationId": { "type": "integer" },
+          "senderId": { "type": "integer" },
+          "body": { "type": "string", "nullable": true },
+          "attachmentUrl": { "type": "string", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "userId": { "type": "integer" },
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "body": { "type": "string", "nullable": true },
+          "data": { "type": "object", "nullable": true },
+          "readAt": { "type": "string", "format": "date-time", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Dealer": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "address": { "type": "string" },
+          "lat": { "type": "number" },
+          "lng": { "type": "number" },
+          "phone": { "type": "string", "nullable": true },
+          "website": { "type": "string", "nullable": true },
+          "distanceKm": { "type": "number" }
+        }
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Liveness check",
+        "security": [],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Create account (Screens: Create Account -> Verify Your Email -> Enter The Code -> Congratulations)",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "required": ["email", "password", "username"], "properties": {
+            "email": { "type": "string", "format": "email" },
+            "password": { "type": "string", "minLength": 8 },
+            "username": { "type": "string" },
+            "fullName": { "type": "string" }
+          } } } }
+        },
+        "responses": {
+          "201": { "description": "Session issued", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthSession" } } } },
+          "409": { "description": "Email or username already in use", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Log in (Screen: Login)",
+        "security": [],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["email", "password"], "properties": { "email": { "type": "string" }, "password": { "type": "string" } } } } } },
+        "responses": { "200": { "description": "Session issued", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthSession" } } } }, "401": { "description": "Invalid credentials" } }
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Exchange a refresh token for a new session",
+        "security": [],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["refreshToken"], "properties": { "refreshToken": { "type": "string" } } } } } },
+        "responses": { "200": { "description": "New session", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthSession" } } } } }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Revoke a refresh token",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["refreshToken"], "properties": { "refreshToken": { "type": "string" } } } } } },
+        "responses": { "204": { "description": "Logged out" } }
+      }
+    },
+    "/api/users/me": {
+      "get": { "tags": ["Users"], "summary": "Current user profile (Screen: My Profile)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } } } },
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update profile (Screen: Edit Profile)",
+        "requestBody": { "content": { "application/json": { "schema": { "type": "object", "properties": {
+          "fullName": { "type": "string" }, "avatarUrl": { "type": "string" }, "bio": { "type": "string" }, "phone": { "type": "string" },
+          "lat": { "type": "number" }, "lng": { "type": "number" }, "address": { "type": "string" }
+        } } } } },
+        "responses": { "200": { "description": "Updated user", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } } }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Public profile (Screens: Seller Profile - Tom, User Profile - Tom)",
+        "security": [],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PublicUser" } } } }, "404": { "description": "Not found" } }
+      }
+    },
+    "/api/users/me/change-password": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Change password (Screens: Change Password -> Thank You - Password)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["currentPassword", "newPassword"], "properties": { "currentPassword": { "type": "string" }, "newPassword": { "type": "string", "minLength": 8 } } } } } },
+        "responses": { "204": { "description": "Password changed" }, "401": { "description": "Current password incorrect" } }
+      }
+    },
+    "/api/plans": {
+      "get": { "tags": ["Plans"], "summary": "List subscription tiers (Screen: Choose Your Plan)", "security": [], "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Plan" } } } } } } }
+    },
+    "/api/categories": {
+      "get": { "tags": ["Categories"], "summary": "List top-level categories with children (Screen: What Do You Collect)", "security": [], "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Category" } } } } } } }
+    },
+    "/api/categories/me/interests": {
+      "put": {
+        "tags": ["Categories"],
+        "summary": "Set the current user's collecting interests (Screens: What Do You Collect, What Do You Collect - Edit)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["categoryIds"], "properties": { "categoryIds": { "type": "array", "items": { "type": "integer" } } } } } } },
+        "responses": { "204": { "description": "Saved" } }
+      }
+    },
+    "/api/collections": {
+      "get": { "tags": ["Collections"], "summary": "List my collections (Screens: Collections - Events)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Collection" } } } } } } },
+      "post": {
+        "tags": ["Collections"],
+        "summary": "Create a collection",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["name"], "properties": { "name": { "type": "string" }, "description": { "type": "string" }, "coverImageUrl": { "type": "string" }, "eventDate": { "type": "string", "format": "date-time" } } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Collection" } } } } }
+      }
+    },
+    "/api/collections/{id}": {
+      "get": {
+        "tags": ["Collections"],
+        "summary": "Collection detail with items (Screen: Collections - Event Detail)",
+        "security": [],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Collection" } } } }, "404": { "description": "Not found" } }
+      },
+      "patch": {
+        "tags": ["Collections"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "content": { "application/json": { "schema": { "type": "object" } } } },
+        "responses": { "200": { "description": "Updated" }, "403": { "description": "Not the owner" } }
+      },
+      "delete": {
+        "tags": ["Collections"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "204": { "description": "Deleted" }, "403": { "description": "Not the owner" } }
+      }
+    },
+    "/api/items": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Browse items (Screens: Home, My Profile - Listings, My Profile - Wishlist)",
+        "security": [],
+        "parameters": [
+          { "name": "ownerId", "in": "query", "schema": { "type": "integer" } },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["HAVE", "WANT", "FOR_TRADE", "SHOWCASE"] } },
+          { "name": "categoryId", "in": "query", "schema": { "type": "integer" } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } }
+        ],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "object", "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/Item" } }, "total": { "type": "integer" }, "page": { "type": "integer" }, "pageSize": { "type": "integer" } } } } } } }
+      },
+      "post": {
+        "tags": ["Items"],
+        "summary": "Add an item (Screens: Add Item - Camera Scan -> Item Details Form -> Add to Collection). Enforces the plan's upload limit.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "required": ["title"], "properties": {
+            "title": { "type": "string" }, "description": { "type": "string" },
+            "status": { "type": "string", "enum": ["HAVE", "WANT", "FOR_TRADE", "SHOWCASE"], "default": "HAVE" },
+            "categoryId": { "type": "integer" }, "collectionId": { "type": "integer" },
+            "condition": { "type": "string" }, "brand": { "type": "string" }, "year": { "type": "integer" },
+            "estimatedValueCents": { "type": "integer" }, "imageUrls": { "type": "array", "items": { "type": "string" } }
+          } } } }
+        },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Item" } } } }, "403": { "description": "Upload limit reached for current plan" } }
+      }
+    },
+    "/api/items/{id}": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Item detail (Screens: Item Detail - *)",
+        "security": [],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Item" } } } }, "404": { "description": "Not found" } }
+      },
+      "patch": {
+        "tags": ["Items"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "content": { "application/json": { "schema": { "type": "object" } } } },
+        "responses": { "200": { "description": "Updated" }, "403": { "description": "Not the owner" } }
+      },
+      "delete": {
+        "tags": ["Items"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "204": { "description": "Deleted" }, "403": { "description": "Not the owner" } }
+      }
+    },
+    "/api/wishlist": {
+      "get": { "tags": ["Wishlist"], "summary": "My wishlist (Screen: Wishlist)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Wishlist" } } } } } } },
+      "post": {
+        "tags": ["Wishlist"],
+        "summary": "Add a wishlist entry (Screen: Wishlist - Item Added)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["query"], "properties": { "query": { "type": "string" }, "categoryId": { "type": "integer" } } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Wishlist" } } } } }
+      }
+    },
+    "/api/wishlist/{id}": {
+      "delete": { "tags": ["Wishlist"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "204": { "description": "Deleted" } } }
+    },
+    "/api/wishlist/{id}/matches": {
+      "get": {
+        "tags": ["Wishlist"],
+        "summary": "Smart Discovery: candidate matches for a wishlist entry",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Item" } } } } } }
+      }
+    },
+    "/api/marketplace": {
+      "get": {
+        "tags": ["Marketplace"],
+        "summary": "Browse marketplace listings (Screens: Marketplace, Filters)",
+        "security": [],
+        "parameters": [
+          { "name": "listingType", "in": "query", "schema": { "type": "string", "enum": ["SALE", "TRADE", "AUCTION"] } },
+          { "name": "categoryId", "in": "query", "schema": { "type": "integer" } },
+          { "name": "minPriceCents", "in": "query", "schema": { "type": "integer" } },
+          { "name": "maxPriceCents", "in": "query", "schema": { "type": "integer" } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "object", "properties": { "listings": { "type": "array", "items": { "$ref": "#/components/schemas/MarketplaceListing" } }, "total": { "type": "integer" } } } } } } }
+      },
+      "post": {
+        "tags": ["Marketplace"],
+        "summary": "List an item for sale, trade, or auction",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["itemId", "listingType"], "properties": {
+          "itemId": { "type": "integer" }, "listingType": { "type": "string", "enum": ["SALE", "TRADE", "AUCTION"] }, "priceCents": { "type": "integer" },
+          "auction": { "type": "object", "properties": { "startPriceCents": { "type": "integer" }, "bidIncrementCents": { "type": "integer" }, "startsAt": { "type": "string", "format": "date-time" }, "endsAt": { "type": "string", "format": "date-time" } } }
+        } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MarketplaceListing" } } } } }
+      }
+    },
+    "/api/marketplace/{id}": {
+      "get": {
+        "tags": ["Marketplace"],
+        "security": [],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MarketplaceListing" } } } } }
+      }
+    },
+    "/api/marketplace/{id}/cancel": {
+      "post": { "tags": ["Marketplace"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "200": { "description": "Cancelled" }, "403": { "description": "Not the seller" } } }
+    },
+    "/api/auctions/{id}": {
+      "get": {
+        "tags": ["Auctions"],
+        "summary": "Auction detail with recent bids (Screen: Auction Detail)",
+        "security": [],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Auction" } } } } }
+      }
+    },
+    "/api/auctions/{id}/bids": {
+      "post": {
+        "tags": ["Auctions"],
+        "summary": "Place a bid (Screens: Place Your Bid, Bid Placed). Must be >= currentPrice + bidIncrement.",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["amountCents"], "properties": { "amountCents": { "type": "integer" } } } } } },
+        "responses": { "201": { "description": "Bid placed", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Bid" } } } }, "400": { "description": "Bid too low / auction not live" } }
+      }
+    },
+    "/api/auctions/{id}/close": {
+      "post": {
+        "tags": ["Auctions"],
+        "summary": "Close an auction and settle the winner (Screens: Auction Winner, Auction Lost)",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Auction" } } } } }
+      }
+    },
+    "/api/trades": {
+      "get": { "tags": ["Trades"], "summary": "My trade requests, sent or received (Screen: Trade Matches)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/TradeRequest" } } } } } } },
+      "post": {
+        "tags": ["Trades"],
+        "summary": "Propose a You Give / You Get trade (Screens: Propose Trade -> Add to Trade -> Review & Confirm -> Trade Offer Sent)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["recipientId", "offerItems"], "properties": {
+          "recipientId": { "type": "integer" }, "message": { "type": "string" },
+          "offerItems": { "type": "array", "items": { "type": "object", "properties": { "itemId": { "type": "integer" }, "side": { "type": "string", "enum": ["GIVE", "GET"] } } } }
+        } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TradeRequest" } } } } }
+      }
+    },
+    "/api/trades/{id}": {
+      "get": { "tags": ["Trades"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TradeRequest" } } } } } }
+    },
+    "/api/trades/{id}/respond": {
+      "post": {
+        "tags": ["Trades"],
+        "summary": "Accept or reject a trade (Screens: Trade Confirmed, Trade Rejected). Accepting atomically swaps item ownership.",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["accept"], "properties": { "accept": { "type": "boolean" } } } } } },
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TradeRequest" } } } } }
+      }
+    },
+    "/api/trades/{id}/cancel": {
+      "post": { "tags": ["Trades"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "200": { "description": "OK" } } }
+    },
+    "/api/orders": {
+      "get": { "tags": ["Orders"], "summary": "My orders as buyer or seller (Screens: Orders - Purchase, Orders - Trade)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Order" } } } } } } }
+    },
+    "/api/orders/{id}": {
+      "get": { "tags": ["Orders"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } } } }
+    },
+    "/api/orders/checkout": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Checkout a SALE listing (Screens: Shipping -> Payment - Checkout -> Order Placed). Payment capture is stubbed (see backend README).",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["listingId"], "properties": { "listingId": { "type": "integer" }, "shippingAddressId": { "type": "integer" }, "paymentMethodId": { "type": "integer" } } } } } },
+        "responses": { "201": { "description": "Order created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } } }
+      }
+    },
+    "/api/orders/{id}/advance": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Seller advances order status (Screen: Track Order). Valid transitions: PAID->SHIPPED|CANCELLED, SHIPPED->DELIVERED.",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["status"], "properties": { "status": { "type": "string", "enum": ["SHIPPED", "DELIVERED", "CANCELLED"] }, "trackingNumber": { "type": "string" } } } } } },
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } } }
+      }
+    },
+    "/api/orders/requests": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Propose a price on a SALE listing (Screens: Order Request - Sent, Order Request - Received)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["listingId", "offerAmountCents"], "properties": { "listingId": { "type": "integer" }, "offerAmountCents": { "type": "integer" } } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrderRequest" } } } } }
+      }
+    },
+    "/api/orders/requests/mine": {
+      "get": { "tags": ["Orders"], "summary": "My order requests, sent or received", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/OrderRequest" } } } } } } }
+    },
+    "/api/orders/requests/{id}/respond": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Seller accepts/rejects an order request (Screens: Confirm Request -> Request Sent, Order Rejected)",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["accept"], "properties": { "accept": { "type": "boolean" } } } } } },
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrderRequest" } } } } }
+      }
+    },
+    "/api/shipping-addresses": {
+      "get": { "tags": ["Checkout Profile"], "summary": "My shipping addresses", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/ShippingAddress" } } } } } } },
+      "post": {
+        "tags": ["Checkout Profile"],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["fullName", "line1", "city", "state", "zip", "country"], "properties": {
+          "fullName": { "type": "string" }, "line1": { "type": "string" }, "line2": { "type": "string" }, "city": { "type": "string" }, "state": { "type": "string" }, "zip": { "type": "string" }, "country": { "type": "string" }, "phone": { "type": "string" }, "isDefault": { "type": "boolean" }
+        } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ShippingAddress" } } } } }
+      }
+    },
+    "/api/shipping-addresses/{id}": {
+      "delete": { "tags": ["Checkout Profile"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "204": { "description": "Deleted" } } }
+    },
+    "/api/payment-methods": {
+      "get": { "tags": ["Checkout Profile"], "summary": "My saved cards (Screen: Payment Methods)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/PaymentMethod" } } } } } } },
+      "post": {
+        "tags": ["Checkout Profile"],
+        "summary": "Add a card (Screens: Add Card -> Card Added). Tokenize with Stripe client-side first -- raw PANs must never hit this API.",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["brand", "last4", "expMonth", "expYear", "providerToken"], "properties": {
+          "brand": { "type": "string" }, "last4": { "type": "string" }, "expMonth": { "type": "integer" }, "expYear": { "type": "integer" }, "providerToken": { "type": "string" }, "isDefault": { "type": "boolean" }
+        } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PaymentMethod" } } } } }
+      }
+    },
+    "/api/payment-methods/{id}": {
+      "delete": { "tags": ["Checkout Profile"], "summary": "Remove a card (Screen: Manage Card)", "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "204": { "description": "Deleted" } } }
+    },
+    "/api/messages/conversations": {
+      "get": { "tags": ["Messages"], "summary": "My conversations (Screens: Messages, Messages 2)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Conversation" } } } } } } },
+      "post": {
+        "tags": ["Messages"],
+        "summary": "Start (or reuse) a 1:1 conversation and send the first message (Screens: Chat - Tom, Chat - ChipKing92)",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["userId", "body"], "properties": { "userId": { "type": "integer" }, "body": { "type": "string" } } } } } },
+        "responses": { "201": { "description": "Created", "content": { "application/json": { "schema": { "type": "object", "properties": { "conversationId": { "type": "integer" }, "message": { "$ref": "#/components/schemas/Message" } } } } } } }
+      }
+    },
+    "/api/messages/conversations/{id}/messages": {
+      "get": {
+        "tags": ["Messages"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Message" } } } } } }
+      },
+      "post": {
+        "tags": ["Messages"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": { "content": { "application/json": { "schema": { "type": "object", "properties": { "body": { "type": "string" }, "attachmentUrl": { "type": "string" } } } } } },
+        "responses": { "201": { "description": "Sent", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Message" } } } } }
+      }
+    },
+    "/api/messages/conversations/{id}/read": {
+      "post": { "tags": ["Messages"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "204": { "description": "Marked read" } } }
+    },
+    "/api/notifications": {
+      "get": { "tags": ["Notifications"], "summary": "My notifications (Screen: Notifications)", "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Notification" } } } } } } }
+    },
+    "/api/notifications/{id}/read": {
+      "post": { "tags": ["Notifications"], "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }], "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Notification" } } } } } }
+    },
+    "/api/notifications/read-all": {
+      "post": { "tags": ["Notifications"], "responses": { "204": { "description": "All marked read" } } }
+    },
+    "/api/dealers/nearby": {
+      "get": {
+        "tags": ["Dealers"],
+        "summary": "Dealer locator (Screens: Map, Map - Dealers List)",
+        "security": [],
+        "parameters": [
+          { "name": "lat", "in": "query", "required": true, "schema": { "type": "number" } },
+          { "name": "lng", "in": "query", "required": true, "schema": { "type": "number" } },
+          { "name": "radiusKm", "in": "query", "schema": { "type": "number", "default": 50 } }
+        ],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Dealer" } } } } } }
+      }
+    }
+  }
+}

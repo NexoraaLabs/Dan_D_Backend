@@ -1,0 +1,524 @@
+// Data model for the DAN D Collection app.
+// Mapped from: Business Proposal (Exhibit C) modules + the 136-screen Figma
+// prototype flow map (Onboarding, Auth, Setup, Core, Trading, Item, Buy Flow,
+// Auctions, Messaging, Profile, Sell, Settings, Orders).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Users, auth, subscriptions
+// ---------------------------------------------------------------------------
+
+enum PlanCode {
+  FREE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+// Seeded once; price/itemLimit here is what "6.2 Subscription Model" defines,
+// kept in the DB (not hardcoded) so pricing can change without a redeploy.
+model Plan {
+  id            Int      @id @default(autoincrement())
+  code          PlanCode @unique
+  name          String
+  priceCents    Int // 0 for the 15-day free trial
+  billingPeriod String // "trial_15d" | "year"
+  itemLimit     Int? // null = unlimited (Platinum)
+  users         User[]
+
+  @@map("plans")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  passwordHash String
+  username     String    @unique
+  fullName     String?
+  avatarUrl    String?
+  bio          String?   @db.Text
+  phone        String?
+  lat          Float?
+  lng          Float?
+  address      String?
+
+  planId        Int?
+  plan          Plan?     @relation(fields: [planId], references: [id])
+  trialEndsAt   DateTime?
+  planExpiresAt DateTime?
+
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  interests            UserInterest[]
+  collections          Collection[]
+  items                Item[]
+  wishlistEntries       Wishlist[]
+  listings             MarketplaceListing[]
+  bids                 Bid[]
+  tradeRequestsSent    TradeRequest[]        @relation("TradeInitiator")
+  tradeRequestsReceived TradeRequest[]       @relation("TradeRecipient")
+  tradeItems           TradeOfferItem[]
+  ordersAsBuyer        Order[]               @relation("OrderBuyer")
+  ordersAsSeller       Order[]               @relation("OrderSeller")
+  orderRequestsSent    OrderRequest[]        @relation("OrderRequestBuyer")
+  orderRequestsReceived OrderRequest[]       @relation("OrderRequestSeller")
+  shippingAddresses    ShippingAddress[]
+  paymentMethods       PaymentMethod[]
+  conversations        ConversationParticipant[]
+  messagesSent         Message[]
+  notifications        Notification[]
+  deviceTokens         DeviceToken[]
+  refreshTokens        RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  revokedAt DateTime?
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model DeviceToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  platform  String // "ios" | "android"
+  createdAt DateTime @default(now())
+
+  @@map("device_tokens")
+}
+
+// ---------------------------------------------------------------------------
+// Categories ("What Do You Collect")
+// ---------------------------------------------------------------------------
+
+model Category {
+  id       Int        @id @default(autoincrement())
+  name     String
+  slug     String     @unique
+  icon     String?
+  parentId Int?
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryTree")
+
+  items     Item[]
+  interests UserInterest[]
+  wishlist  Wishlist[]
+
+  @@map("categories")
+}
+
+model UserInterest {
+  userId     Int
+  categoryId Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([userId, categoryId])
+  @@map("user_interests")
+}
+
+// ---------------------------------------------------------------------------
+// Collections & items (Collection Engine)
+// ---------------------------------------------------------------------------
+
+// A named grouping of items, e.g. "Collections - Events" screens (Sturgis
+// 2023, a swap-meet run, etc.) as well as a user's general collection.
+model Collection {
+  id            Int      @id @default(autoincrement())
+  ownerId       Int
+  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?  @db.Text
+  coverImageUrl String?
+  eventDate     DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  items Item[]
+
+  @@map("collections")
+}
+
+enum ItemStatus {
+  HAVE
+  WANT
+  FOR_TRADE
+  SHOWCASE
+}
+
+model Item {
+  id             Int        @id @default(autoincrement())
+  ownerId        Int
+  owner          User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  collectionId   Int?
+  collection     Collection? @relation(fields: [collectionId], references: [id])
+  categoryId     Int?
+  category       Category?  @relation(fields: [categoryId], references: [id])
+
+  title          String
+  description    String?    @db.Text
+  status         ItemStatus @default(HAVE)
+  condition      String? // e.g. "Mint", "Used", "For Parts"
+  brand          String?
+  year           Int?
+  estimatedValueCents Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  images           ItemImage[]
+  listing          MarketplaceListing?
+  wishlistMatches  Wishlist[]
+  tradeOfferItems  TradeOfferItem[]
+  orderItems       OrderItem[]
+
+  @@index([ownerId, status])
+  @@map("items")
+}
+
+model ItemImage {
+  id       Int    @id @default(autoincrement())
+  itemId   Int
+  item     Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  url      String
+  position Int    @default(0)
+
+  @@map("item_images")
+}
+
+// ---------------------------------------------------------------------------
+// Wishlist / smart discovery & matching
+// ---------------------------------------------------------------------------
+
+model Wishlist {
+  id               Int       @id @default(autoincrement())
+  userId           Int
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId       Int?
+  category         Category? @relation(fields: [categoryId], references: [id])
+  query            String // free-text description of what they're after
+  matchedItemId    Int?
+  matchedItem      Item?     @relation(fields: [matchedItemId], references: [id])
+  createdAt        DateTime  @default(now())
+
+  @@map("wishlist_entries")
+}
+
+// ---------------------------------------------------------------------------
+// Marketplace (optional layer): sale, trade listing, auction
+// ---------------------------------------------------------------------------
+
+enum ListingType {
+  SALE
+  TRADE
+  AUCTION
+}
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  CANCELLED
+  EXPIRED
+}
+
+model MarketplaceListing {
+  id          Int           @id @default(autoincrement())
+  itemId      Int           @unique
+  item        Item          @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  sellerId    Int
+  seller      User          @relation(fields: [sellerId], references: [id])
+  listingType ListingType
+  priceCents  Int? // null for TRADE
+  status      ListingStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  auction       Auction?
+  orders        Order[]
+  orderRequests OrderRequest[]
+
+  @@map("marketplace_listings")
+}
+
+enum AuctionStatus {
+  SCHEDULED
+  LIVE
+  ENDED
+}
+
+model Auction {
+  id             Int           @id @default(autoincrement())
+  listingId      Int           @unique
+  listing        MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  startPriceCents Int
+  currentPriceCents Int
+  bidIncrementCents Int @default(500)
+  startsAt       DateTime
+  endsAt         DateTime
+  status         AuctionStatus @default(SCHEDULED)
+  winnerId       Int?
+
+  bids Bid[]
+
+  @@map("auctions")
+}
+
+model Bid {
+  id         Int      @id @default(autoincrement())
+  auctionId  Int
+  auction    Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  bidderId   Int
+  bidder     User     @relation(fields: [bidderId], references: [id])
+  amountCents Int
+  createdAt  DateTime @default(now())
+
+  @@index([auctionId])
+  @@map("bids")
+}
+
+// ---------------------------------------------------------------------------
+// Trading system ("You Give / You Get") — the key differentiator
+// ---------------------------------------------------------------------------
+
+enum TradeStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+  COMPLETED
+}
+
+model TradeRequest {
+  id            Int         @id @default(autoincrement())
+  initiatorId   Int
+  initiator     User        @relation("TradeInitiator", fields: [initiatorId], references: [id])
+  recipientId   Int
+  recipient     User        @relation("TradeRecipient", fields: [recipientId], references: [id])
+  status        TradeStatus @default(PENDING)
+  message       String?     @db.Text
+  createdAt     DateTime    @default(now())
+  respondedAt   DateTime?
+
+  offerItems TradeOfferItem[]
+
+  @@map("trade_requests")
+}
+
+enum TradeSide {
+  GIVE // offered by the initiator
+  GET  // requested from the recipient
+}
+
+model TradeOfferItem {
+  id             Int          @id @default(autoincrement())
+  tradeRequestId Int
+  tradeRequest   TradeRequest @relation(fields: [tradeRequestId], references: [id], onDelete: Cascade)
+  itemId         Int
+  item           Item         @relation(fields: [itemId], references: [id])
+  side           TradeSide
+  ownerId        Int // whoever owns the item being offered
+  owner          User         @relation(fields: [ownerId], references: [id])
+
+  @@map("trade_offer_items")
+}
+
+// ---------------------------------------------------------------------------
+// Buy flow: order requests (offer negotiation), orders, shipping, payment
+// ---------------------------------------------------------------------------
+
+enum OrderRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+// "Order Request - Received/Sent", "Confirm Request" screens: a buyer can
+// propose a price on a SALE listing before checkout, rather than paying the
+// list price outright.
+model OrderRequest {
+  id            Int                 @id @default(autoincrement())
+  listingId     Int
+  listing       MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyerId       Int
+  buyer         User                @relation("OrderRequestBuyer", fields: [buyerId], references: [id])
+  sellerId      Int
+  seller        User                @relation("OrderRequestSeller", fields: [sellerId], references: [id])
+  offerAmountCents Int
+  status        OrderRequestStatus  @default(PENDING)
+  createdAt     DateTime            @default(now())
+  respondedAt   DateTime?
+
+  @@map("order_requests")
+}
+
+model ShippingAddress {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName  String
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  zip       String
+  country   String
+  phone     String?
+  isDefault Boolean @default(false)
+
+  orders Order[]
+
+  @@map("shipping_addresses")
+}
+
+model PaymentMethod {
+  id             Int     @id @default(autoincrement())
+  userId         Int
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brand          String
+  last4          String
+  expMonth       Int
+  expYear        Int
+  providerToken  String // Stripe payment-method id or IAP token; never store a raw PAN
+  isDefault      Boolean @default(false)
+
+  orders Order[]
+
+  @@map("payment_methods")
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id                Int             @id @default(autoincrement())
+  listingId         Int
+  listing           MarketplaceListing @relation(fields: [listingId], references: [id])
+  buyerId           Int
+  buyer             User            @relation("OrderBuyer", fields: [buyerId], references: [id])
+  sellerId          Int
+  seller            User            @relation("OrderSeller", fields: [sellerId], references: [id])
+  status            OrderStatus     @default(PENDING)
+  totalCents        Int
+  shippingAddressId Int?
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  paymentMethodId   Int?
+  paymentMethod     PaymentMethod?  @relation(fields: [paymentMethodId], references: [id])
+  trackingNumber    String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  items OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id         Int   @id @default(autoincrement())
+  orderId    Int
+  order      Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  itemId     Int
+  item       Item  @relation(fields: [itemId], references: [id])
+  priceCents Int
+
+  @@map("order_items")
+}
+
+// ---------------------------------------------------------------------------
+// Messaging
+// ---------------------------------------------------------------------------
+
+model Conversation {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  participants ConversationParticipant[]
+  messages     Message[]
+
+  @@map("conversations")
+}
+
+model ConversationParticipant {
+  conversationId Int
+  userId         Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lastReadAt     DateTime?
+
+  @@id([conversationId, userId])
+  @@map("conversation_participants")
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  conversationId Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       Int
+  sender         User         @relation(fields: [senderId], references: [id])
+  body           String?      @db.Text
+  attachmentUrl  String?
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+  @@map("messages")
+}
+
+// ---------------------------------------------------------------------------
+// Notifications
+// ---------------------------------------------------------------------------
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // "trade_request" | "trade_accepted" | "bid_outbid" | "order_shipped" | ...
+  title     String
+  body      String?
+  data      Json?
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, readAt])
+  @@map("notifications")
+}
+
+// ---------------------------------------------------------------------------
+// Dealer locator (Map)
+// ---------------------------------------------------------------------------
+
+model Dealer {
+  id      Int     @id @default(autoincrement())
+  name    String
+  address String
+  lat     Float
+  lng     Float
+  phone   String?
+  website String?
+  tags    String? // comma-separated category tags
+
+  @@map("dealers")
+}
