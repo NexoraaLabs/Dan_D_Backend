@@ -89,7 +89,7 @@ screenshots, not editable — mobile UI will need to be eyeballed per screen).
 
 ## Next up
 
-- Deployed on Railway. After pushing this change, sync the schema (`npx prisma db push` — there's no migrations folder yet), add a Volume for `UPLOAD_DIR`, and grant the first admin
+- Railway (`courageous-imagination` → `Dan_D_Backend`, https://dandbackend-production.up.railway.app): each deploy runs `npm run db:deploy` first (`backend/railway.json`) — `prisma db push` + idempotent seed. db push refuses destructive changes, so a schema change that drops data fails the deploy instead; move to `prisma migrate` before real users arrive
 - Integrate the admin dashboard, then the web app, then the Flutter app (all still on mock data)
 - Pick an email provider and swap it into `utils/mailer.ts`
 - "Chips" resolved: the Flutter app treats them as physical collectibles (casino/rally chips) — no wallet subsystem needed
