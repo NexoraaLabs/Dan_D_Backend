@@ -16,35 +16,42 @@ datasource db {
 // Users, auth, subscriptions
 // ---------------------------------------------------------------------------
 
-enum PlanCode {
-  FREE
-  SILVER
-  GOLD
-  PLATINUM
-}
-
-// Seeded once; price/itemLimit here is what "6.2 Subscription Model" defines,
-// kept in the DB (not hardcoded) so pricing can change without a redeploy.
+// Seeded once (FREE, SILVER, GOLD, PLATINUM); price/itemLimit here is what
+// "6.2 Subscription Model" defines, kept in the DB (not hardcoded) so pricing
+// can change without a redeploy. Admins can add plans, so `code` is free text.
 model Plan {
-  id            Int      @id @default(autoincrement())
-  code          PlanCode @unique
-  name          String
-  priceCents    Int // 0 for the 15-day free trial
-  billingPeriod String // "trial_15d" | "year"
-  itemLimit     Int? // null = unlimited (Platinum)
-  users         User[]
+  id               Int            @id @default(autoincrement())
+  code             String         @unique
+  name             String
+  description      String?        @db.Text
+  features         Json? // string[] shown on the pricing page
+  priceCents       Int // 0 for the 15-day free trial
+  billingPeriod    String // "trial_15d" | "month" | "year"
+  itemLimit        Int? // null = unlimited (Platinum)
+  active           Boolean        @default(true) // offered to new subscribers
+  recommended      Boolean        @default(false) // "Popular" tag on the pricing page
+  autoRenewDefault Boolean        @default(true)
+  archivedAt       DateTime? // "deleted" by an admin; existing subscribers keep it
+  users            User[]
+  subscriptions    Subscription[]
 
   @@map("plans")
 }
 
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+}
+
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String    @unique
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
   passwordHash String
-  username     String    @unique
+  username     String  @unique
   fullName     String?
   avatarUrl    String?
-  bio          String?   @db.Text
+  bio          String? @db.Text
   phone        String?
   lat          Float?
   lng          Float?
@@ -55,45 +62,76 @@ model User {
   trialEndsAt   DateTime?
   planExpiresAt DateTime?
 
-  isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  emailVerifiedAt DateTime?
+  // Push-notification toggles and trade preferences from Settings; shape and
+  // defaults live in users/preferences.ts so new keys don't need a migration.
+  preferences     Json?
 
-  interests            UserInterest[]
-  collections          Collection[]
-  items                Item[]
+  isAdmin      Boolean       @default(false)
+  status       AccountStatus @default(ACTIVE)
+  lastActiveAt DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  interests             UserInterest[]
+  collections           Collection[]
+  items                 Item[]
   wishlistEntries       Wishlist[]
-  listings             MarketplaceListing[]
-  bids                 Bid[]
-  tradeRequestsSent    TradeRequest[]        @relation("TradeInitiator")
-  tradeRequestsReceived TradeRequest[]       @relation("TradeRecipient")
-  tradeItems           TradeOfferItem[]
-  ordersAsBuyer        Order[]               @relation("OrderBuyer")
-  ordersAsSeller       Order[]               @relation("OrderSeller")
-  orderRequestsSent    OrderRequest[]        @relation("OrderRequestBuyer")
-  orderRequestsReceived OrderRequest[]       @relation("OrderRequestSeller")
-  shippingAddresses    ShippingAddress[]
-  paymentMethods       PaymentMethod[]
-  conversations        ConversationParticipant[]
-  messagesSent         Message[]
-  notifications        Notification[]
-  deviceTokens         DeviceToken[]
-  refreshTokens        RefreshToken[]
+  listings              MarketplaceListing[]
+  bids                  Bid[]
+  tradeRequestsSent     TradeRequest[]            @relation("TradeInitiator")
+  tradeRequestsReceived TradeRequest[]            @relation("TradeRecipient")
+  tradeItems            TradeOfferItem[]
+  ordersAsBuyer         Order[]                   @relation("OrderBuyer")
+  ordersAsSeller        Order[]                   @relation("OrderSeller")
+  orderRequestsSent     OrderRequest[]            @relation("OrderRequestBuyer")
+  orderRequestsReceived OrderRequest[]            @relation("OrderRequestSeller")
+  shippingAddresses     ShippingAddress[]
+  paymentMethods        PaymentMethod[]
+  conversations         ConversationParticipant[]
+  messagesSent          Message[]
+  notifications         Notification[]
+  deviceTokens          DeviceToken[]
+  refreshTokens         RefreshToken[]
+  subscriptions         Subscription[]
+  payments              Payment[]
+  promotions            Promotion[]
+  auditLogs             AuditLog[]
+  verificationCodes     VerificationCode[]
+  feedback              Feedback[]
 
+  @@index([status])
   @@map("users")
 }
 
 model RefreshToken {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   tokenHash String
   expiresAt DateTime
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   revokedAt DateTime?
 
   @@index([userId])
   @@map("refresh_tokens")
+}
+
+// One-time codes for "Verify Your Email" and "Forgot Password -> Enter OTP".
+// Only a hash is stored; the code itself goes out by email.
+model VerificationCode {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose   String // "verify_email" | "reset_password"
+  codeHash  String
+  attempts  Int       @default(0)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, purpose])
+  @@map("verification_codes")
 }
 
 model DeviceToken {
@@ -144,19 +182,27 @@ model UserInterest {
 // A named grouping of items, e.g. "Collections - Events" screens (Sturgis
 // 2023, a swap-meet run, etc.) as well as a user's general collection.
 model Collection {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   ownerId       Int
-  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner         User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   name          String
-  description   String?  @db.Text
+  description   String?   @db.Text
   coverImageUrl String?
+  location      String? // event location, e.g. "Sturgis, SD"
   eventDate     DateTime?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   items Item[]
 
   @@map("collections")
+}
+
+enum Rarity {
+  COMMON
+  RARE
+  ULTRA_RARE
+  LEGENDARY
 }
 
 enum ItemStatus {
@@ -167,30 +213,31 @@ enum ItemStatus {
 }
 
 model Item {
-  id             Int        @id @default(autoincrement())
-  ownerId        Int
-  owner          User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  collectionId   Int?
-  collection     Collection? @relation(fields: [collectionId], references: [id])
-  categoryId     Int?
-  category       Category?  @relation(fields: [categoryId], references: [id])
+  id           Int         @id @default(autoincrement())
+  ownerId      Int
+  owner        User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  collectionId Int?
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  categoryId   Int?
+  category     Category?   @relation(fields: [categoryId], references: [id])
 
-  title          String
-  description    String?    @db.Text
-  status         ItemStatus @default(HAVE)
-  condition      String? // e.g. "Mint", "Used", "For Parts"
-  brand          String?
-  year           Int?
+  title               String
+  description         String?    @db.Text
+  status              ItemStatus @default(HAVE)
+  rarity              Rarity?
+  condition           String? // e.g. "Mint", "Used", "For Parts"
+  brand               String?
+  year                Int?
   estimatedValueCents Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  images           ItemImage[]
-  listing          MarketplaceListing?
-  wishlistMatches  Wishlist[]
-  tradeOfferItems  TradeOfferItem[]
-  orderItems       OrderItem[]
+  images          ItemImage[]
+  listing         MarketplaceListing?
+  wishlistMatches Wishlist[]
+  tradeOfferItems TradeOfferItem[]
+  orderItems      OrderItem[]
 
   @@index([ownerId, status])
   @@map("items")
@@ -211,15 +258,15 @@ model ItemImage {
 // ---------------------------------------------------------------------------
 
 model Wishlist {
-  id               Int       @id @default(autoincrement())
-  userId           Int
-  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  categoryId       Int?
-  category         Category? @relation(fields: [categoryId], references: [id])
-  query            String // free-text description of what they're after
-  matchedItemId    Int?
-  matchedItem      Item?     @relation(fields: [matchedItemId], references: [id])
-  createdAt        DateTime  @default(now())
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId    Int?
+  category      Category? @relation(fields: [categoryId], references: [id])
+  query         String // free-text description of what they're after
+  matchedItemId Int?
+  matchedItem   Item?     @relation(fields: [matchedItemId], references: [id])
+  createdAt     DateTime  @default(now())
 
   @@map("wishlist_entries")
 }
@@ -267,16 +314,16 @@ enum AuctionStatus {
 }
 
 model Auction {
-  id             Int           @id @default(autoincrement())
-  listingId      Int           @unique
-  listing        MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  startPriceCents Int
+  id                Int                @id @default(autoincrement())
+  listingId         Int                @unique
+  listing           MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  startPriceCents   Int
   currentPriceCents Int
-  bidIncrementCents Int @default(500)
-  startsAt       DateTime
-  endsAt         DateTime
-  status         AuctionStatus @default(SCHEDULED)
-  winnerId       Int?
+  bidIncrementCents Int                @default(500)
+  startsAt          DateTime
+  endsAt            DateTime
+  status            AuctionStatus      @default(SCHEDULED)
+  winnerId          Int?
 
   bids Bid[]
 
@@ -284,13 +331,13 @@ model Auction {
 }
 
 model Bid {
-  id         Int      @id @default(autoincrement())
-  auctionId  Int
-  auction    Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
-  bidderId   Int
-  bidder     User     @relation(fields: [bidderId], references: [id])
+  id          Int      @id @default(autoincrement())
+  auctionId   Int
+  auction     Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+  bidderId    Int
+  bidder      User     @relation(fields: [bidderId], references: [id])
   amountCents Int
-  createdAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
 
   @@index([auctionId])
   @@map("bids")
@@ -309,15 +356,15 @@ enum TradeStatus {
 }
 
 model TradeRequest {
-  id            Int         @id @default(autoincrement())
-  initiatorId   Int
-  initiator     User        @relation("TradeInitiator", fields: [initiatorId], references: [id])
-  recipientId   Int
-  recipient     User        @relation("TradeRecipient", fields: [recipientId], references: [id])
-  status        TradeStatus @default(PENDING)
-  message       String?     @db.Text
-  createdAt     DateTime    @default(now())
-  respondedAt   DateTime?
+  id          Int         @id @default(autoincrement())
+  initiatorId Int
+  initiator   User        @relation("TradeInitiator", fields: [initiatorId], references: [id])
+  recipientId Int
+  recipient   User        @relation("TradeRecipient", fields: [recipientId], references: [id])
+  status      TradeStatus @default(PENDING)
+  message     String?     @db.Text
+  createdAt   DateTime    @default(now())
+  respondedAt DateTime?
 
   offerItems TradeOfferItem[]
 
@@ -326,7 +373,7 @@ model TradeRequest {
 
 enum TradeSide {
   GIVE // offered by the initiator
-  GET  // requested from the recipient
+  GET // requested from the recipient
 }
 
 model TradeOfferItem {
@@ -356,17 +403,17 @@ enum OrderRequestStatus {
 // propose a price on a SALE listing before checkout, rather than paying the
 // list price outright.
 model OrderRequest {
-  id            Int                 @id @default(autoincrement())
-  listingId     Int
-  listing       MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  buyerId       Int
-  buyer         User                @relation("OrderRequestBuyer", fields: [buyerId], references: [id])
-  sellerId      Int
-  seller        User                @relation("OrderRequestSeller", fields: [sellerId], references: [id])
+  id               Int                @id @default(autoincrement())
+  listingId        Int
+  listing          MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyerId          Int
+  buyer            User               @relation("OrderRequestBuyer", fields: [buyerId], references: [id])
+  sellerId         Int
+  seller           User               @relation("OrderRequestSeller", fields: [sellerId], references: [id])
   offerAmountCents Int
-  status        OrderRequestStatus  @default(PENDING)
-  createdAt     DateTime            @default(now())
-  respondedAt   DateTime?
+  status           OrderRequestStatus @default(PENDING)
+  createdAt        DateTime           @default(now())
+  respondedAt      DateTime?
 
   @@map("order_requests")
 }
@@ -391,15 +438,15 @@ model ShippingAddress {
 }
 
 model PaymentMethod {
-  id             Int     @id @default(autoincrement())
-  userId         Int
-  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  brand          String
-  last4          String
-  expMonth       Int
-  expYear        Int
-  providerToken  String // Stripe payment-method id or IAP token; never store a raw PAN
-  isDefault      Boolean @default(false)
+  id            Int     @id @default(autoincrement())
+  userId        Int
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brand         String
+  last4         String
+  expMonth      Int
+  expYear       Int
+  providerToken String // Stripe payment-method id or IAP token; never store a raw PAN
+  isDefault     Boolean @default(false)
 
   orders Order[]
 
@@ -415,22 +462,22 @@ enum OrderStatus {
 }
 
 model Order {
-  id                Int             @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   listingId         Int
   listing           MarketplaceListing @relation(fields: [listingId], references: [id])
   buyerId           Int
-  buyer             User            @relation("OrderBuyer", fields: [buyerId], references: [id])
+  buyer             User               @relation("OrderBuyer", fields: [buyerId], references: [id])
   sellerId          Int
-  seller            User            @relation("OrderSeller", fields: [sellerId], references: [id])
-  status            OrderStatus     @default(PENDING)
+  seller            User               @relation("OrderSeller", fields: [sellerId], references: [id])
+  status            OrderStatus        @default(PENDING)
   totalCents        Int
   shippingAddressId Int?
-  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddress   ShippingAddress?   @relation(fields: [shippingAddressId], references: [id])
   paymentMethodId   Int?
-  paymentMethod     PaymentMethod?  @relation(fields: [paymentMethodId], references: [id])
+  paymentMethod     PaymentMethod?     @relation(fields: [paymentMethodId], references: [id])
   trackingNumber    String?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 
   items OrderItem[]
 
@@ -492,15 +539,15 @@ model Message {
 // ---------------------------------------------------------------------------
 
 model Notification {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   type      String // "trade_request" | "trade_accepted" | "bid_outbid" | "order_shipped" | ...
   title     String
   body      String?
   data      Json?
   readAt    DateTime?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   @@index([userId, readAt])
   @@map("notifications")
@@ -521,4 +568,152 @@ model Dealer {
   tags    String? // comma-separated category tags
 
   @@map("dealers")
+}
+
+// ---------------------------------------------------------------------------
+// Subscriptions & billing (admin: Subscriptions -> Subscribers, billing history)
+// ---------------------------------------------------------------------------
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  PAYMENT_FAILED
+  CANCELLED
+}
+
+model Subscription {
+  id            Int                @id @default(autoincrement())
+  userId        Int
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId        Int
+  plan          Plan               @relation(fields: [planId], references: [id])
+  amountCents   Int // price at purchase time; the plan's price can change later
+  billingPeriod String // copied from the plan: "month" | "year"
+  status        SubscriptionStatus @default(ACTIVE)
+  autoRenew     Boolean            @default(true)
+  startedAt     DateTime           @default(now())
+  renewsAt      DateTime?
+  expiresAt     DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  payments Payment[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("subscriptions")
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+// One row per charge attempt, for a subscription or a promotion. Written by the
+// payment processor integration once one is chosen; admins read it as billing history.
+model Payment {
+  id             Int           @id @default(autoincrement())
+  userId         Int
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptionId Int?
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  promotionId    Int?
+  promotion      Promotion?    @relation(fields: [promotionId], references: [id])
+  amountCents    Int
+  method         String? // "Visa •••• 4242", "Apple Pay"
+  transactionId  String?       @unique
+  status         PaymentStatus @default(PENDING)
+  paidAt         DateTime?
+  createdAt      DateTime      @default(now())
+
+  @@index([status, paidAt])
+  @@map("payments")
+}
+
+// ---------------------------------------------------------------------------
+// Ads promotions: fixed 30-day featured placements (admin: Ads Promotion)
+// ---------------------------------------------------------------------------
+
+enum PromotionType {
+  PROFILE
+  SELLER
+  LISTING
+}
+
+enum PromotionStatus {
+  ACTIVE
+  PAUSED
+  EXPIRED
+  CANCELLED
+}
+
+model Promotion {
+  id            Int             @id @default(autoincrement())
+  userId        Int
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          PromotionType
+  title         String // what is featured ("Promotion Name" on the admin form)
+  body          String?         @db.Text // carousel copy on the web/mobile Home screen
+  imageUrl      String?
+  linkUrl       String?
+  listingId     Int? // set for LISTING promotions
+  startsAt      DateTime
+  endsAt        DateTime
+  feeCents      Int
+  paymentStatus PaymentStatus   @default(PENDING)
+  status        PromotionStatus @default(ACTIVE)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  payments Payment[]
+
+  @@index([status, startsAt, endsAt])
+  @@map("promotions")
+}
+
+// ---------------------------------------------------------------------------
+// Help & Feedback
+// ---------------------------------------------------------------------------
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message   String   @db.Text
+  imageUrls Json? // string[]
+  createdAt DateTime @default(now())
+
+  @@map("feedback")
+}
+
+// ---------------------------------------------------------------------------
+// Admin settings & audit trail
+// ---------------------------------------------------------------------------
+
+// Key/value store for admin-editable settings, e.g. key "general" =
+// { storeName, supportEmail, timezone }.
+model AppSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@map("app_settings")
+}
+
+// Every admin action that changes another user's data ("Reason (recorded in audit log)").
+model AuditLog {
+  id         Int      @id @default(autoincrement())
+  actorId    Int
+  actor      User     @relation(fields: [actorId], references: [id])
+  action     String // "user.suspend" | "user.restore" | "user.ban" | "plan.delete" | ...
+  targetType String // "user" | "plan" | "promotion"
+  targetId   Int?
+  reason     String?  @db.Text
+  data       Json?
+  createdAt  DateTime @default(now())
+
+  @@index([targetType, targetId])
+  @@map("audit_logs")
 }

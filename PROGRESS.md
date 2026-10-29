@@ -5,7 +5,7 @@ back up, and update it before wrapping up a session** — it's the single place
 that tracks what's built, what's stubbed, and what's blocked on a decision, so
 context carries forward instead of getting re-derived every time.
 
-Last updated: 2026-09-07 · Repo: [`Dan_D_Backend`](https://github.com/Muhammad-Faizkhan/Dan_D_Backend) · Branch: `main` · Latest commit: `fdafd1b`
+Last updated: 2026-10-29 · Repo: [`Dan_D_Backend`](https://github.com/Muhammad-Faizkhan/Dan_D_Backend) · Branch: `main` · Latest commit: `fdafd1b`
 
 ## Scope
 
@@ -38,10 +38,13 @@ Postgres), Socket.IO for realtime.
 | Messaging | Built | 1:1 conversations, REST **and live WebSocket** (send, typing, read receipts) |
 | Notifications & Dealers | Built | In-app alerts; dealer locator with distance search |
 | Payments | Stubbed | Checkout marks orders paid without a real charge — processor undecided |
-| Image storage | Stubbed | Items accept ready-made URLs — no upload endpoint wired yet |
-| Forgot-password OTP | Stubbed | No email/SMS provider chosen |
+| Image storage | Built (local disk) | `POST /api/uploads` → served at `/uploads`; needs a Railway Volume (`UPLOAD_DIR`) to survive redeploys. Swap for S3/Cloudinary later |
+| Email verification & password reset | Built, delivery stubbed | 6-digit codes, hashed, 10-min expiry; `utils/mailer.ts` only logs until an email provider is chosen |
+| Subscriptions (app side) | Built, charge stubbed | `/api/subscriptions` — needs Apple/Google IAP for store builds; scheduler expires ended plans |
+| Admin dashboard API | Built | Users, plans, subscriptions, promotions, dashboard stats, analytics, settings, notifications, feedback. First admin: `npm run admin:grant -- <email>` |
+| Trade matches, activity, preferences, feedback | Built | `/api/trades/matches`, `/api/users/me/activity`, `/api/users/me/preferences`, `/api/feedback` |
 | Camera-scan item entry | Stubbed | No OCR vendor chosen |
-| Push notifications | Not started | FCM/APNs not wired up |
+| Push notifications | Tokens stored only | `POST /api/users/me/device-tokens` stores tokens; nothing sends to FCM/APNs yet |
 
 ## Docs & handoff (for the frontend/mobile dev)
 
@@ -86,9 +89,11 @@ screenshots, not editable — mobile UI will need to be eyeballed per screen).
 
 ## Next up
 
-- Wire the chosen image store behind a signed-upload endpoint
-- Deploy to the chosen free host, connect the chosen database, run the migration
-- Scope and build the chips feature once its definition is confirmed
+- Deployed on Railway. After pushing this change, sync the schema (`npx prisma db push` — there's no migrations folder yet), add a Volume for `UPLOAD_DIR`, and grant the first admin
+- Integrate the admin dashboard, then the web app, then the Flutter app (all still on mock data)
+- Pick an email provider and swap it into `utils/mailer.ts`
+- "Chips" resolved: the Flutter app treats them as physical collectibles (casino/rally chips) — no wallet subsystem needed
+- Bring `openapi.json` up to date with the 2026-10-29 endpoints (they're in `API-REFERENCE.md` for now)
 - Fill in a real payment processor for checkout once one's picked
 
 ---

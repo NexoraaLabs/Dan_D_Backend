@@ -481,3 +481,142 @@ Every non-2xx response looks like:
 - **Image upload**: `/items` takes `imageUrls` (already-hosted URLs), not file uploads.
 - **Forgot-password OTP**: not implemented yet (no email/SMS provider chosen).
 - **Real-time delivery**: chat now has full WebSocket support (see above). Bid updates and general notifications are still poll-via-REST — no live push for those yet.
+
+---
+
+## Added 2026-10-29 — integration endpoints
+
+Everything below was added for wiring up the mobile app, web app and admin
+dashboard. Changes to existing endpoints are listed first.
+
+### Changes to existing endpoints
+
+- `POST /api/auth/register` now also emails a 6-digit verification code. The
+  response may include `devCode` (see "Email codes" below).
+- `GET /api/users/me` now includes `preferences` and
+  `stats: { items, listings, trades, collections, wishlist }`.
+- `GET /api/users/{id}` now includes the same `stats` object (seller profile header).
+- `POST/PATCH /api/items`: new optional `rarity`, one of `COMMON | RARE | ULTRA_RARE | LEGENDARY`.
+  `GET /api/items` accepts `?rarity=`.
+- `POST/PATCH /api/collections`: new optional `location` (string, e.g. `"Sturgis, SD"`).
+- `GET /api/marketplace` takes these new query params:
+  - `rarity`
+  - `sort`: `newest` (default), `price_asc`, `price_desc` or `nearest`
+  - `lat` + `lng` (the viewer's position). With these, every listing gets a `distanceKm` field.
+  - `radiusKm`: needs `lat`/`lng`. `sort=nearest` also needs `lat`/`lng`.
+  - Each listing's `item` now includes `category`.
+- `GET /api/trades` and `GET /api/trades/{id}` now return only public fields
+  for `initiator` / `recipient` (`id, username, fullName, avatarUrl`).
+
+### Email codes (verification + password reset)
+
+No email provider has been chosen yet. Codes are written to the server log
+(Railway → Deployments → Logs, look for `[mailer]`). If the server sets
+`EXPOSE_DEV_CODES=true`, responses that send a code also include
+`"devCode": "123456"` so the apps can be tested end to end. Turn this off
+before real users sign up. Codes are 6 digits, expire after 10 minutes, and
+stop working after 5 wrong attempts.
+
+### `POST /api/auth/verify-email/resend` — Auth: yes
+Verify Your Email → "Resend". Response: `{ "sent": true, "devCode"?: "123456" }`
+
+### `POST /api/auth/verify-email` — Auth: yes
+Enter The Code. Body: `{ "code": "123456" }` → `204`. Sets `emailVerifiedAt` on the user.
+
+### `POST /api/auth/forgot-password` — Auth: no
+Forgot Password. Body: `{ "email": "rider@example.com" }` → `{ "sent": true }`.
+Always returns `sent: true`, even for unknown emails, so it can't be used to
+probe for accounts.
+
+### `POST /api/auth/forgot-password/verify` — Auth: no
+Enter OTP (Reset). Body: `{ "email", "code" }` → `{ "valid": true }`, or `400`
+with `"Incorrect code"` / `"Code expired. Request a new one."`. The code is
+not used up by this call.
+
+### `POST /api/auth/reset-password` — Auth: no
+Create New Password. Body: `{ "email", "code", "newPassword" }` → `204`.
+Signs the user out on every device (all refresh tokens are revoked).
+
+### `POST /api/uploads` — Auth: yes
+Upload images before referencing them. Send `multipart/form-data` with 1–10
+parts named `files` (JPEG/PNG/WebP/HEIC, max 10 MB each).
+Response `201`: `{ "urls": ["https://<host>/uploads/ab12....jpg"] }`.
+Put the URLs in `imageUrls` (items, feedback), `avatarUrl` (profile),
+`coverImageUrl` (collections) or `attachmentUrl` (messages).
+
+### Subscriptions (app side)
+
+Choose Your Plan → Payment → Subscribed. **The charge is stubbed**: it always
+succeeds and records a `PAID` payment. For the store builds this must become
+Apple/Google in-app purchase validation.
+
+- `GET /api/subscriptions/me` — Auth: yes →
+  `{ plan, trialEndsAt, planExpiresAt, itemCount, subscription | null }`
+- `POST /api/subscriptions` — Auth: yes. Body: `{ "planId": 2, "paymentMethodId"?: 5 }` → `201` subscription with `plan` and `payments`.
+  Ends any current subscription. The free trial plan can't be bought.
+- `PATCH /api/subscriptions/me` — Auth: yes. Body: `{ "autoRenew": false }`
+- `POST /api/subscriptions/me/cancel` — Auth: yes. Stops renewal. The plan
+  stays active until `expiresAt`, then the user drops back to Free.
+
+### `GET /api/trades/matches` — Auth: yes
+Trade Matches. Built from the user's WANT items and wishlist entries. Up to 20 results, best first:
+```json
+[{ "user": { "id": 7, "username": "HDCollector", "fullName": null, "avatarUrl": null },
+   "userTrades": 156, "match": 92,
+   "get":  { "id": 41, "title": "Yankee Bristol Teal", "rarity": "RARE", "images": [...] },
+   "give": { "id": 12, "title": "Bristol Wide", "images": [...] } }]
+```
+`give` is `null` when nothing of yours matches their wants. `match` is 0–100.
+
+### `GET /api/users/me/activity` — Auth: yes
+My Activity. Newest first, up to 50 entries. Each entry has `type` and `at`:
+- `listed`: `item`, `listingType`, `listingId`
+- `bid`: `item`, `amountCents`, `winning`, `auctionId`
+- `trade_completed`: `tradeId`, `with` (user)
+- `wishlist_added`: `wishlistId`, `query`
+
+### `GET /api/users/me/preferences` · `PATCH /api/users/me/preferences` — Auth: yes
+Settings → Push Notifications and Trade Preferences. The PATCH body is partial at every level:
+```json
+{ "push": { "auctionAlerts": true, "wishlistMatches": true, "nearbyTopTrades": false, "weeklyDigest": false },
+  "trade": { "autoAcceptFairTrades": false, "willingToTradeFor": ["Harley chips", "Patches"] } }
+```
+
+### `POST /api/users/me/device-tokens` · `DELETE /api/users/me/device-tokens` — Auth: yes
+Registers the device's FCM/APNs token after login, and removes it on logout.
+Body: `{ "token": "...", "platform": "ios" | "android" | "web" }`. DELETE needs only `{ "token" }`.
+Nothing sends pushes yet. This only stores the tokens.
+
+### `POST /api/feedback` — Auth: yes
+Help & Feedback. Body: `{ "message": "...", "imageUrls"?: [...] }` → `201`.
+
+### `GET /api/promotions/active` — Auth: no
+Home carousel: promotions running right now. Optional `?type=PROFILE|SELLER|LISTING`.
+
+---
+
+## Admin dashboard
+
+Log in with `POST /api/auth/admin/login` (same body and response as `/login`,
+but only accounts with `isAdmin` can sign in). Every `/api/admin/*` route
+needs that token and returns `403` if the account isn't an admin.
+
+For the admin's own profile and password, use `GET/PATCH /api/users/me` and
+`POST /api/users/me/change-password`. Forgot password uses the same
+`/api/auth/forgot-password` flow as above.
+
+Lists are paginated with `?page=1&pageSize=20` and return `{ items, total, page, pageSize }`.
+
+| Endpoint | Screen |
+|---|---|
+| `GET /api/admin/dashboard?days=30` | Dashboard: `stats {totalUsers,newUsers,activeSubscriptions,activePromotions}`, `userGrowth[] {date,newUsers,totalUsers}`, `weeklyActivity[] {date,subscriptions,promotions}`, `recentUsers[]`, `recentSubscriptionActivity[]` |
+| `GET /api/admin/analytics?months=12` | Analytics: `revenue {totalCents,subscriptionsCents,promotionsCents,growthPercent}`, `series[] {month,subscriptionsCents,promotionsCents,totalCents,newUsers,totalUsers}` |
+| `GET /api/admin/settings` · `PATCH /api/admin/settings` | Settings → General: `{ storeName, supportEmail, timezone }` |
+| `GET /api/admin/notifications` | Top-bar panel, last 7 days: `type` is `user_signup`, `subscription_started`, `payment_failed` or `feedback` |
+| `GET /api/admin/feedback` | Feedback sent from the apps |
+| `GET /api/admin/users?filter=all\|active\|free\|suspended\|subscribed\|banned&search=&sort=newest\|oldest\|lastActive` | User Management |
+| `GET /api/admin/users/{id}` | User Details |
+| `POST /api/admin/users/{id}/suspend` · `/restore` · `/ban` | Body `{ "reason": "..." }`, recorded in the audit log |
+| `GET /api/admin/subscriptions?status=&planId=&search=` · `GET /api/admin/subscriptions/{id}` | Subscribers, Subscription Details + billing history |
+| `GET/POST /api/admin/plans` · `GET/PATCH/DELETE /api/admin/plans/{id}` | Plans tab, Create / Edit Plan |
+| `GET/POST /api/admin/promotions` · `GET/PATCH/DELETE /api/admin/promotions/{id}` · `POST /api/admin/promotions/{id}/cancel` | Ads Promotion |

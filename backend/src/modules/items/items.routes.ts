@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from "zod";
-import { ItemStatus } from "@prisma/client";
+import { ItemStatus, Rarity } from "@prisma/client";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { requireAuth } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
@@ -12,6 +12,7 @@ export const itemsRouter = Router();
 const listQuerySchema = z.object({
   ownerId: z.coerce.number().int().optional(),
   status: z.nativeEnum(ItemStatus).optional(),
+  rarity: z.nativeEnum(Rarity).optional(),
   categoryId: z.coerce.number().int().optional(),
   search: z.string().optional(),
   page: z.coerce.number().int().min(1).default(1),
@@ -27,6 +28,7 @@ itemsRouter.get(
       ownerId: q.ownerId,
       status: q.status,
       categoryId: q.categoryId,
+      rarity: q.rarity,
       title: q.search ? { contains: q.search } : undefined,
     };
     const [items, total] = await Promise.all([
@@ -60,6 +62,7 @@ const createSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
   status: z.nativeEnum(ItemStatus).default("HAVE"),
+  rarity: z.nativeEnum(Rarity).optional(),
   categoryId: z.number().int().optional(),
   collectionId: z.number().int().optional(),
   condition: z.string().optional(),
@@ -83,6 +86,7 @@ itemsRouter.post(
         title: input.title,
         description: input.description,
         status: input.status,
+        rarity: input.rarity,
         categoryId: input.categoryId,
         collectionId: input.collectionId,
         condition: input.condition,

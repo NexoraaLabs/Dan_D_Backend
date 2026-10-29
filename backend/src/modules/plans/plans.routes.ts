@@ -8,7 +8,8 @@ export const plansRouter = Router();
 plansRouter.get(
   "/",
   asyncHandler(async (_req, res) => {
-    const plans = await prisma.plan.findMany({ orderBy: { priceCents: "asc" } });
+    // Only what new subscribers can pick; inactive and admin-deleted plans are hidden.
+    const plans = await prisma.plan.findMany({ where: { active: true, archivedAt: null }, orderBy: { priceCents: "asc" } });
     res.json(plans);
   })
 );

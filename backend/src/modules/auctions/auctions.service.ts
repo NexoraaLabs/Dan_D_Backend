@@ -8,8 +8,12 @@ export async function placeBid(auctionId: number, bidderId: number, amountCents:
     const auction = await tx.auction.findUnique({ where: { id: auctionId }, include: { listing: true } });
     if (!auction) throw notFound("Auction not found");
     if (auction.listing.sellerId === bidderId) throw forbidden("Sellers can't bid on their own auction");
-    if (auction.status !== "LIVE") throw badRequest("Auction is not currently live");
-    if (auction.endsAt < new Date()) throw badRequest("Auction has already ended");
+    const now = new Date();
+    if (auction.endsAt < now) throw badRequest("Auction has already ended");
+    // The scheduler flips SCHEDULED -> LIVE once a minute; don't make the first bidder wait for it.
+    const liveNow = auction.status === "SCHEDULED" && auction.startsAt <= now;
+    if (auction.status !== "LIVE" && !liveNow) throw badRequest("Auction is not currently live");
+    if (liveNow) await tx.auction.update({ where: { id: auctionId }, data: { status: "LIVE" } });
 
     const minAcceptable = auction.currentPriceCents + auction.bidIncrementCents;
     if (amountCents < minAcceptable) {
@@ -38,8 +42,8 @@ export async function placeBid(auctionId: number, bidderId: number, amountCents:
   });
 }
 
-// Called by a scheduled job when `endsAt` passes; exposed here as a direct
-// endpoint too so it can be triggered manually/tested without a job runner.
+// Called by the auction scheduler once `endsAt` passes, and by the seller's
+// close endpoint (which checks ownership and the end time first).
 export async function closeAuction(auctionId: number) {
   return prisma.$transaction(async (tx) => {
     const auction = await tx.auction.findUnique({ where: { id: auctionId } });

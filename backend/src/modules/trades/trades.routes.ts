@@ -5,17 +5,30 @@ import { requireAuth } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
 import { forbidden, notFound } from "../../utils/httpError";
 import * as tradesService from "./trades.service";
+import { findTradeMatches } from "./trade-matches";
 
 export const tradesRouter = Router();
 
-// Screen: Trade Matches
+// Public fields only: the full user row carries passwordHash, email, phone and exact location.
+const tradeUserSelect = { id: true, username: true, fullName: true, avatarUrl: true };
+
+// Screen: Trade Matches -- suggested swaps, best match first.
+tradesRouter.get(
+  "/matches",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    res.json(await findTradeMatches(req.userId!));
+  })
+);
+
+// Screens: Orders -> Trade tab, My Activity
 tradesRouter.get(
   "/",
   requireAuth,
   asyncHandler(async (req, res) => {
     const trades = await prisma.tradeRequest.findMany({
       where: { OR: [{ initiatorId: req.userId! }, { recipientId: req.userId! }] },
-      include: { offerItems: { include: { item: { include: { images: true } } } }, initiator: true, recipient: true },
+      include: { offerItems: { include: { item: { include: { images: true } } } }, initiator: { select: tradeUserSelect }, recipient: { select: tradeUserSelect } },
       orderBy: { createdAt: "desc" },
     });
     res.json(trades);
@@ -28,7 +41,7 @@ tradesRouter.get(
   asyncHandler(async (req, res) => {
     const trade = await prisma.tradeRequest.findUnique({
       where: { id: Number(req.params.id) },
-      include: { offerItems: { include: { item: { include: { images: true } } } }, initiator: true, recipient: true },
+      include: { offerItems: { include: { item: { include: { images: true } } } }, initiator: { select: tradeUserSelect }, recipient: { select: tradeUserSelect } },
     });
     if (!trade) throw notFound("Trade request not found");
     if (trade.initiatorId !== req.userId && trade.recipientId !== req.userId) throw forbidden();

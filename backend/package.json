@@ -11,6 +11,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
+    "admin:grant": "tsx scripts/make-admin.ts",
     "postman:generate": "node scripts/generate-postman.js"
   },
   "devDependencies": {

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { requireAuth } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
-import { notFound } from "../../utils/httpError";
+import { badRequest, forbidden, notFound } from "../../utils/httpError";
 import * as auctionsService from "./auctions.service";
 
 export const auctionsRouter = Router();
@@ -38,7 +38,13 @@ auctionsRouter.post(
   "/:id/close",
   requireAuth,
   asyncHandler(async (req, res) => {
-    const auction = await auctionsService.closeAuction(Number(req.params.id));
+    const id = Number(req.params.id);
+    const existing = await prisma.auction.findUnique({ where: { id }, include: { listing: true } });
+    if (!existing) throw notFound("Auction not found");
+    // Without these checks any user could end any auction early and lock in the current top bid.
+    if (existing.listing.sellerId !== req.userId) throw forbidden("Only the seller can close this auction");
+    if (existing.endsAt > new Date()) throw badRequest("Auction hasn't ended yet");
+    const auction = await auctionsService.closeAuction(id);
     res.json(auction);
   })
 );

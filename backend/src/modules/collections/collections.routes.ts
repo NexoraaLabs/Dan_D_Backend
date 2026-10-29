@@ -25,6 +25,7 @@ const createSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   coverImageUrl: z.string().url().optional(),
+  location: z.string().max(120).optional(),
   eventDate: z.coerce.date().optional(),
 });
 

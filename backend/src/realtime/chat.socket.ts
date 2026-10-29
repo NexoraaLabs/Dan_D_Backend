@@ -1,6 +1,7 @@
 import { Server, Socket } from "socket.io";
 import type { Server as HttpServer } from "http";
 import { verifyAccessToken } from "../utils/jwt";
+import { assertAccountActive } from "../middleware/auth";
 import * as messagesService from "../modules/messages/messages.service";
 import { setIo, conversationRoom, userRoom } from "./io";
 import { HttpError } from "../utils/httpError";
@@ -14,13 +15,19 @@ interface AuthedSocket extends Socket {
 function authenticate(socket: Socket, next: (err?: Error) => void) {
   const token = socket.handshake.auth?.token as string | undefined;
   if (!token) return next(new Error("Missing auth token"));
+  let userId: number;
   try {
-    const payload = verifyAccessToken(token);
-    (socket as AuthedSocket).data.userId = payload.sub;
-    next();
+    userId = verifyAccessToken(token).sub;
   } catch {
-    next(new Error("Invalid or expired token"));
+    return next(new Error("Invalid or expired token"));
   }
+  // Suspended and banned accounts are refused here too, not just on REST.
+  assertAccountActive(userId)
+    .then(() => {
+      (socket as AuthedSocket).data.userId = userId;
+      next();
+    })
+    .catch((err: Error) => next(new Error(err.message)));
 }
 
 export function initChatSocket(httpServer: HttpServer) {
