@@ -174,6 +174,11 @@ Response `200`:
 { "items": [ { "id": 101, "ownerId": 12, "collectionId": 4, "categoryId": 2, "title": "1994 Buckeye Chapter Pin", "description": null, "status": "SHOWCASE", "condition": "Mint", "brand": "Harley-Davidson", "year": 1994, "estimatedValueCents": 4500, "images": [ { "id": 1, "url": "https://...", "position": 0 } ], "createdAt": "..." } ], "total": 37, "page": 1, "pageSize": 20 }
 ```
 
+### `POST /api/items/scan` — Auth: yes
+Screens: Add Item - Camera Scan → Item Details Form. Body: `{ "imageUrl": "<url from POST /api/uploads>" }` (JPEG, PNG or WebP). Claude reads the chip and returns suggestions only — nothing is saved; the app shows them for the user to correct, then calls `POST /api/items`.
+Response `200`: `{ imageUrl, suggestion: { isChip, title, dealership, city, state, year, denomination, colors[], condition, description, confidence: "high"|"medium"|"low", unreadable } }` (unknown fields are `null`).
+Errors: `403 UPGRADE_REQUIRED` (same as item create — no scan if the user can't save), `429` after 20 scans an hour per user, `422` when the photo can't be read, `503` when `ANTHROPIC_API_KEY` is missing or Claude is busy. Every failure means "fill the form by hand".
+
 ### `POST /api/items` — Auth: yes
 Screens: Add Item - Camera Scan → Item Details Form → Add to Collection. **Enforces the current plan's upload limit** (returns `403` once the plan's `itemLimit` is hit). Request body:
 ```json

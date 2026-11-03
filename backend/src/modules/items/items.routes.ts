@@ -4,10 +4,42 @@ import { ItemStatus, Rarity } from "@prisma/client";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { requireAuth } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
-import { forbidden, notFound } from "../../utils/httpError";
+import { HttpError, forbidden, notFound } from "../../utils/httpError";
 import { assertCanAddItem } from "../plans/plan-limit";
+import { scanChip } from "./chip-scan";
 
 export const itemsRouter = Router();
+
+// Each scan is a paid Claude call; an in-memory window is enough for one instance.
+const SCANS_PER_HOUR = 20;
+const recentScans = new Map<number, number[]>();
+
+function takeScanSlot(userId: number) {
+  const cutoff = Date.now() - 60 * 60 * 1000;
+  const times = (recentScans.get(userId) ?? []).filter((t) => t > cutoff);
+  if (times.length >= SCANS_PER_HOUR) {
+    throw new HttpError(429, `You can scan ${SCANS_PER_HOUR} chips an hour. Try again later or enter the details by hand.`);
+  }
+  times.push(Date.now());
+  recentScans.set(userId, times);
+}
+
+const scanSchema = z.object({ imageUrl: z.string().url() });
+
+// Screens: Add Item - Camera Scan -> Item Details Form. Returns suggested
+// details only; nothing is saved until the user confirms via POST /api/items.
+itemsRouter.post(
+  "/scan",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const { imageUrl } = scanSchema.parse(req.body);
+    // No point paying for a scan the user can't save.
+    await assertCanAddItem(req.userId!);
+    takeScanSlot(req.userId!);
+    const suggestion = await scanChip(imageUrl);
+    res.json({ imageUrl, suggestion });
+  })
+);
 
 const listQuerySchema = z.object({
   ownerId: z.coerce.number().int().optional(),
