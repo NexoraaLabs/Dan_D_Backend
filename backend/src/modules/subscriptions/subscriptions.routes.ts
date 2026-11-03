@@ -24,7 +24,7 @@ subscriptionsRouter.get(
     const [user, subscription] = await Promise.all([
       prisma.user.findUniqueOrThrow({
         where: { id: req.userId! },
-        select: { plan: true, trialEndsAt: true, planExpiresAt: true, _count: { select: { items: true } } },
+        select: { plan: true, trialEndsAt: true, planExpiresAt: true, _count: { select: { items: true, bids: true } } },
       }),
       prisma.subscription.findFirst({
         where: { userId: req.userId!, status: "ACTIVE" },
@@ -37,6 +37,7 @@ subscriptionsRouter.get(
       trialEndsAt: user.trialEndsAt,
       planExpiresAt: user.planExpiresAt,
       itemCount: user._count.items,
+      bidCount: user._count.bids,
       subscription,
     });
   })

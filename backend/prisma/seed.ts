@@ -8,13 +8,16 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.plan.createMany({
     data: [
-      { code: "FREE", name: "Free Trial", priceCents: 0, billingPeriod: "trial_15d", itemLimit: 100 },
+      { code: "FREE", name: "Free Trial", priceCents: 0, billingPeriod: "trial_15d", itemLimit: 100, bidLimit: 20 },
       { code: "SILVER", name: "Silver Package", priceCents: 499, billingPeriod: "year", itemLimit: 200 },
       { code: "GOLD", name: "Gold Package", priceCents: 999, billingPeriod: "year", itemLimit: 450 },
       { code: "PLATINUM", name: "Platinum Package", priceCents: 1999, billingPeriod: "year", itemLimit: null },
     ],
     skipDuplicates: true,
   });
+  // createMany skips the existing FREE row, so give it the bid cap once. Only
+  // rows still at null are touched, so an admin's later value is left alone.
+  await prisma.plan.updateMany({ where: { code: "FREE", bidLimit: null }, data: { bidLimit: 20 } });
 
   const motorcycles = await prisma.category.upsert({
     where: { slug: "motorcycles" },

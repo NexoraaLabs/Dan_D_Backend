@@ -1,6 +1,7 @@
 import { prisma } from "../../config/prisma";
 import { badRequest, forbidden, notFound } from "../../utils/httpError";
 import { createNotification } from "../notifications/notifications.service";
+import { assertCanBid } from "../plans/plan-limit";
 
 // Screens: Auction Detail -> Place Your Bid (-$110/+10/+25) -> Bid Placed -> Auction Winner/Lost
 export async function placeBid(auctionId: number, bidderId: number, amountCents: number) {
@@ -8,6 +9,7 @@ export async function placeBid(auctionId: number, bidderId: number, amountCents:
     const auction = await tx.auction.findUnique({ where: { id: auctionId }, include: { listing: true } });
     if (!auction) throw notFound("Auction not found");
     if (auction.listing.sellerId === bidderId) throw forbidden("Sellers can't bid on their own auction");
+    await assertCanBid(bidderId, tx);
     const now = new Date();
     if (auction.endsAt < now) throw badRequest("Auction has already ended");
     // The scheduler flips SCHEDULED -> LIVE once a minute; don't make the first bidder wait for it.

@@ -264,7 +264,7 @@ Screens: Place Your Bid, Bid Placed. Request body:
 ```json
 { "amountCents": 1500 }
 ```
-Must be `>= currentPriceCents + bidIncrementCents`. `400` if too low or the auction isn't `LIVE`; sellers get `403` bidding on their own auction. Response `201`: the created `Bid`. The previous high bidder gets a `bid_outbid` notification automatically.
+Must be `>= currentPriceCents + bidIncrementCents`. `400` if too low or the auction isn't `LIVE`; sellers get `403` bidding on their own auction. Plan limits: the Free Trial allows `bidLimit` (20) bids in total and none after `trialEndsAt`; paid plans are unlimited. Over the limit returns `403` with `details: { code: "UPGRADE_REQUIRED", reason: "bid_limit" | "trial_ended", limit?, used? }` — show the plan picker. `POST /api/items` returns the same shape with `reason: "item_limit" | "trial_ended"`. Response `201`: the created `Bid`. The previous high bidder gets a `bid_outbid` notification automatically.
 
 ### `POST /api/auctions/{id}/close` — Auth: yes
 Screens: Auction Winner, Auction Lost. No body. Picks the highest bidder as winner, marks the listing `SOLD`, and notifies the winner. Response `200`: the closed `Auction`.
@@ -551,7 +551,8 @@ succeeds and records a `PAID` payment. For the store builds this must become
 Apple/Google in-app purchase validation.
 
 - `GET /api/subscriptions/me` — Auth: yes →
-  `{ plan, trialEndsAt, planExpiresAt, itemCount, subscription | null }`
+  `{ plan, trialEndsAt, planExpiresAt, itemCount, bidCount, subscription | null }`
+  (`plan.itemLimit` / `plan.bidLimit` are `null` when unlimited.)
 - `POST /api/subscriptions` — Auth: yes. Body: `{ "planId": 2, "paymentMethodId"?: 5 }` → `201` subscription with `plan` and `payments`.
   Ends any current subscription. The free trial plan can't be bought.
 - `PATCH /api/subscriptions/me` — Auth: yes. Body: `{ "autoRenew": false }`
