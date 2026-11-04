@@ -628,3 +628,63 @@ Lists are paginated with `?page=1&pageSize=20` and return `{ items, total, page,
 | `GET /api/admin/subscriptions?status=&planId=&search=` · `GET /api/admin/subscriptions/{id}` | Subscribers, Subscription Details + billing history |
 | `GET/POST /api/admin/plans` · `GET/PATCH/DELETE /api/admin/plans/{id}` | Plans tab, Create / Edit Plan |
 | `GET/POST /api/admin/promotions` · `GET/PATCH/DELETE /api/admin/promotions/{id}` · `POST /api/admin/promotions/{id}/cancel` | Ads Promotion |
+
+---
+
+## Added 2026-11-04 — points, check-ins, wallet, leaderboard, official chips
+
+Points are the only currency for now: **10 points = $1** (`centsPerPoint: 10`).
+Card top-ups and withdrawals are not built yet. The balance is the sum of the
+user's points ledger, so every change shows up in the transaction history.
+
+### `GET /api/dealers/nearby` (changed)
+Archived dealers are no longer returned. With a bearer token each dealer also
+has `lastCheckInAt`, `nextCheckInAt` (null if never checked in) and
+`checkInRadiusM` (50).
+
+### `POST /api/dealers/{id}/check-in` — Auth: yes
+Body: `{ "lat": 44.41, "lng": -103.51, "accuracyM"?: 12 }` (the phone's fix).
+The phone must be within 50 m of the dealer; up to 25 m of reported GPS
+inaccuracy is forgiven. 5 points for the first ever check-in at that dealer,
+1 point after that, at most once per dealer per 24 hours (other dealers are
+not affected).
+Response `201`:
+```json
+{ "checkIn": { "id": 9, "createdAt": "...", "points": 5, "firstVisit": true },
+  "dealer": { "id": 3, "name": "Black Hills HD" },
+  "nextCheckInAt": "...",
+  "wallet": { "points": 25, "balanceCents": 250, "centsPerPoint": 10 } }
+```
+Errors: `400 details.code = "TOO_FAR"` (+ `distanceM`), `409 details.code = "ALREADY_CHECKED_IN"` (+ `nextAt`), `404` unknown or archived dealer.
+
+### `GET /api/dealers/ranking` — Auth: no
+Dealer Ships Ranking: the 20 **least visited** active dealers, fewest check-ins first.
+`[{ "rank": 1, "id": 3, "name": "...", "address": "...", "lat": 0, "lng": 0, "checkInCount": 5 }]`
+
+### `GET /api/wallet` — Auth: yes
+`{ "points": 1450, "balanceCents": 14500, "centsPerPoint": 10 }`
+
+### `GET /api/wallet/transactions?page=&pageSize=` — Auth: yes
+Newest first. `{ items: [{ id, points, amountCents, reason, note, createdAt }], total, page, pageSize }`.
+`reason`: `CHECK_IN_FIRST` | `CHECK_IN_REPEAT` | `CHIP_PURCHASE` | `ADJUSTMENT`. `points`
+is negative for spending. `note` is the dealer or chip name, or the admin's reason.
+
+### `GET /api/leaderboard` — Auth: yes
+Top 20 collectors by number of chips owned (active, non-admin accounts with at least one chip), plus the caller:
+`{ "top": [{ rank, id, username, fullName, avatarUrl, address, chipCount }], "me": { ...same } }`
+
+### `GET /api/official-chips` — Auth: yes
+Chip Marketplace: DanD's own chips. Each has `title, series, location, description, imageUrl, badge, priceCents, pricePoints, stock (null = unlimited), perUserLimit, owned (by caller), soldOut, limitReached`.
+
+### `POST /api/official-chips/{id}/buy` — Auth: yes
+No body. Spends `pricePoints`, adds a copy of the chip to the buyer's collection
+(counts toward the plan's item limit) and returns `{ purchase, item, wallet }`.
+Errors: `400 details.code = "INSUFFICIENT_POINTS"` (+ `balance`, `price`), `400` sold out / per-user limit, `403 UPGRADE_REQUIRED` from the item limit.
+
+### Admin
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/admin/dealers?search=&active=&page=` · `POST` · `PATCH /{id}` · `DELETE /{id}` | Dealers. Body `{ name, address, lat, lng, phone?, website?, tags?, active? }`. A dealer with check-ins can't be deleted; set `active: false` to archive it. |
+| `GET /api/admin/official-chips` · `POST` · `PATCH /{id}` | Chip Marketplace catalogue. Body `{ title, priceCents, series?, location?, description?, imageUrl?, badge?, stock?, perUserLimit?, active? }`. List adds `pricePoints` and `sold`. |
+| `GET /api/admin/check-ins?dealerId=&userId=&page=` | Recent check-ins with user and dealer. |
+| `GET /api/admin/points/{userId}` · `POST /api/admin/points/{userId}/adjust` | A user's balance and ledger; manual correction `{ points: -20, note: "..." }` (audited). |

@@ -30,6 +30,8 @@ import { adminUsersRouter } from "./modules/admin/admin.users.routes";
 import { adminPlansRouter } from "./modules/admin/admin.plans.routes";
 import { adminSubscriptionsRouter } from "./modules/admin/admin.subscriptions.routes";
 import { adminPromotionsRouter } from "./modules/admin/admin.promotions.routes";
+import { adminCheckInsRouter, adminDealersRouter, adminOfficialChipsRouter, adminPointsRouter } from "./modules/admin/admin.rewards.routes";
+import { leaderboardRouter, officialChipsRouter, walletRouter } from "./modules/rewards/rewards.routes";
 import { requireAdmin } from "./middleware/auth";
 import { errorHandler, notFoundHandler } from "./middleware/error";
 
@@ -83,6 +85,9 @@ export function createApp() {
   app.use("/api/subscriptions", subscriptionsRouter);
   app.use("/api/uploads", uploadsRouter);
   app.use("/api/feedback", feedbackRouter);
+  app.use("/api/wallet", walletRouter);
+  app.use("/api/leaderboard", leaderboardRouter);
+  app.use("/api/official-chips", officialChipsRouter);
 
   // Admin dashboard: every route needs a valid token on an isAdmin account.
   // The admin's own profile and password use /api/users/me like any user.
@@ -92,6 +97,10 @@ export function createApp() {
   app.use("/api/admin/plans", adminPlansRouter);
   app.use("/api/admin/subscriptions", adminSubscriptionsRouter);
   app.use("/api/admin/promotions", adminPromotionsRouter);
+  app.use("/api/admin/dealers", adminDealersRouter);
+  app.use("/api/admin/official-chips", adminOfficialChipsRouter);
+  app.use("/api/admin/check-ins", adminCheckInsRouter);
+  app.use("/api/admin/points", adminPointsRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

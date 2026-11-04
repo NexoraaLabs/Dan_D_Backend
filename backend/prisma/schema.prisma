@@ -101,6 +101,9 @@ model User {
   auditLogs             AuditLog[]
   verificationCodes     VerificationCode[]
   feedback              Feedback[]
+  checkIns              DealerCheckIn[]
+  pointsEntries         PointsEntry[]
+  chipPurchases         OfficialChipPurchase[]
 
   @@index([status])
   @@map("users")
@@ -235,11 +238,12 @@ model Item {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  images          ItemImage[]
-  listing         MarketplaceListing?
-  wishlistMatches Wishlist[]
-  tradeOfferItems TradeOfferItem[]
-  orderItems      OrderItem[]
+  images           ItemImage[]
+  listing          MarketplaceListing?
+  wishlistMatches  Wishlist[]
+  tradeOfferItems  TradeOfferItem[]
+  orderItems       OrderItem[]
+  officialPurchase OfficialChipPurchase?
 
   @@index([ownerId, status])
   @@map("items")
@@ -560,16 +564,103 @@ model Notification {
 // ---------------------------------------------------------------------------
 
 model Dealer {
-  id      Int     @id @default(autoincrement())
-  name    String
-  address String
-  lat     Float
-  lng     Float
-  phone   String?
-  website String?
-  tags    String? // comma-separated category tags
+  id        Int      @id @default(autoincrement())
+  name      String
+  address   String
+  lat       Float
+  lng       Float
+  phone     String?
+  website   String?
+  tags      String? // comma-separated category tags
+  // Archived dealers drop off the map and rankings but keep their check-in history.
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  checkIns DealerCheckIn[]
 
   @@map("dealers")
+}
+
+// ---------------------------------------------------------------------------
+// Points: dealer check-ins earn them, official chips are bought with them.
+// 10 points = $1. The balance is always the sum of the ledger.
+// ---------------------------------------------------------------------------
+
+model DealerCheckIn {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dealerId  Int
+  dealer    Dealer   @relation(fields: [dealerId], references: [id], onDelete: Cascade)
+  points    Int
+  // Where the phone said it was, and how far that is from the dealer.
+  lat       Float
+  lng       Float
+  distanceM Float
+  createdAt DateTime @default(now())
+
+  @@index([userId, dealerId, createdAt])
+  @@index([dealerId])
+  @@map("dealer_check_ins")
+}
+
+enum PointsReason {
+  CHECK_IN_FIRST
+  CHECK_IN_REPEAT
+  CHIP_PURCHASE
+  ADJUSTMENT
+}
+
+model PointsEntry {
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  points         Int // positive when earned, negative when spent
+  reason         PointsReason
+  note           String?
+  checkInId      Int?         @unique
+  chipPurchaseId Int?         @unique
+  createdAt      DateTime     @default(now())
+
+  @@index([userId, createdAt])
+  @@map("points_ledger")
+}
+
+// Chips sold by DanD itself in the Chip Marketplace, paid for with points.
+model OfficialChip {
+  id           Int      @id @default(autoincrement())
+  title        String
+  series       String? // e.g. "BLACK HILLS '24"
+  location     String?
+  description  String?  @db.Text
+  imageUrl     String?
+  badge        String? // e.g. "MINT", "LIMITED"
+  priceCents   Int
+  stock        Int? // null = unlimited
+  perUserLimit Int? // null = no cap
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  purchases OfficialChipPurchase[]
+
+  @@map("official_chips")
+}
+
+model OfficialChipPurchase {
+  id          Int          @id @default(autoincrement())
+  userId      Int
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chipId      Int
+  chip        OfficialChip @relation(fields: [chipId], references: [id])
+  pricePoints Int
+  // The copy added to the buyer's collection.
+  itemId      Int?         @unique
+  item        Item?        @relation(fields: [itemId], references: [id], onDelete: SetNull)
+  createdAt   DateTime     @default(now())
+
+  @@index([userId, chipId])
+  @@map("official_chip_purchases")
 }
 
 // ---------------------------------------------------------------------------
