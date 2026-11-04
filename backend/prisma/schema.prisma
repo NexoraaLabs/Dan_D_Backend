@@ -29,6 +29,7 @@ model Plan {
   billingPeriod    String // "trial_15d" | "month" | "year"
   itemLimit        Int? // null = unlimited (Platinum)
   bidLimit         Int? // bids allowed on this plan; null = unlimited (paid plans)
+  tradeLimit       Int? // trades proposed or accepted; null = unlimited (paid plans)
   active           Boolean        @default(true) // offered to new subscribers
   recommended      Boolean        @default(false) // "Popular" tag on the pricing page
   autoRenewDefault Boolean        @default(true)

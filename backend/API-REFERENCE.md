@@ -296,6 +296,8 @@ Screens: Propose Trade → Add to Trade → Review & Confirm → Trade Offer Sen
 ```
 `side: "GIVE"` items must be owned by you (the caller); `side: "GET"` items must be owned by `recipientId`. Response `201`: created `TradeRequest`, status `PENDING`. Recipient gets a `trade_request` notification.
 
+Plan limits: the Free Trial allows `tradeLimit` (3) trades, counting trades you proposed (unless cancelled) and trades you accepted, and none after `trialEndsAt`; paid plans are unlimited. Over the limit, proposing or accepting returns `403` with `details: { code: "UPGRADE_REQUIRED", reason: "trade_limit" | "trial_ended", limit?, used? }`. Rejecting is always allowed.
+
 ### `GET /api/trades/{id}` — Auth: yes
 Response `200`: `TradeRequest` detail. `403` if you're neither party.
 
@@ -556,8 +558,8 @@ succeeds and records a `PAID` payment. For the store builds this must become
 Apple/Google in-app purchase validation.
 
 - `GET /api/subscriptions/me` — Auth: yes →
-  `{ plan, trialEndsAt, planExpiresAt, itemCount, bidCount, subscription | null }`
-  (`plan.itemLimit` / `plan.bidLimit` are `null` when unlimited.)
+  `{ plan, trialEndsAt, planExpiresAt, itemCount, bidCount, tradeCount, subscription | null }`
+  (`plan.itemLimit` / `plan.bidLimit` / `plan.tradeLimit` are `null` when unlimited.)
 - `POST /api/subscriptions` — Auth: yes. Body: `{ "planId": 2, "paymentMethodId"?: 5 }` → `201` subscription with `plan` and `payments`.
   Ends any current subscription. The free trial plan can't be bought.
 - `PATCH /api/subscriptions/me` — Auth: yes. Body: `{ "autoRenew": false }`

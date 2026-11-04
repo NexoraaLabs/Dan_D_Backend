@@ -1,6 +1,7 @@
 import { prisma } from "../../config/prisma";
 import { badRequest, forbidden, notFound } from "../../utils/httpError";
 import { createNotification } from "../notifications/notifications.service";
+import { assertCanTrade } from "../plans/plan-limit";
 
 interface OfferItemInput {
   itemId: number;
@@ -16,6 +17,7 @@ export async function proposeTrade(input: {
 }) {
   if (input.initiatorId === input.recipientId) throw badRequest("Can't propose a trade with yourself");
   if (input.offerItems.length === 0) throw badRequest("At least one item is required");
+  await assertCanTrade(input.initiatorId);
 
   const itemIds = input.offerItems.map((o) => o.itemId);
   const items = await prisma.item.findMany({ where: { id: { in: itemIds } } });
@@ -63,6 +65,7 @@ export async function respondToTrade(tradeRequestId: number, userId: number, acc
     if (!trade) throw notFound("Trade request not found");
     if (trade.recipientId !== userId) throw forbidden("Only the recipient can respond to this trade");
     if (trade.status !== "PENDING") throw badRequest("Trade request has already been responded to");
+    if (accept) await assertCanTrade(userId, tx);
 
     if (!accept) {
       const updated = await tx.tradeRequest.update({

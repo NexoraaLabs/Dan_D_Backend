@@ -6,6 +6,7 @@ import { requireAuth } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
 import { badRequest, notFound } from "../../utils/httpError";
 import { createNotification } from "../notifications/notifications.service";
+import { countTrades } from "../plans/plan-limit";
 
 export const subscriptionsRouter = Router();
 
@@ -21,7 +22,7 @@ subscriptionsRouter.get(
   "/me",
   requireAuth,
   asyncHandler(async (req, res) => {
-    const [user, subscription] = await Promise.all([
+    const [user, subscription, tradeCount] = await Promise.all([
       prisma.user.findUniqueOrThrow({
         where: { id: req.userId! },
         select: { plan: true, trialEndsAt: true, planExpiresAt: true, _count: { select: { items: true, bids: true } } },
@@ -31,6 +32,7 @@ subscriptionsRouter.get(
         include: { plan: true },
         orderBy: { createdAt: "desc" },
       }),
+      countTrades(req.userId!),
     ]);
     res.json({
       plan: user.plan,
@@ -38,6 +40,7 @@ subscriptionsRouter.get(
       planExpiresAt: user.planExpiresAt,
       itemCount: user._count.items,
       bidCount: user._count.bids,
+      tradeCount,
       subscription,
     });
   })

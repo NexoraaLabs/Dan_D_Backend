@@ -20,7 +20,7 @@ async function loadPlan(db: Db, userId: number) {
 function assertTrialActive(user: Awaited<ReturnType<typeof loadPlan>>) {
   const onTrial = user.plan?.billingPeriod === "trial_15d";
   if (onTrial && user.trialEndsAt && user.trialEndsAt < new Date()) {
-    throw upgradeRequired("Your 15-day free trial has ended. Subscribe to keep posting and bidding.", {
+    throw upgradeRequired("Your 15-day free trial has ended. Subscribe to keep posting, bidding and trading.", {
       reason: "trial_ended",
       trialEndsAt: user.trialEndsAt,
     });
@@ -54,6 +54,33 @@ export async function assertCanBid(userId: number, db: Db = prisma) {
     throw upgradeRequired(
       `You've used all ${user.plan.bidLimit} bids on the ${user.plan.name} plan. Subscribe for unlimited bidding.`,
       { reason: "bid_limit", limit: user.plan.bidLimit, used }
+    );
+  }
+}
+
+// Proposing a trade and accepting one both count. Rejecting never does, so a
+// trial user can always turn down offers.
+export function countTrades(userId: number, db: Db = prisma) {
+  return db.tradeRequest.count({
+    where: {
+      OR: [
+        { initiatorId: userId, status: { not: "CANCELLED" } },
+        { recipientId: userId, status: { in: ["ACCEPTED", "COMPLETED"] } },
+      ],
+    },
+  });
+}
+
+export async function assertCanTrade(userId: number, db: Db = prisma) {
+  const user = await loadPlan(db, userId);
+  assertTrialActive(user);
+  if (!user.plan || user.plan.tradeLimit === null) return;
+
+  const used = await countTrades(userId, db);
+  if (used >= user.plan.tradeLimit) {
+    throw upgradeRequired(
+      `You've used all ${user.plan.tradeLimit} trades on the ${user.plan.name} plan. Subscribe for unlimited trading.`,
+      { reason: "trade_limit", limit: user.plan.tradeLimit, used }
     );
   }
 }
