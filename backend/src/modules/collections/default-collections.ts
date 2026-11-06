@@ -25,12 +25,10 @@ function coverFile(kind: string) {
 
 /** Creates any of the five default folders the user doesn't have yet. */
 export async function ensureDefaultCollections(ownerId: number) {
-  const have = await prisma.collection.count({ where: { ownerId, kind: { not: null } } });
-  if (have >= DEFAULT_COLLECTIONS.length) return;
-  await prisma.collection.createMany({
-    data: DEFAULT_COLLECTIONS.map((c) => ({ ownerId, kind: c.kind, name: c.name })),
-    skipDuplicates: true,
-  });
+  const existing = await prisma.collection.findMany({ where: { ownerId, kind: { not: null } }, select: { kind: true } });
+  const missing = DEFAULT_COLLECTIONS.filter((c) => !existing.some((e) => e.kind === c.kind));
+  if (missing.length === 0) return;
+  await prisma.collection.createMany({ data: missing.map((c) => ({ ownerId, kind: c.kind, name: c.name })) });
 }
 
 /** Fills in the shipped cover for a default folder that has none of its own. */
@@ -40,11 +38,17 @@ export function withCover<T extends Pick<Collection, "kind" | "coverImageUrl">>(
   return file ? { ...collection, coverImageUrl: `${baseUrl}/collection-covers/${file}` } : collection;
 }
 
-/** Defaults first in their fixed order, then the user's own, newest first. */
+/**
+ * Defaults first in their fixed order, then the user's own, newest first. Two first loads at the same
+ * moment can each create the defaults, so only the oldest of each kind is kept.
+ */
 export function sortCollections<T extends Pick<Collection, "kind" | "createdAt">>(collections: T[]) {
   const rank = (c: T) => {
     const i = DEFAULT_COLLECTIONS.findIndex((d) => d.kind === c.kind);
     return i === -1 ? DEFAULT_COLLECTIONS.length : i;
   };
-  return [...collections].sort((a, b) => rank(a) - rank(b) || b.createdAt.getTime() - a.createdAt.getTime());
+  const seen = new Set<string>();
+  return [...collections]
+    .sort((a, b) => rank(a) - rank(b) || (a.kind ? a.createdAt.getTime() - b.createdAt.getTime() : b.createdAt.getTime() - a.createdAt.getTime()))
+    .filter((c) => !c.kind || (!seen.has(c.kind) && seen.add(c.kind)));
 }

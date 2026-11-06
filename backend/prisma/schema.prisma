@@ -202,7 +202,6 @@ model Collection {
 
   items Item[]
 
-  @@unique([ownerId, kind])
   @@map("collections")
 }
 
