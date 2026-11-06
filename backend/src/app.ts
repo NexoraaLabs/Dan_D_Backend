@@ -11,6 +11,7 @@ import { usersRouter } from "./modules/users/users.routes";
 import { plansRouter } from "./modules/plans/plans.routes";
 import { categoriesRouter } from "./modules/categories/categories.routes";
 import { collectionsRouter } from "./modules/collections/collections.routes";
+import { coversDir } from "./modules/collections/default-collections";
 import { itemsRouter } from "./modules/items/items.routes";
 import { wishlistRouter } from "./modules/wishlist/wishlist.routes";
 import { marketplaceRouter } from "./modules/marketplace/marketplace.routes";
@@ -61,6 +62,14 @@ export function createApp() {
     express.static(uploadDir, {
       immutable: true,
       maxAge: "365d",
+      setHeaders: (res) => res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"),
+    })
+  );
+
+  app.use(
+    "/collection-covers",
+    express.static(coversDir, {
+      maxAge: "1d",
       setHeaders: (res) => res.setHeader("Cross-Origin-Resource-Policy", "cross-origin"),
     })
   );

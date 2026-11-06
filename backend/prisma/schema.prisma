@@ -195,11 +195,14 @@ model Collection {
   coverImageUrl String?
   location      String? // event location, e.g. "Sturgis, SD"
   eventDate     DateTime?
+  // Set on the five folders every user starts with ("dealer-chips", ...); null for ones the user made.
+  kind          String?   @db.VarChar(32)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   items Item[]
 
+  @@unique([ownerId, kind])
   @@map("collections")
 }
 

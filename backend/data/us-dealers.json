@@ -1,0 +1,3370 @@
+[
+  {
+    "name": "Denali Harley-Davidson",
+    "address": "1497 Hyer Road, Wasilla, AK",
+    "lat": 61.568733,
+    "lng": -149.311545,
+    "phone": null,
+    "website": "https://www.denaliharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "4334 Spenard Road, Anchorage, AK",
+    "lat": 61.182456,
+    "lng": -149.933042,
+    "phone": "(907) 248-5300",
+    "website": null
+  },
+  {
+    "name": "Kenai Peninsula Harley-Davidson Shop",
+    "address": "Sterling Highway, Soldotna, AK 99669",
+    "lat": 60.501024,
+    "lng": -150.987225,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson Farthest North",
+    "address": "1533 Hoselton Road, Fairbanks, AK 99709",
+    "lat": 64.836328,
+    "lng": -147.842485,
+    "phone": "(907) 328-1533",
+    "website": "https://www.farthestnorthhd.com/"
+  },
+  {
+    "name": "Chilkoot Pass Harley-Davidson",
+    "address": "Broadway, Skagway, AK 99840",
+    "lat": 59.456779,
+    "lng": -135.313046,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Riders Harley-Davidson",
+    "address": "Norrel Drive, Trussville, AL 35173",
+    "lat": 33.64244,
+    "lng": -86.61354,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Redstone Harley-Davidson",
+    "address": "15100 Alabama Highway 20, Huntsville, AL 35756",
+    "lat": 34.638948,
+    "lng": -86.852557,
+    "phone": "(256) 384-6868",
+    "website": null
+  },
+  {
+    "name": "Mt. Cheaha Harley-Davidson",
+    "address": "Davis Loop, Oxford, AL 36203",
+    "lat": 33.611245,
+    "lng": -85.793242,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Dothan",
+    "address": "2418 Ross Clark Circle, Dothan, AL 36301",
+    "lat": 31.198628,
+    "lng": -85.41311,
+    "phone": null,
+    "website": "https://harleyofdothan.com/"
+  },
+  {
+    "name": "Mobile Bay Harley-Davidson",
+    "address": "3260 Pleasant Valley Road, Mobile, AL 36606",
+    "lat": 30.662794,
+    "lng": -88.123588,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "East Lee Highway, Tuscumbia, AL 75674",
+    "lat": 34.713817,
+    "lng": -87.704053,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Toad Suck Harley-Davidson",
+    "address": "Collier Drive, Conway, AR 72032",
+    "lat": 35.094703,
+    "lng": -92.423728,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Rock City Harley-Davidson Little Rock",
+    "address": "400 Gateway Grove Loop, Little Rock, AR 72210",
+    "lat": 34.66573,
+    "lng": -92.406219,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Fort Smith Harley-Davidson",
+    "address": "6304 South 36th Street, Fort Smith, AR 72908",
+    "lat": 35.322272,
+    "lng": -94.396912,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Superstition Harley-Davidson",
+    "address": "2910 West Apache Trail, Apache Junction, AZ 85120",
+    "lat": 33.415993,
+    "lng": -111.578245,
+    "phone": "(480) 346-0600",
+    "website": "https://www.superstitionhd.com/"
+  },
+  {
+    "name": "Desert Wind Harley-Davidson",
+    "address": "922 South Country Club Drive, Mesa, AZ 85210",
+    "lat": 33.398221,
+    "lng": -111.841077,
+    "phone": "(480) 267-9516",
+    "website": "https://www.desertwindharley.com/"
+  },
+  {
+    "name": "Harley-Davidson of Scottsdale",
+    "address": "15656 North Hayden Road, Scottsdale, AZ 85260",
+    "lat": 33.628284,
+    "lng": -111.895296,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Bobby's Territorial Harley-Davidson",
+    "address": "2550 East Gila Ridge Road, Yuma, AZ 85365",
+    "lat": 32.688296,
+    "lng": -114.589636,
+    "phone": "(928) 782-1931",
+    "website": "https://territorialhd.com/"
+  },
+  {
+    "name": "#1 Stop Harleys",
+    "address": "8716 West Thunderbird Road, Peoria, AZ 85381",
+    "lat": 33.610121,
+    "lng": -112.247247,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Arrowhead Harley-Davidson",
+    "address": "16130 North Arrowhead Fountains Center Drive, Peoria, AZ 85382",
+    "lat": 33.633654,
+    "lng": -112.237718,
+    "phone": "(623) 247-5542",
+    "website": "https://www.arrowheadharley.com"
+  },
+  {
+    "name": "Tombstone Harley-Davidson",
+    "address": "526 East Allen Street, Tombstone, AZ 85638",
+    "lat": 31.71216,
+    "lng": -110.065139,
+    "phone": "(520) 457-1482",
+    "website": "https://www.tombstoneharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "San Fernando Road, Glendale, CA 90039",
+    "lat": 34.124352,
+    "lng": -118.255814,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Carter Avenue, Los Angeles, CA 90292",
+    "lat": 33.987278,
+    "lng": -118.445321,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "21130 Centre Pointe Parkway, Santa Clarita, CA 91350",
+    "lat": 34.411119,
+    "lng": -118.50502,
+    "phone": "(661) 964-0506",
+    "website": "https://santaclaritaharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "3201 Hoover Avenue, National City, CA 91950",
+    "lat": 32.654134,
+    "lng": -117.10121,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "San Diego Harley-Davidson",
+    "address": "4645 Morena Boulevard, San Diego, CA 92117",
+    "lat": 32.822732,
+    "lng": -117.226806,
+    "phone": "(858) 616-6999",
+    "website": "https://www.sandiegoharley.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "North Indian Canyon Drive, Desert Hot Springs, CA 92258",
+    "lat": 33.907263,
+    "lng": -116.545911,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Escondido Freeway, Temecula, CA 92590",
+    "lat": 33.485296,
+    "lng": -117.143274,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Ventura Harley-Davidson",
+    "address": "Del Norte Road, Camarillo, CA 93010",
+    "lat": 34.222601,
+    "lng": -119.104506,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "7th Standard Road, Kern County, CA 93302",
+    "lat": 35.440873,
+    "lng": -119.081026,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Santa Maria Harley-Davidson",
+    "address": "Preisker Lane, Santa Maria, CA 93458",
+    "lat": 34.978826,
+    "lng": -120.43077,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Valley Center Drive, Victorville, CA 93533",
+    "lat": 34.516252,
+    "lng": -117.319786,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Antelope Valley Harley-Davidson",
+    "address": "Antelope Valley Freeway, Lancaster, CA 93534",
+    "lat": 34.679835,
+    "lng": -118.163296,
+    "phone": "(661) 948-5959",
+    "website": "https://www.antelopevalleyhd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "4345 West Shaw Avenue, Fresno, CA 93722",
+    "lat": 36.807798,
+    "lng": -119.87046,
+    "phone": "(559) 275-8586",
+    "website": "https://www.hdfresno.com/"
+  },
+  {
+    "name": "Monterey Harley-Davidson Cannery Row",
+    "address": "700 Cannery Row, Monterey, CA 93940",
+    "lat": 36.616405,
+    "lng": -121.900347,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "7576 Southfront Road, Livermore, CA 94550",
+    "lat": 37.715722,
+    "lng": -121.703882,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Hegenberger Road, Oakland, CA 94614",
+    "lat": 37.731235,
+    "lng": -122.200091,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "House of Thunder Harley-Davidson",
+    "address": "16725 Condit Road, Morgan Hill, CA 95037",
+    "lat": 37.129566,
+    "lng": -121.630692,
+    "phone": "(408) 776-1900",
+    "website": "https://www.houseofthunderhd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1551 Parkmoor Avenue, San Jose, CA 95126",
+    "lat": 37.317557,
+    "lng": -121.918366,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "Warren Avenue, Lathrop, CA 95330",
+    "lat": 37.831823,
+    "lng": -121.286284,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson Motorcycles",
+    "address": "1665 West Hwy 140, Merced, CA 95341",
+    "lat": 37.303006,
+    "lng": -120.50372,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Woodmere Road, Folsom, CA 95630",
+    "lat": 38.655953,
+    "lng": -121.184029,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Iron Steed Harley Davidson",
+    "address": "Auto Center Drive, Vacaville, CA 95687",
+    "lat": 38.37942,
+    "lng": -121.941465,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Sierra Steel Harley-Davidson",
+    "address": "East 5th Avenue, Chico, CA 95926",
+    "lat": 39.745413,
+    "lng": -121.841418,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Redding Harley-Davidson",
+    "address": "Twin View Boulevard, Redding, CA 96003",
+    "lat": 40.624947,
+    "lng": -122.366254,
+    "phone": "(530) 241-7117",
+    "website": "https://reddingharley-davidson.com/"
+  },
+  {
+    "name": "Avalanche Harley-Davidson",
+    "address": "18425 West Colfax Avenue, CO",
+    "lat": 39.704998,
+    "lng": -105.204929,
+    "phone": null,
+    "website": "https://www.avalancheharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "16565 East 33rd Drive, Aurora, CO 80011",
+    "lat": 39.765198,
+    "lng": -104.795019,
+    "phone": "(303) 536-3199",
+    "website": "https://www.milehigh-harley.com/"
+  },
+  {
+    "name": "Rocky Mountain Harley-Davidson",
+    "address": "West County Line Road, Littleton, CO 80129",
+    "lat": 39.566804,
+    "lng": -105.024086,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Mile High Harley-Davidson of Parker",
+    "address": "6280 Pine Lane, Parker, CO 80138",
+    "lat": 39.542689,
+    "lng": -104.768948,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Sun Harley-Davidson",
+    "address": "8858 Pearl Street, Thornton, CO 80229",
+    "lat": 39.857288,
+    "lng": -104.978861,
+    "phone": "(303) 287-7567",
+    "website": "https://www.sunharleydavidson.com/"
+  },
+  {
+    "name": "High Country Harley-Davidson",
+    "address": "3761 Monarch Street, Frederick, CO 80516",
+    "lat": 40.080764,
+    "lng": -104.981938,
+    "phone": "(303) 833-6777",
+    "website": "http://www.highcountryfrederick.com/"
+  },
+  {
+    "name": "Thunder Mountain Harley-Davidson",
+    "address": "4250 Byrd Drive, Loveland, CO 80538-7074",
+    "lat": 40.437995,
+    "lng": -104.994038,
+    "phone": "(970) 292-0400",
+    "website": "http://www.thundermountainharley.com"
+  },
+  {
+    "name": "Greeley Harley-Davidson",
+    "address": "3010 29th Street, Greeley, CO 80631",
+    "lat": 40.389231,
+    "lng": -104.726422,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Pikes Peak Harley Davidson",
+    "address": "Pulpit Rock Trail, Colorado Springs, CO 80919",
+    "lat": 38.913722,
+    "lng": -104.81401,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "5001 North Elizabeth Street, Pueblo, CO 81008",
+    "lat": 38.325647,
+    "lng": -104.617016,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Durango Harley Davidson",
+    "address": "750 South Camino del Rio, Durango, CO 81303",
+    "lat": 37.244022,
+    "lng": -107.871281,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Greene Street, Silverton, CO 81433",
+    "lat": 37.811384,
+    "lng": -107.665006,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Grand Junction Harley-Davidson",
+    "address": "2747 Crossroads Boulevard, Grand Junction, CO 81506",
+    "lat": 39.11592,
+    "lng": -108.543651,
+    "phone": "(970) 245-0812",
+    "website": "https://www.gjharley.com/"
+  },
+  {
+    "name": "Harley Davidson of Bristol",
+    "address": "Farmington Avenue, Bristol, CT 06010",
+    "lat": 41.689346,
+    "lng": -72.927056,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Danbury",
+    "address": "53 Federal Road, Danbury, CT 06810",
+    "lat": 41.419108,
+    "lng": -73.419192,
+    "phone": "(203) 730-2453",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "450 Stadium Street, Smyrna, DE 19977",
+    "lat": 39.277667,
+    "lng": -75.587759,
+    "phone": "(302) 659-6400",
+    "website": "https://www.rommelhdsmyrna.com/"
+  },
+  {
+    "name": "Adamec Harley-Davidson",
+    "address": "Saint George Street, Saint Augustine, FL 32084",
+    "lat": 29.894105,
+    "lng": -81.313023,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Adamec Harley-Davidson Saint Augustine I95",
+    "address": "380 Outlet Mall Boulevard, Saint Augustine, FL 32084",
+    "lat": 29.923802,
+    "lng": -81.412072,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Daytona Harley-Davidson",
+    "address": "510 Main Street, Daytona Beach, FL 32118",
+    "lat": 29.22545,
+    "lng": -81.011195,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Bruce Rossmeyer's Harley-Davidson",
+    "address": "1899 State Road 44, New Smyrna Beach, FL 32168",
+    "lat": 29.014196,
+    "lng": -80.947111,
+    "phone": "(386) 409-3034",
+    "website": "https://www.brucerossmeyer.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1637 North Us Highway 1, Ormond Beach, FL 32174",
+    "lat": 29.339439,
+    "lng": -81.132284,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Adamec Harley-Davidson Jacksonville",
+    "address": "8999 Baymeadows Road, Jacksonville, FL 32256",
+    "lat": 30.221681,
+    "lng": -81.573393,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1745 Capital Circle Northwest, Tallahassee, FL 32303",
+    "lat": 30.477159,
+    "lng": -84.362316,
+    "phone": "(850) 205-4294",
+    "website": "https://www.tallahasseeharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "14700 Panama City Beach Parkway, Panama City Beach, FL 32413",
+    "lat": 30.214805,
+    "lng": -85.854238,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson of Pensacola",
+    "address": "6385 Pensacola Boulevard, Pensacola, FL 32505",
+    "lat": 30.479113,
+    "lng": -87.253975,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "788 Beal Parkway Northwest, Fort Walton Beach, FL 32547",
+    "lat": 30.445588,
+    "lng": -86.639643,
+    "phone": "(805) 502-5648",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "2480 South US Highway 27, Clermont, FL 32711",
+    "lat": 28.536374,
+    "lng": -81.73815,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "International Drive, Tangelo Park, FL 32819",
+    "lat": 28.44921,
+    "lng": -81.471227,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1536 East Buena Vista Drive, Lake Buena Vista, FL 32830",
+    "lat": 28.370524,
+    "lng": -81.515768,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Space Coast Harley-Davidson",
+    "address": "I 95, Palm Bay, FL 32907",
+    "lat": 28.032595,
+    "lng": -80.652994,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Peterson's Harley-Davidson",
+    "address": "Duval Street, Key West, FL 33041",
+    "lat": 24.559546,
+    "lng": -81.805441,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "19825 South Dixie Highway, Cutler Bay, FL 33157",
+    "lat": 25.583833,
+    "lng": -80.363776,
+    "phone": "(305) 506-1914",
+    "website": "https://petersonsharley.com/"
+  },
+  {
+    "name": "Peterson's Harley-Davidson of Miami",
+    "address": "19400 Northwest 2nd Avenue, Miami Gardens, FL 33169",
+    "lat": 25.953219,
+    "lng": -80.206317,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Alligator Alley Harley Davidson",
+    "address": "201 International Parkway, Sunrise, FL 33325",
+    "lat": 26.123002,
+    "lng": -80.341027,
+    "phone": "(954) 908-2797",
+    "website": "https://www.alligatoralleyharley.com/"
+  },
+  {
+    "name": "Harley-Davidson - Palm Beach",
+    "address": "2955 45th Street, West Palm Beach, FL 33407",
+    "lat": 26.759909,
+    "lng": -80.094925,
+    "phone": "(561) 246-6394",
+    "website": "https://palmbeachharley.com/"
+  },
+  {
+    "name": "Harley-Davidson of Wesley Chapel",
+    "address": "25245 Wesley Chapel Boulevard, Lutz, FL 33559",
+    "lat": 28.1955,
+    "lng": -82.400222,
+    "phone": "(813) 213-3415",
+    "website": "https://wesleychapelhd.com/en"
+  },
+  {
+    "name": "Lakeland Harley-Davidson",
+    "address": "I 4, Lakeland, FL 33805",
+    "lat": 28.095934,
+    "lng": -81.95281,
+    "phone": null,
+    "website": "https://www.lakelandhd.com"
+  },
+  {
+    "name": "Iron Eagle Cycles",
+    "address": "14105 US-27, Lake Wales, FL 33859",
+    "lat": 27.826733,
+    "lng": -81.59223,
+    "phone": "(863) 676-9505",
+    "website": "https://ironeaglecycles.net/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "West Sawgrass Road, Fruitville, FL 34232",
+    "lat": 27.332498,
+    "lng": -82.450046,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Crystal Harley-Davidson",
+    "address": "1147 South Suncoast Boulevard, Homosassa, FL 34448",
+    "lat": 28.844613,
+    "lng": -82.578548,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "State Road 54, Elfers, FL 34652",
+    "lat": 28.217746,
+    "lng": -82.717639,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "7786 Bronson Highway, Kissimmee, FL 34747",
+    "lat": 28.340305,
+    "lng": -81.598009,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1745 US Highway 441, Leesburg, FL 34788",
+    "lat": 28.816709,
+    "lng": -81.845627,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Brook Street Southeast, Coral Gardens, FL 34997",
+    "lat": 27.144879,
+    "lng": -80.212669,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Orlando Harley-Davidson",
+    "address": "3770 37th Street, Orlando, FL 38239",
+    "lat": 28.503645,
+    "lng": -81.425589,
+    "phone": null,
+    "website": "https://www.orlandoharley.com/map-hours-directions-motorcycles-dealership--hours-historic-factory"
+  },
+  {
+    "name": "Falcons Fury Harley-Davidson",
+    "address": "Dogwood Drive Southeast, Conyers, GA 30012",
+    "lat": 33.658871,
+    "lng": -84.018428,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Killer Creek Harley-Davidson",
+    "address": "11480 Alpharetta Highway, Roswell, GA 30076",
+    "lat": 34.060153,
+    "lng": -84.32645,
+    "phone": "(770) 777-1000",
+    "website": "https://www.killercreekharley.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "US 411;GA 61, Cartersville, GA 30121",
+    "lat": 34.239903,
+    "lng": -84.777418,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Thornton Road, Lithia Springs, GA 30122",
+    "lat": 33.790343,
+    "lng": -84.62804,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Southlake Parkway, Morrow, GA 30260",
+    "lat": 33.576044,
+    "lng": -84.344945,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Pearson Drive, Whitfield County, GA 30720",
+    "lat": 34.756496,
+    "lng": -85.00082,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Mason McKnight Jr Parkway, Augusta, GA 30907",
+    "lat": 33.492383,
+    "lng": -82.102309,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Timms Harley-Davidson of Augusta",
+    "address": "Belair Frontage Road, Martinez, GA 30909",
+    "lat": 33.484796,
+    "lng": -82.117105,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Cassetta Drive, Tifton, GA 31793",
+    "lat": 31.438993,
+    "lng": -83.52641,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Nimitz Bike Path, Honolulu, HI 96819",
+    "lat": 21.33563,
+    "lng": -157.9008,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Ololi Road, Kailua, HI 96840",
+    "lat": 19.642145,
+    "lng": -155.995415,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Zylstra Harley-Davidson",
+    "address": "East 13th Street, Ames, IA 50019",
+    "lat": 42.03404,
+    "lng": -93.586774,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson Route 65",
+    "address": "1300 South Jefferson Way, Indianola, IA 50125",
+    "lat": 41.348657,
+    "lng": -93.557269,
+    "phone": null,
+    "website": "https://www.route65hd.net/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Northwest 49th Place, Marquisville, IA 50313",
+    "lat": 41.65094,
+    "lng": -93.617907,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Silver Eagle Harley-Davidson",
+    "address": "Sergeant Road Trail, Waterloo, IA 50701",
+    "lat": 42.456849,
+    "lng": -92.40824,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Okoboji Harley-Davidson",
+    "address": "East View Avenue, Okoboji, IA 51355",
+    "lat": 43.391027,
+    "lng": -95.126563,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "McGrath Dubuque Harley-Davidson",
+    "address": "North Crescent Ridge, Dubuque, IA 52003",
+    "lat": 42.491976,
+    "lng": -90.73329,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Iowa City Harley-Davidson",
+    "address": "120 Westcor Drive, Coralville, IA 52241",
+    "lat": 41.695278,
+    "lng": -91.627202,
+    "phone": "(319) 545-7495",
+    "website": null
+  },
+  {
+    "name": "Clinton Harley Davidson",
+    "address": "Lincoln Way, Clinton, IA 52732",
+    "lat": 41.815089,
+    "lng": -90.246271,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Towers' Quad Cities Harley-Davidson",
+    "address": "Corporate Park Drive, Davenport, IA 52807",
+    "lat": 41.576376,
+    "lng": -90.517885,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "848 Houston Street, Idaho Falls, ID 83402",
+    "lat": 43.49381,
+    "lng": -112.049422,
+    "phone": "(208) 523-1464",
+    "website": null
+  },
+  {
+    "name": "Hells Canyon Harley-Davidson",
+    "address": "306 21st Street, Lewiston, ID 83501",
+    "lat": 46.414837,
+    "lng": -117.002781,
+    "phone": "(208) 743-7433",
+    "website": "https://www.hellscanyonh-d.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "2310 East Cinema Drive, Meridian, ID 83642",
+    "lat": 43.592964,
+    "lng": -116.365839,
+    "phone": null,
+    "website": "https://highdeserthd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "5490 Park Place, Rosemont, IL 60018",
+    "lat": 41.978045,
+    "lng": -87.868656,
+    "phone": null,
+    "website": "https://www.chicagoharley.com/"
+  },
+  {
+    "name": "Woodstock Harley-Davidson",
+    "address": "2235 South Eastwood Drive, Woodstock, IL 60098",
+    "lat": 42.288698,
+    "lng": -88.431314,
+    "phone": "(815) 337-3511",
+    "website": "https://www.woodstockharley-dav.com/"
+  },
+  {
+    "name": "HFox Valley Harley-Davidson",
+    "address": "Oak Street, St. Charles, IL 60134",
+    "lat": 41.910406,
+    "lng": -88.342609,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Illinois Harley-Davidson",
+    "address": "9950 Joliet Road, Countryside, IL 60525",
+    "lat": 41.781055,
+    "lng": -87.865627,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Heritage Harley-Davidson",
+    "address": "East Ogden Avenue, Lisle, IL 60532",
+    "lat": 41.796963,
+    "lng": -88.102378,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "I 57, Manteno, IL 60950",
+    "lat": 41.254423,
+    "lng": -87.849581,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Kegel Harley-Davidson",
+    "address": "7125 South Perryville Road, Rockford, IL 61112",
+    "lat": 42.239563,
+    "lng": -88.977921,
+    "phone": "(815) 332-7125",
+    "website": "https://www.kegelmotorcycles.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Centennial Drive, Ottawa, IL 61350",
+    "lat": 41.375435,
+    "lng": -88.824788,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Andrae's Harley-Davidson",
+    "address": "2010 North Lincoln Avenue, Urbana, IL 61801",
+    "lat": 40.131847,
+    "lng": -88.218686,
+    "phone": "(217) 328-2092",
+    "website": "https://www.andraesh-d.com/"
+  },
+  {
+    "name": "Mid-State Cycles",
+    "address": "801 Bloomington Road, Champaign, IL 61820",
+    "lat": 40.130568,
+    "lng": -88.254993,
+    "phone": "(217) 359-4869",
+    "website": "http://www.midstatecycles.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Humbert Road, Godfrey, IL 62012",
+    "lat": 38.934083,
+    "lng": -90.15209,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Green Mount Road Harley-Davidson",
+    "address": "1560 North Green Mount Road, O'Fallon, IL 62269",
+    "lat": 38.586967,
+    "lng": -89.927677,
+    "phone": null,
+    "website": "https://www.greenmountroadhd.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Althoff Avenue, Effingham, IL 62401",
+    "lat": 39.147177,
+    "lng": -88.514444,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Coziahr Harley-Davidson",
+    "address": "Market Drive, Forsyth, IL 62535",
+    "lat": 39.922367,
+    "lng": -88.957172,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "2301 North Dirksen Parkway, Springfield, IL 62702",
+    "lat": 39.83318,
+    "lng": -89.605393,
+    "phone": "(217) 528-8356",
+    "website": "https://hallsh-d.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Ken Gray Expressway, Mount Vernon, IL 62864",
+    "lat": 38.314997,
+    "lng": -88.951766,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Black Diamond Harley Davidson",
+    "address": "O'Neal Drive, Marion, IL 62959",
+    "lat": 37.745652,
+    "lng": -88.969045,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Indianapolis",
+    "address": "12400 Reynolds Drive, Fishers, IN 46038",
+    "lat": 39.968667,
+    "lng": -86.002944,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Cambridge Way, Plainfield, IN 46168",
+    "lat": 39.672206,
+    "lng": -86.368025,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "4930 Southport Crossing Place, Indianapolis, IN 46237",
+    "lat": 39.665041,
+    "lng": -86.085125,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "West 300 North, LaPorte County, IN 46360",
+    "lat": 41.650948,
+    "lng": -86.894821,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Marsh Street, Valparaiso, IN 46385",
+    "lat": 41.45902,
+    "lng": -87.075032,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "469 Cycle Shop - Harley",
+    "address": "East Paulding Road, New Haven, IN 46774",
+    "lat": 41.037393,
+    "lng": -85.005097,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "Bailey Glide Drive, Fort Wayne, IN 46804",
+    "lat": 41.073524,
+    "lng": -85.224832,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1400 Cass Street, Wabash, IN 46992",
+    "lat": 40.814826,
+    "lng": -85.839771,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "West McGalliard Road, Muncie, IN 47304",
+    "lat": 40.219898,
+    "lng": -85.461001,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Bud's Harley Davidson",
+    "address": "East Morgan Avenue, Evansville, IN 47715",
+    "lat": 37.991926,
+    "lng": -87.494341,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "McAllister Lane, Terre Haute, IN 47802",
+    "lat": 39.419561,
+    "lng": -87.41534,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Hunter's Moon Harley-Davidson",
+    "address": "225 Progress Drive, Lafayette, IN 47905",
+    "lat": 40.415351,
+    "lng": -86.823141,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "North Rawhide Drive, Olathe, KS 66061",
+    "lat": 38.891901,
+    "lng": -94.790575,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Topeka Harley-Davidson",
+    "address": "2047 Southwest Topeka Boulevard, Topeka, KS 66612",
+    "lat": 39.030145,
+    "lng": -95.683618,
+    "phone": "(785) 234-6174",
+    "website": "https://www.topekaharley.com"
+  },
+  {
+    "name": "Good Times Motorcycle Sales & Service",
+    "address": "1007 Vine Street, Hays, KS 67601",
+    "lat": 38.868811,
+    "lng": -99.318338,
+    "phone": "(785) 625-2022",
+    "website": "https://www.goodtimesmoto.com/"
+  },
+  {
+    "name": "Bluegrass Harley-Davidson",
+    "address": "2755 Terra Crossing Blvd, Louisville, KY 40245",
+    "lat": 38.278498,
+    "lng": -85.498062,
+    "phone": "(502) 244-8095",
+    "website": null
+  },
+  {
+    "name": "Man O' War Harley-Davidson",
+    "address": "2073 Bryant Road, Lexington, KY 40509",
+    "lat": 38.016694,
+    "lng": -84.408737,
+    "phone": "(859) 253-2461",
+    "website": "https://manowarhd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Action Boulevard, Florence, KY 41042",
+    "lat": 38.999004,
+    "lng": -84.648328,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "High Stakes Harley-Davidson",
+    "address": "430 Meijer Drive, Florence, KY 41042",
+    "lat": 39.009963,
+    "lng": -84.637562,
+    "phone": null,
+    "website": "https://highstakeshd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "I 24, McCracken County, KY 42003",
+    "lat": 37.015734,
+    "lng": -88.597764,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "New Orleans Harley-Davidson",
+    "address": "6015 Airline Drive, Metairie, LA 70003",
+    "lat": 29.977372,
+    "lng": -90.198704,
+    "phone": "(504) 667-5187",
+    "website": "https://www.neworleansh-d.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1530 Southwest Railroad Avenue, Hammond, LA 70403",
+    "lat": 30.489019,
+    "lng": -90.457464,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Mike Bruno's Northshore Harley-Davidson",
+    "address": "791 West I-10 Service Rd, Slidell, LA 70458",
+    "lat": 30.281934,
+    "lng": -89.751941,
+    "phone": null,
+    "website": "https://www.northshoreharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "724 South Frontage Road, Scott, LA 70583",
+    "lat": 30.24612,
+    "lng": -92.104175,
+    "phone": null,
+    "website": "https://www.cajunhd.com/"
+  },
+  {
+    "name": "Mike Bruno's Freedom Harley Davidson",
+    "address": "5853 Siegen Lane, Baton Rouge, LA 70809",
+    "lat": 30.396592,
+    "lng": -91.056558,
+    "phone": "(225) 372-0164",
+    "website": "https://ridefreedomharley.com/"
+  },
+  {
+    "name": "Bossier City Harley Davidson",
+    "address": "Autoplex Drive, Bossier City, LA 71111",
+    "lat": 32.559947,
+    "lng": -93.730545,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Central Street, Leominster, MA",
+    "lat": 42.483694,
+    "lng": -71.749696,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Sheldon's Harley-Davidson",
+    "address": "914 Southbridge Street, Auburn, MA 01537",
+    "lat": 42.174743,
+    "lng": -71.877703,
+    "phone": "(508) 266-5439",
+    "website": "https://www.sheldons.com/"
+  },
+  {
+    "name": "Boston Harley-Davidson",
+    "address": "649 Squire Road, Revere, MA 02151",
+    "lat": 42.432255,
+    "lng": -71.022982,
+    "phone": "(617) 609-1909",
+    "website": "https://bostonharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Leonardtown Road, Hughesville, MD 20637",
+    "lat": 38.541156,
+    "lng": -76.788303,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Chesapeake Harley-Davidson",
+    "address": "4600 Thunder Court, Darlington, MD 21034",
+    "lat": 39.648274,
+    "lng": -76.205167,
+    "phone": "(410) 893-2493",
+    "website": "https://www.chesapeakehd.com"
+  },
+  {
+    "name": "Harley-Davidson of Baltimore",
+    "address": "8845 Pulaski Highway, Rosedale, MD 21237",
+    "lat": 39.340101,
+    "lng": -76.470976,
+    "phone": "(410) 238-2003",
+    "website": "https://www.hdstore.com/"
+  },
+  {
+    "name": "Rommel Harley-Davidson Annapolis",
+    "address": "30 Hudson Street, Annapolis, MD 21401",
+    "lat": 38.986139,
+    "lng": -76.531677,
+    "phone": null,
+    "website": "https://www.rommelhdannapolis.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "National Highway, La Vale, MD 21504",
+    "lat": 39.637197,
+    "lng": -78.843527,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson/Buell of Frederick",
+    "address": "5722 Urbana Pike, Ballenger Creek, MD 21704",
+    "lat": 39.390166,
+    "lng": -77.40601,
+    "phone": null,
+    "website": "https://www.hdoffrederick.com/"
+  },
+  {
+    "name": "Rommel Harley-Davidson",
+    "address": "West Zion Road, Salisbury, MD 21801",
+    "lat": 38.403508,
+    "lng": -75.570928,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "BigMoose Harley-Davidson",
+    "address": "Riverside Street, Portland, ME 04103",
+    "lat": 43.688603,
+    "lng": -70.326839,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "L-A Harley-Davidson",
+    "address": "839 Main Street, Lewiston, ME 04210",
+    "lat": 44.13038,
+    "lng": -70.196657,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "390 Bar Harbor Road, Ellsworth, ME 04605",
+    "lat": 44.488234,
+    "lng": -68.370329,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Plourde's Harley-Davidson",
+    "address": "11 Laurette Street, Caribou, ME 04736",
+    "lat": 46.867454,
+    "lng": -68.003617,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Telegraph Road, Taylor, MI 48180",
+    "lat": 42.204095,
+    "lng": -83.269635,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Motor City Harley-Davidson",
+    "address": "I-275 Metro Trail, Farmington Hills, MI 48355",
+    "lat": 42.474045,
+    "lng": -83.433533,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Arsenal Harley-Davidson",
+    "address": "Pontiac Lake Road, Waterford Township, MI 48383",
+    "lat": 42.654663,
+    "lng": -83.374731,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "East Huron Avenue, Bad Axe, MI 48413",
+    "lat": 43.802317,
+    "lng": -82.999942,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Shiawassee Harley-Davidson",
+    "address": "Willow Lane, Birch Run Township, MI 48415",
+    "lat": 43.251603,
+    "lng": -83.781741,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Ray C's Harley-Davidson",
+    "address": "South Lapeer Road, Lapeer, MI 48455",
+    "lat": 43.018317,
+    "lng": -83.320935,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Vehicle City Harley-Davidson",
+    "address": "Austins Parkway, Flint Charter Township, MI 48551",
+    "lat": 42.991437,
+    "lng": -83.73968,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "2723 South M-76, West Branch, MI 48661",
+    "lat": 44.25533,
+    "lng": -84.210751,
+    "phone": "(989) 345-1330",
+    "website": "https://www.gildnershd.com/"
+  },
+  {
+    "name": "Capitol Harley-Davidson",
+    "address": "9550 Woodlane Drive, Dimondale, MI 48821",
+    "lat": 42.679854,
+    "lng": -84.650976,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "East Pickard Road, Union Charter Township, MI 48858",
+    "lat": 43.612188,
+    "lng": -84.753268,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Beckley Road, Battle Creek, MI 49015",
+    "lat": 42.25986,
+    "lng": -85.183524,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Hamilton Harley-Davidson",
+    "address": "68951 White School Road, Sturgis, MI 49091",
+    "lat": 41.796616,
+    "lng": -85.44703,
+    "phone": null,
+    "website": "https://hamiltonhd.com"
+  },
+  {
+    "name": "Perry Harley-Davidson",
+    "address": "Sprinkle Road, Portage, MI 49097",
+    "lat": 42.238397,
+    "lng": -85.537835,
+    "phone": "(269) 329-3450",
+    "website": null
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "US-12, Woodstock Township, MI 49265",
+    "lat": 42.047922,
+    "lng": -84.356484,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Grand Rapids Harley-Davidson",
+    "address": "2977 Corporate Grove Drive, Hudsonville, MI 49426",
+    "lat": 42.848008,
+    "lng": -85.857566,
+    "phone": "(616) 896-0111",
+    "website": "https://www.grandrapidsharley.com"
+  },
+  {
+    "name": "Hot Rod Harley-Davidson",
+    "address": "149 Shoreline Drive, Muskegon, MI 49440",
+    "lat": 43.239522,
+    "lng": -86.249209,
+    "phone": null,
+    "website": "https://hotrodhd.com"
+  },
+  {
+    "name": "Zips Mackinaw City Harley-Davidson",
+    "address": "314 East Central Avenue, Mackinaw City, MI 49701",
+    "lat": 45.781229,
+    "lng": -84.726557,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Zips 45th Parallel Harley Davidson",
+    "address": "980 Gornick Avenue, Gaylord, MI 49735",
+    "lat": 45.016507,
+    "lng": -84.682167,
+    "phone": "(800) 732-8000",
+    "website": "https://www.zips45thhd.com/Map-Hours-Zips"
+  },
+  {
+    "name": "Bald Eagle Harley-Davidson",
+    "address": "2080 U.S. 41 West, Marquette, MI 49855",
+    "lat": 46.548302,
+    "lng": -87.43147,
+    "phone": "(906) 228-5330",
+    "website": "https://baldeaglehd.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "East Munising Avenue, Munising, MI 49862",
+    "lat": 46.411379,
+    "lng": -86.654898,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Michigan Avenue, Canton Township, MI 78184",
+    "lat": 42.274748,
+    "lng": -83.479135,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Faribault Harley-Davidson",
+    "address": "2704 Airport Drive W, Faribault, MN 55021",
+    "lat": 44.319508,
+    "lng": -93.305143,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Twin City Harley",
+    "address": "10770 165th Street West, Lakeville, MN 55044",
+    "lat": 44.709262,
+    "lng": -93.28313,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Aspen Way, Landfall, MN 55128",
+    "lat": 44.949208,
+    "lng": -92.97846,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "19600 Evans Street Northwest, Elk River, MN 55330",
+    "lat": 45.327782,
+    "lng": -93.560138,
+    "phone": "(763) 241-2000",
+    "website": "https://elkriverhd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Plaza Drive, Eden Prairie, MN 55344",
+    "lat": 44.865417,
+    "lng": -93.434923,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Twin Cities Harley-Davidson",
+    "address": "1355 98th Avenue Northeast, Blaine, MN 55434",
+    "lat": 45.148455,
+    "lng": -93.236396,
+    "phone": "(763) 786-9079",
+    "website": "https://tcharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Highway 14 East, Marion Township, MN 55904",
+    "lat": 44.00217,
+    "lng": -92.338576,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Mobile Drive, Winona, MN 55987",
+    "lat": 44.025689,
+    "lng": -91.602935,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1200 North River Drive, Mankato, MN 56001",
+    "lat": 44.185426,
+    "lng": -94.010039,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Ekko Avenue, Albert Lea, MN 56007",
+    "lat": 43.686279,
+    "lng": -93.355161,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Babcock Avenue, Raymond, MN 56282",
+    "lat": 45.015961,
+    "lng": -95.239395,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Apol's Harley Davidson",
+    "address": "Minnesota Street, Alexandria, MN 56308",
+    "lat": 45.848888,
+    "lng": -95.395762,
+    "phone": "(320) 763-9800",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Lemay Ferry Road, Mehlville, MO 63125",
+    "lat": 38.510305,
+    "lng": -90.319872,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Blue Springs Harley-Davidson",
+    "address": "Northwest Jefferson Road, Blue Springs, MO 64015",
+    "lat": 39.033897,
+    "lng": -94.297205,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Worth Harley-Davidson",
+    "address": "Northwest Prairie View Road, Kansas City, MO 64154",
+    "lat": 39.263663,
+    "lng": -94.664351,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Hideout Harley Davidson",
+    "address": "5014 Hearnes Boulevard, Joplin, MO 64804",
+    "lat": 37.032066,
+    "lng": -94.51593,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Freedom Drive, Columbia, MO 65201",
+    "lat": 38.960929,
+    "lng": -92.250307,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Ozark Harley-Davidson",
+    "address": "2300 Evergreen Parkway, Lebanon, MO 65536",
+    "lat": 37.652057,
+    "lng": -92.663622,
+    "phone": null,
+    "website": "https://www.ozarkharley-davidson.com/"
+  },
+  {
+    "name": "Chunky River Harley-Davidson",
+    "address": "584 Bonita Lakes Drive, Meridian, MS 39301",
+    "lat": 32.362975,
+    "lng": -88.676015,
+    "phone": "(601) 482-4131",
+    "website": "https://www.chr-d.com/"
+  },
+  {
+    "name": "Mississippi Coast Harley-Davidson",
+    "address": "941 Cedar Lake Road, Biloxi, MS 39532",
+    "lat": 30.445071,
+    "lng": -88.935221,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Beartooth Harley Davidson",
+    "address": "North Broadway Avenue, Red Lodge, MT 59068",
+    "lat": 45.187425,
+    "lng": -109.246848,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Beartooth Harley Davidson",
+    "address": "6900 South Frontage Road, Billings, MT 59101",
+    "lat": 45.737656,
+    "lng": -108.590111,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Big Sky Harley-Davidson",
+    "address": "10th Avenue South, Great Falls, MT 59405",
+    "lat": 47.493055,
+    "lng": -111.233844,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Copper Canyon Harley-Davidson",
+    "address": "34 Olympic Way, Butte, MT 59701",
+    "lat": 45.962384,
+    "lng": -112.475478,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Yellowstone Harley-Davidson",
+    "address": "Rock Road, Gallatin County, MT 59714",
+    "lat": 45.763798,
+    "lng": -111.175291,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "US 93 South, Kalispell, MT 59901",
+    "lat": 48.17257,
+    "lng": -114.296465,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Cross Roads Harley Davidson",
+    "address": "1921 Highway 321, Wilkesboro, NC",
+    "lat": 36.148432,
+    "lng": -81.200889,
+    "phone": "(336) 667-1003",
+    "website": "https://www.crossroads-hd.com/"
+  },
+  {
+    "name": "Smokin' Harley Davidson",
+    "address": "3441 Myer Lee Drive, Winston-Salem, NC 27101",
+    "lat": 36.109475,
+    "lng": -80.17177,
+    "phone": "(336) 722-3106",
+    "website": "https://www.smokinharley.com"
+  },
+  {
+    "name": "Cox's Harley-Davidson of Asheboro",
+    "address": "2795 NC-134, Asheboro, NC 27205",
+    "lat": 35.614845,
+    "lng": -79.821965,
+    "phone": "(336) 629-2415",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Eastchester Drive, High Point, NC 27409",
+    "lat": 36.062667,
+    "lng": -79.960096,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Shelton's Harley-Davidson Inc",
+    "address": "606 Corporate Drive, Goldsboro, NC 27534",
+    "lat": 35.399815,
+    "lng": -77.981368,
+    "phone": "(919) 731-2776",
+    "website": null
+  },
+  {
+    "name": "Bulldog Harley-Davidson",
+    "address": "606 Outlet Center Drive, Smithfield, NC 27577",
+    "lat": 35.508892,
+    "lng": -78.31353,
+    "phone": "(919) 938-1592",
+    "website": null
+  },
+  {
+    "name": "Tobacco Road Harley-Davidson",
+    "address": "1126 South Saunders Street, Raleigh, NC 27603",
+    "lat": 35.765181,
+    "lng": -78.649703,
+    "phone": "(919) 832-2261",
+    "website": "https://www.tobaccoroadhd.com"
+  },
+  {
+    "name": "Raging Bull Harley Davidson",
+    "address": "300 Muldee Street, Durham, NC 27703",
+    "lat": 35.994953,
+    "lng": -78.861731,
+    "phone": "(919) 596-9511",
+    "website": "https://www.ragingbullhd.com"
+  },
+  {
+    "name": "Black Cat Harley-Davidson",
+    "address": "928 North Winstead Avenue, Rocky Mount, NC 27804",
+    "lat": 35.979893,
+    "lng": -77.844172,
+    "phone": null,
+    "website": "https://blackcatharley.com"
+  },
+  {
+    "name": "Nags Head Harley-Davidson",
+    "address": "4104 South Virginia Dare Trail, Nags Head, NC 27959",
+    "lat": 35.953444,
+    "lng": -75.62266,
+    "phone": "(252) 255-5922",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Charlotte",
+    "address": "9205 East Independence Boulevard, Matthews, NC 28105",
+    "lat": 35.141104,
+    "lng": -80.716835,
+    "phone": "(704) 847-4647",
+    "website": "https://www.independenceharley.com/"
+  },
+  {
+    "name": "Fort Bragg Harley-Davidson",
+    "address": "3950 Sycamore Dairy Road, Fayetteville, NC 28303",
+    "lat": 35.079002,
+    "lng": -78.950125,
+    "phone": "(910) 864-1200",
+    "website": "https://www.fortbraggharley.com"
+  },
+  {
+    "name": "New River Harley Davidson",
+    "address": "2394 Highway 17, Paradise Park, NC 28545",
+    "lat": 34.719066,
+    "lng": -77.479245,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Cherokee Harley-Davidson",
+    "address": "935 Tsalagi Road, Cherokee, NC 28719",
+    "lat": 35.476123,
+    "lng": -83.318546,
+    "phone": "(828) 497-1200",
+    "website": null
+  },
+  {
+    "name": "Chimney Rock Harley-Davidson",
+    "address": "363 Main Street, Chimney Rock, NC 28720",
+    "lat": 35.439086,
+    "lng": -82.247087,
+    "phone": "(828) 436-5100",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "20 Patton Cove Road, Swannanoa, NC 28778",
+    "lat": 35.5985,
+    "lng": -82.401981,
+    "phone": "(828) 581-2000",
+    "website": null
+  },
+  {
+    "name": "Fargo Harley Davidson Sales",
+    "address": "6th Street Northwest, West Fargo, ND 58078",
+    "lat": 46.877872,
+    "lng": -96.908297,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Christianson Drive West, West Fargo, ND 58078",
+    "lat": 46.851321,
+    "lng": -96.912627,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "3rd Avenue Southwest, Jamestown, ND 58401",
+    "lat": 46.882864,
+    "lng": -98.709775,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Dillon Brothers Harley Davidson",
+    "address": "East 23rd Avenue North, Fremont, NE 68025",
+    "lat": 41.451885,
+    "lng": -96.465591,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Frontier Harley-Davidson",
+    "address": "205 Northwest 40th Street, Lincoln, NE 68528",
+    "lat": 40.81532,
+    "lng": -96.778975,
+    "phone": "(402) 466-9100",
+    "website": "https://www.harley-davidson.com/us/en/index.html"
+  },
+  {
+    "name": "Platte River Harley-Davidson",
+    "address": "2719 South Locust Street, Grand Island, NE 68801",
+    "lat": 40.895197,
+    "lng": -98.339048,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Budke's Harley-Davidson",
+    "address": "695 Halligan Drive, North Platte, NE 69101",
+    "lat": 41.111263,
+    "lng": -100.755979,
+    "phone": null,
+    "website": "https://www.budkepowersports.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "115 John E. Devine Drive, Manchester, NH 03103",
+    "lat": 42.958705,
+    "lng": -71.439447,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Laconia Harley-Davidson",
+    "address": "Russell C. Hart Memorial Bridge, Meredith, NH 03253",
+    "lat": 43.648438,
+    "lng": -71.498446,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Twin States Harley-Davidson",
+    "address": "351 Miracle Mile, Lebanon, NH 03766",
+    "lat": 43.63617,
+    "lng": -72.285987,
+    "phone": "(603) 448-4664",
+    "website": "https://www.twinstatesharley.com/"
+  },
+  {
+    "name": "Seacoast Harley-Davidson",
+    "address": "Lafayette Road, North Hampton, NH 03862",
+    "lat": 42.962457,
+    "lng": -70.833733,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Broad Street, Rahway, NJ 07065",
+    "lat": 40.60575,
+    "lng": -74.278144,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Alameda Boulevard Northeast, Albuquerque, NM 87113",
+    "lat": 35.183921,
+    "lng": -106.589344,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "4360 Rodeo Road, Santa Fe, NM 87507",
+    "lat": 35.637846,
+    "lng": -106.011026,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Barnett's Las Cruces Harley-Davidson",
+    "address": "Avenida de Mesilla, Las Cruces, NM 88005",
+    "lat": 32.288717,
+    "lng": -106.792587,
+    "phone": "(575) 541-1440",
+    "website": "https://www.barnettslascruceshd.com"
+  },
+  {
+    "name": "Henderson Harley-Davidson",
+    "address": "1010 West Warm Springs Road, Henderson, NV 89014",
+    "lat": 36.058405,
+    "lng": -115.031227,
+    "phone": null,
+    "website": "https://www.hendersonhd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "324 Fremont Street Experience, Las Vegas, NV 89101",
+    "lat": 36.169933,
+    "lng": -115.141999,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Las Vegas Harley-Davidson",
+    "address": "5191 South Las Vegas Boulevard, Las Vegas, NV 89119",
+    "lat": 36.083212,
+    "lng": -115.171568,
+    "phone": "(888) 218-0744",
+    "website": "https://lasvegasharleydavidson.com"
+  },
+  {
+    "name": "Red Rock Harley-Davidson",
+    "address": "2260 South Rainbow Boulevard, NV 89146",
+    "lat": 36.14671,
+    "lng": -115.24112,
+    "phone": "(702) 876-2884",
+    "website": "https://www.redrockharley.com/"
+  },
+  {
+    "name": "Reno Harley Davidson",
+    "address": "2315 Market Street, Reno, NV 89502",
+    "lat": 39.515413,
+    "lng": -119.783315,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "2900 Research Way, Carson City, NV 89706",
+    "lat": 39.185815,
+    "lng": -119.747525,
+    "phone": null,
+    "website": "https://www.battlebornharleydavidson.com/"
+  },
+  {
+    "name": "Gold Rush Harley-Davidson",
+    "address": "Ruby Vista Drive, Elko, NV 89801",
+    "lat": 40.857038,
+    "lng": -115.746546,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Staten Island",
+    "address": "1973 Forest Avenue, New York, NY 10303",
+    "lat": 40.626104,
+    "lng": -74.154816,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "211-19 Jamaica Avenue, New York, NY 11428",
+    "lat": 40.715459,
+    "lng": -73.748693,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "Sunrise Highway, Bellmore, NY 11710",
+    "lat": 40.666077,
+    "lng": -73.536944,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1570 Old Country Road, Calverton, NY 11933",
+    "lat": 40.92521,
+    "lng": -72.698729,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Adirondack Harley-Davidson",
+    "address": "State Highway 29, Village of Broadalbin, NY 12025",
+    "lat": 43.047464,
+    "lng": -74.213262,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1128 Hoosick Road, Troy, NY 12180",
+    "lat": 42.758421,
+    "lng": -73.602642,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1970 Central Avenue, Town of Colonie, NY 12205",
+    "lat": 42.740054,
+    "lng": -73.859759,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Woodstock Harley-Davidson",
+    "address": "949 State Route 28, City of Kingston, NY 12401",
+    "lat": 41.983653,
+    "lng": -74.086901,
+    "phone": "(845) 338-2800",
+    "website": "https://woodstockharley.com"
+  },
+  {
+    "name": "Moroney's Harley-Davidson",
+    "address": "833 Union Avenue, New Windsor, NY 12553",
+    "lat": 41.488292,
+    "lng": -74.078283,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "OToole's Harley Davidson",
+    "address": "4 Sullivan Street, Wurtsboro, NY 12790",
+    "lat": 41.57205,
+    "lng": -74.475859,
+    "phone": "(845) 888-2426",
+    "website": "https://www.otooleshd.com"
+  },
+  {
+    "name": "Performance Harley Davidson",
+    "address": "807 North Geddes Street, Syracuse, NY 13204",
+    "lat": 43.056744,
+    "lng": -76.171186,
+    "phone": "(315) 471-1157",
+    "website": "https://www.performancehd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "4870 Commercial Drive, New York Mills, NY 13417",
+    "lat": 43.099015,
+    "lng": -75.300603,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Iron Block",
+    "address": "17890 I 81, Village of Adams, NY 13606",
+    "lat": 43.862853,
+    "lng": -76.015576,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson Of Jamestown",
+    "address": "1951 East Main Street Extension, Falconer, NY 14733",
+    "lat": 42.127268,
+    "lng": -79.1879,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Finger Lakes Harley-Davidson",
+    "address": "6033 State Highway 13, Alpine Junction, NY 14824",
+    "lat": 42.294012,
+    "lng": -76.714224,
+    "phone": "(607) 594-3536",
+    "website": "https://www.fingerlakeshd.com/"
+  },
+  {
+    "name": "A.D. Farrow Co. Harley-Davidson",
+    "address": "I 71, Berkshire, OH",
+    "lat": 40.263962,
+    "lng": -82.926408,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Centennial Park Harley-Davidson",
+    "address": "12477 Broad Street Southwest, Pataskala, OH 43062",
+    "lat": 39.99415,
+    "lng": -82.72319,
+    "phone": "(740) 964-2205",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Tarhee Trail, Upper Sandusky, OH 43351",
+    "lat": 40.856969,
+    "lng": -83.274108,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "862 American Road, Napoleon, OH 43545",
+    "lat": 41.418178,
+    "lng": -84.107187,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Sandusky Street, Perrysburg, OH 43551",
+    "lat": 41.550209,
+    "lng": -83.605358,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "7960 West Central Avenue, Toledo, OH 43617",
+    "lat": 41.676242,
+    "lng": -83.734712,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Fink's Harley Davidson",
+    "address": "2650 Maysville Pike, Zanesville, OH 43701",
+    "lat": 39.897306,
+    "lng": -82.035112,
+    "phone": "(740) 454-0010",
+    "website": "https://www.finkshd.com/"
+  },
+  {
+    "name": "Western Reserve Harley-Davidson",
+    "address": "8567 Tyler Boulevard, Mentor, OH 44060",
+    "lat": 41.686211,
+    "lng": -81.334249,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "West 150th Street, Brook Park, OH 44135",
+    "lat": 41.419319,
+    "lng": -81.801767,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1120 Main Street, Cuyahoga Falls, OH 44221",
+    "lat": 41.117613,
+    "lng": -81.485769,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Carlton Harley-Davidson",
+    "address": "Painesville Ravenna Road, Mantua Corners, OH 44255",
+    "lat": 41.311953,
+    "lng": -81.222844,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Patriot Boulevard, Shively Corners, OH 44440",
+    "lat": 41.122173,
+    "lng": -80.774519,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Millennium Boulevard, Bazetta Township, OH 44483",
+    "lat": 41.274769,
+    "lng": -80.775014,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Milan Road, Bogart, OH 44870",
+    "lat": 41.404707,
+    "lng": -82.659679,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Hale's Harley-Davidson",
+    "address": "1400 Harrington Memorial Road, Mansfield, OH 44903",
+    "lat": 40.796602,
+    "lng": -82.512473,
+    "phone": "(419) 522-8602",
+    "website": "https://www.haleshd.com"
+  },
+  {
+    "name": "Powder Keg Harley-Davidson",
+    "address": "Kings Center Drive, Kings Mills, OH 45040",
+    "lat": 39.35557,
+    "lng": -84.259884,
+    "phone": null,
+    "website": "https://www.powderkeghd.com/"
+  },
+  {
+    "name": "Eastgate Harley-Davidson",
+    "address": "699 Old State Route 74, Cincinnati, OH 45245",
+    "lat": 39.105336,
+    "lng": -84.284031,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Piqua Harley-Davidson",
+    "address": "1501 East Ash Street, piqua, OH 45350",
+    "lat": 40.149557,
+    "lng": -84.205886,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Lima Harley-Davidson",
+    "address": "I 75, Fort Shawnee, OH 45806",
+    "lat": 40.691426,
+    "lng": -84.119336,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Forman Harley-Davidson",
+    "address": "East 36th Avenue, Payne County, OK 70474",
+    "lat": 36.083645,
+    "lng": -97.052299,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Southwest 11th Street, Moore, OK 73160",
+    "lat": 35.327108,
+    "lng": -97.493385,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Diamondback Harley-Davidson",
+    "address": "301 Southeast Interstate Drive, Lawton, OK 73501",
+    "lat": 34.604767,
+    "lng": -98.378303,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "3637 South Memorial Drive, Tulsa, OK 74145",
+    "lat": 36.110956,
+    "lng": -95.885939,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Volcano Harley-Davidson",
+    "address": "870 East Berkeley Street, Gladstone, OR 97027",
+    "lat": 45.383708,
+    "lng": -122.580882,
+    "phone": "(503) 249-8653",
+    "website": "https://volcanoharley.com/"
+  },
+  {
+    "name": "Paradise Harley-Davidson",
+    "address": "10770 Southwest Cascade Avenue, Tigard, OR 97223",
+    "lat": 45.442496,
+    "lng": -122.781104,
+    "phone": null,
+    "website": "https://www.paradiseh-d.com/"
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "3601 Fisher Road Northeast, Salem, OR 97309",
+    "lat": 44.968979,
+    "lng": -122.988063,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Latus Motors;Harley-Davidson",
+    "address": "86441 College View Road, Eugene, OR 97405",
+    "lat": 44.011022,
+    "lng": -123.021052,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "D&S Harley-Davidson",
+    "address": "3846 South Pacific Highway, Medford, OR 97501",
+    "lat": 42.283192,
+    "lng": -122.828571,
+    "phone": "(541) 535-5515",
+    "website": "https://www.dsharley.com"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1341 Center Drive, Medford, OR 97501",
+    "lat": 42.312673,
+    "lng": -122.852642,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Gatto Harley-Davidson Showroom",
+    "address": "Wood Street, Tarentum, PA 15014",
+    "lat": 40.602133,
+    "lng": -79.755821,
+    "phone": "(724) 224-0500",
+    "website": "https://www.gattoharley-davidson.com"
+  },
+  {
+    "name": "Steel City Harley-Davidson",
+    "address": "1375 Washington Road, Washington, PA 15301",
+    "lat": 40.211462,
+    "lng": -80.198386,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "East Dubois Avenue, DuBois, PA 15801",
+    "lat": 41.127816,
+    "lng": -78.758213,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "3712 West 12th Street, Erie, PA 16505",
+    "lat": 42.093196,
+    "lng": -80.165268,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "#1 Cycle Center",
+    "address": "107 Yearicks Boulevard, Centre Hall, PA 16828",
+    "lat": 40.790035,
+    "lng": -77.710806,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1515 East Cumberland Street, Lebanon, PA 17042-8322",
+    "lat": 40.349213,
+    "lng": -76.385786,
+    "phone": "(717) 272-4986",
+    "website": "https://www.harley-davidson.com/us/en/tools/find-a-dealer/whites-iron-valley-harley-davidson/5754"
+  },
+  {
+    "name": "Appalachian Harley-Davidson",
+    "address": "6695 Carlisle Pike, Mechanicsburg, PA 17050",
+    "lat": 40.2394,
+    "lng": -77.051485,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Susquehanna Valley Harley-Davidson",
+    "address": "North Blue Ribbon Avenue, Lower Paxton Township, PA 17112",
+    "lat": 40.325462,
+    "lng": -76.781211,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "I 81, Guilford Township, PA 17201",
+    "lat": 39.924956,
+    "lng": -77.635924,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Battlefield Harley-Davidson",
+    "address": "21 Cavalry Field Road, Gettysburg, PA 17325",
+    "lat": 39.847188,
+    "lng": -77.1833,
+    "phone": "(717) 337-9005",
+    "website": "https://www.battlefieldharley-davidson.com/"
+  },
+  {
+    "name": "Eisenhauer's York Harley-Davidson",
+    "address": "100 Arsenal Road, York, PA 17404",
+    "lat": 39.983221,
+    "lng": -76.73245,
+    "phone": "(717) 854-3214",
+    "website": "https://www.yorkhd.com/"
+  },
+  {
+    "name": "Lancaster Harley Davidson",
+    "address": "308 Beaver Valley Pike, West Lampeter Township, PA 17560",
+    "lat": 39.988728,
+    "lng": -76.270276,
+    "phone": "(717) 464-2703",
+    "website": "https://lancasterhd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "East 3rd Street, Loyalsock Township, PA 17701",
+    "lat": 41.247565,
+    "lng": -76.963688,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Schaeffer's Harley-Davidson",
+    "address": "1123 Brick Hill Road, Orwigsburg, PA 17961",
+    "lat": 40.641084,
+    "lng": -76.079691,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Keystone Harley-Davidson",
+    "address": "2800 Eberhart Road, Whitehall, PA 18052",
+    "lat": 40.649976,
+    "lng": -75.494548,
+    "phone": "(610) 379-4055",
+    "website": "https://www.keystonehd.com/"
+  },
+  {
+    "name": "Pocono Mountain Harley-Davidson",
+    "address": "Gypsum Road, Hamilton Township, PA 18360",
+    "lat": 40.948532,
+    "lng": -75.293885,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Pocono Mountain Harley-Davidson",
+    "address": "110 Hill Motor Lodge Road, Tannersville, PA 18372",
+    "lat": 41.040474,
+    "lng": -75.313997,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Rommel Harley-Davidson® Scranton",
+    "address": "Scranton Carbondale Highway, Dickson City, PA 18519",
+    "lat": 41.471584,
+    "lng": -75.633615,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Freedom Valley Harley-Davidson",
+    "address": "3255 State Road, Sellersville, PA 18960",
+    "lat": 40.344513,
+    "lng": -75.305056,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Stars & Stripes Harley-Davidson",
+    "address": "600 South Flowers Mill Road, Langhorne, PA 19047",
+    "lat": 40.167719,
+    "lng": -74.89819,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Hannum's Harley-Davidson",
+    "address": "1011 West Baltimore Pike, Media, PA 19063",
+    "lat": 39.915426,
+    "lng": -75.425679,
+    "phone": "(610) 566-5562",
+    "website": "https://www.hannumshd.com/"
+  },
+  {
+    "name": "Hannum's West Chester Harley-Davidson",
+    "address": "897 South Matlack Street, West Chester, PA 19382-4508",
+    "lat": 39.946828,
+    "lng": -75.585833,
+    "phone": "(610) 566-5562",
+    "website": "https://www.harley-davidson.com/us/en/tools/find-a-dealer/hannums-west-chester-harley-davidson/4415"
+  },
+  {
+    "name": "Valley Forge Harley Davidson",
+    "address": "1217 South Trooper Road, trooper, PA 19403",
+    "lat": 40.11372,
+    "lng": -75.419828,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson Motor Cycles",
+    "address": "Calle Marina, San Juan, PR 00901",
+    "lat": 18.463841,
+    "lng": -66.112692,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "McHale Court, Pawtucket, RI 02861",
+    "lat": 41.880331,
+    "lng": -71.365323,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Thunder Tower Harley-Davidson",
+    "address": "Pontiac Business Courtr Drive, Richland County, SC 29045",
+    "lat": 34.103711,
+    "lng": -80.836162,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Low Country Harley-Davidson",
+    "address": "Paramount Drive, North Charleston, SC 29405",
+    "lat": 32.853558,
+    "lng": -80.018796,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson Motorcycles",
+    "address": "4710 South Kings Highway, Myrtle Beach, SC 29575",
+    "lat": 33.647555,
+    "lng": -78.941794,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "US Highway 17 South, North Myrtle Beach, SC 29598",
+    "lat": 33.802083,
+    "lng": -78.730118,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Greenville",
+    "address": "30 Chrome Drive, Greenville, SC 29615",
+    "lat": 34.834691,
+    "lng": -82.292864,
+    "phone": null,
+    "website": "https://www.h-dog.com/"
+  },
+  {
+    "name": "J & L Harley Davidson",
+    "address": "2601 West 60th Street North, Sioux Falls, SD 57107",
+    "lat": 43.60091,
+    "lng": -96.761844,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Glacial Lakes Harley-Davidson",
+    "address": "19th Street Southeast, Watertown, SD 57201",
+    "lat": 44.888426,
+    "lng": -97.085557,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Black Hills Harley-Davidson",
+    "address": "2820 Harley Drive, Rapid City, SD 57702",
+    "lat": 44.113831,
+    "lng": -103.267687,
+    "phone": null,
+    "website": "https://www.blackhillshd.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Mount Rushmore Road, Custer, SD 57730",
+    "lat": 43.766262,
+    "lng": -103.599189,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Deadwood Harley-Davidson",
+    "address": "692 Lower Main Street, Deadwood, SD 57732",
+    "lat": 44.37646,
+    "lng": -103.731073,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Hill City Harley-Davidson",
+    "address": "Main Street, Hill City, SD 57745",
+    "lat": 43.931591,
+    "lng": -103.575825,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "I 65, Columbia, TN",
+    "lat": 35.639597,
+    "lng": -86.892867,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "White Lightning Harley-Davidson",
+    "address": "7720 Lee Highway, Chattanooga, TN 37421",
+    "lat": 35.061445,
+    "lng": -85.130107,
+    "phone": "(423) 892-4888",
+    "website": "https://www.whitelightningharley-davidson.com/"
+  },
+  {
+    "name": "Hillbilly Harley",
+    "address": "530 Parkway, Gatlinburg, TN 37738",
+    "lat": 35.713665,
+    "lng": -83.510844,
+    "phone": "(865) 430-1602",
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Davy Crockett Parkway, Morristown, TN 37815",
+    "lat": 36.2444,
+    "lng": -83.266044,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "105 East Old Wears Valley Road, Pigeon Forge, TN 37863",
+    "lat": 35.804612,
+    "lng": -83.577787,
+    "phone": "(865) 774-3445",
+    "website": null
+  },
+  {
+    "name": "U.S. 129 Dragon Harley-Davidson",
+    "address": "Tallassee Road, Tallassee, TN 37878",
+    "lat": 35.547813,
+    "lng": -84.066681,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Knoxville Harley-Davidson",
+    "address": "5810 Clinton Highway, Knoxville, TN 37912",
+    "lat": 36.007426,
+    "lng": -83.990318,
+    "phone": "(865) 689-2454",
+    "website": "https://www.harleyofknoxville.com/"
+  },
+  {
+    "name": "Bootlegger Harley-Davidson",
+    "address": "Lovell Road, Knoxville, TN 37932",
+    "lat": 35.908551,
+    "lng": -84.149043,
+    "phone": null,
+    "website": "https://www.bootleggerh-d.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Charles Bryan Road, Memphis, TN 38133",
+    "lat": 35.184379,
+    "lng": -89.83489,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Caliente Harley-Davidson",
+    "address": "7230 Northwest Loop 410, San Antonio, TX",
+    "lat": 29.450878,
+    "lng": -98.630035,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1845 North Interstate 35E, Carrollton, TX 75006",
+    "lat": 32.965199,
+    "lng": -96.919714,
+    "phone": "(972) 362-6751",
+    "website": "https://www.maverickhd.com/"
+  },
+  {
+    "name": "Black Gold Harley-Davidson",
+    "address": "1007 State Highway 121, Allen, TX 75013",
+    "lat": 33.141397,
+    "lng": -96.684146,
+    "phone": "(214) 495-0259",
+    "website": "https://blackgoldhd.com/"
+  },
+  {
+    "name": "Dallas Harley-Davidson",
+    "address": "1334 West Centerville Road, Garland, TX 75041",
+    "lat": 32.855491,
+    "lng": -96.646049,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Longhorn Harley-Davidson",
+    "address": "2830 West Interstate 20, Grand Prairie, TX 75052",
+    "lat": 32.678081,
+    "lng": -97.05338,
+    "phone": "(855) 950-2984",
+    "website": "https://www.longhornhd.com"
+  },
+  {
+    "name": "Texoma Harley-Davidson",
+    "address": "4000 North Sam Rayburn Freeway, Sherman, TX 75090",
+    "lat": 33.679797,
+    "lng": -96.610052,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "802 Walton Drive, Texarkana, TX 75501",
+    "lat": 33.450528,
+    "lng": -94.100556,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Roughneck Harley",
+    "address": "3400 North Fourth Street, Longview, TX 75605",
+    "lat": 32.544818,
+    "lng": -94.73027,
+    "phone": "(903) 663-3838",
+    "website": "https://roughneckharley.com/"
+  },
+  {
+    "name": "Lone Star Harley Davidson",
+    "address": "South Southeast Loop 323, Tyler, TX 75713",
+    "lat": 32.334916,
+    "lng": -95.26701,
+    "phone": "(903) 597-1488",
+    "website": "https://www.lonestarharley.com"
+  },
+  {
+    "name": "Lumberjack Harley-Davidson",
+    "address": "2518 NorthWest Stallings Drive, Nacogdoches, TX 75964",
+    "lat": 31.626355,
+    "lng": -94.683024,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Stampede Harley-Davidson",
+    "address": "240 North Burleson Boulevard, Burleson, TX 76028",
+    "lat": 32.546753,
+    "lng": -97.315069,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Fort Worth Harley-Davidson",
+    "address": "3025 West Loop 820 South, Fort Worth, TX 76116",
+    "lat": 32.728969,
+    "lng": -97.479987,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1 Texas Harley Way, Bedford, TX 76201",
+    "lat": 32.839002,
+    "lng": -97.135932,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "5920 South Interstate 35E, Corinth, TX 76210",
+    "lat": 33.152602,
+    "lng": -97.063164,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Red River Harley-Davidson",
+    "address": "4514 Northwest Freeway, Wichita Falls, TX 76306",
+    "lat": 33.950131,
+    "lng": -98.555729,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "7454 South General Bruce Drive, Temple, TX 76502",
+    "lat": 31.062892,
+    "lng": -97.434624,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "North General Bruce Drive, Temple, TX 76504",
+    "lat": 31.110028,
+    "lng": -97.357614,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Horny Toad Harley-Davidson of Fort Hood",
+    "address": "875 West Central Texas Expressway, Harker Heights, TX 76548",
+    "lat": 31.075948,
+    "lng": -97.684586,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "4201 South Jack Kultgen Expressway, Waco, TX 76711",
+    "lat": 31.506472,
+    "lng": -97.145166,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Mancuso Crossroads Harley-Davidson",
+    "address": "12710 Crossroads Park Drive, Houston, TX 77065",
+    "lat": 29.914886,
+    "lng": -95.611621,
+    "phone": "(281) 970-9700",
+    "website": "https://www.mancusocrossroads.com/"
+  },
+  {
+    "name": "Stubbs Harley-Davidson",
+    "address": "4400 Telephone Road, Houston, TX 77087",
+    "lat": 29.698901,
+    "lng": -95.302671,
+    "phone": "(713) 568-9945",
+    "website": "https://www.stubbshd.com"
+  },
+  {
+    "name": "Harley-Davidson of Kingwood",
+    "address": "111 Northpines Drive, Kingwood, TX 77339",
+    "lat": 30.066225,
+    "lng": -95.246671,
+    "phone": "(281) 358-0457",
+    "website": "https://www.kingwoodharley.com/"
+  },
+  {
+    "name": "San Jacinto Harley-Davidson",
+    "address": "3636 East Sam Houston Parkway South, Pasadena, TX 77505",
+    "lat": 29.65578,
+    "lng": -95.157327,
+    "phone": "(281) 975-0045",
+    "website": "https://www.sjhd.com/"
+  },
+  {
+    "name": "Cowboy Harley-Davidson",
+    "address": "1150 Interstate Highway 10 South, Beaumont, TX 77707",
+    "lat": 30.066426,
+    "lng": -94.135487,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "South Highway 6, College Station, TX 77845",
+    "lat": 30.5743,
+    "lng": -96.27467,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Javelina Harley-Davidson",
+    "address": "29078 Interstate 10 West, Boerne, TX 78006",
+    "lat": 29.72996,
+    "lng": -98.675745,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Corpus Christi Harley-Davidson",
+    "address": "502 South Padre Island Drive, Corpus Christi, TX 78405",
+    "lat": 27.758636,
+    "lng": -97.461331,
+    "phone": "(361) 854-3146",
+    "website": "https://www.corpuschristiharley.com"
+  },
+  {
+    "name": "Desperado Harley-Davidson",
+    "address": "1201 South Bentsen Road, McAllen, TX 78501",
+    "lat": 26.198031,
+    "lng": -98.270071,
+    "phone": "(956) 687-4646",
+    "website": "https://desperadohd.com"
+  },
+  {
+    "name": "Mad Boar Harley-Davidson",
+    "address": "3515 West Expressway 83, San Benito, TX 78586",
+    "lat": 26.146485,
+    "lng": -97.664468,
+    "phone": "(956) 399-4244",
+    "website": "https://madboarhd.com"
+  },
+  {
+    "name": "Central Texas Harley-Davidson",
+    "address": "Jeffrey Way, Round Rock, TX 78680",
+    "lat": 30.539344,
+    "lng": -97.69098,
+    "phone": "(512) 652-1200",
+    "website": null
+  },
+  {
+    "name": "Cowboy Harley-Davidson Austin",
+    "address": "10917 Interstate 35 Frontage Road, Austin, TX 78747",
+    "lat": 30.142992,
+    "lng": -97.793624,
+    "phone": "(512) 448-4294",
+    "website": "https://www.cowboyharleyaustin.com/"
+  },
+  {
+    "name": "Tripp's Harley-Davidson",
+    "address": "6040 West Interstate Drive, Amarillo, TX 79106",
+    "lat": 35.190741,
+    "lng": -101.906352,
+    "phone": "(806) 352-2021",
+    "website": "https://www.trippshd.com/"
+  },
+  {
+    "name": "Wild West Harley-Davidson",
+    "address": "5702 58th Street, Lubbock, TX 79424",
+    "lat": 33.541666,
+    "lng": -101.937794,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Barnett Harley Davidson",
+    "address": "8272 Gateway Boulevard East, El Paso, TX 79907",
+    "lat": 31.742031,
+    "lng": -106.330153,
+    "phone": "(800) 453-1513",
+    "website": "https://www.barnettharley.com"
+  },
+  {
+    "name": "Timpanogos Harley Davidson",
+    "address": "555 S North Geneva Road, Lindon, UT 84042",
+    "lat": 40.326929,
+    "lng": -111.736245,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Salt Lake City",
+    "address": "2928 South State Street, South Salt Lake, UT 84115",
+    "lat": 40.707602,
+    "lng": -111.889098,
+    "phone": "(801) 487-4647",
+    "website": "https://www.harleydavidsonofsaltlakecity.com"
+  },
+  {
+    "name": "Harley Davidson Motorcycles",
+    "address": "Main Street, Logan, UT 84321",
+    "lat": 41.72323,
+    "lng": -111.835809,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Zion Harley-Davidson",
+    "address": "2345 North Coral Canyon Boulevard, Washington, UT 84780",
+    "lat": 37.162655,
+    "lng": -113.44595,
+    "phone": "(435) 673-5100",
+    "website": "https://zionhd.com/"
+  },
+  {
+    "name": "Bull Run Harley-Davidson",
+    "address": "9321 Center Street, Manassas, VA 20110",
+    "lat": 38.750718,
+    "lng": -77.482007,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Quantico Harley-Davidson",
+    "address": "17975 Main Street, Dumfries, VA 22026",
+    "lat": 38.561919,
+    "lng": -77.330261,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley Davidson",
+    "address": "9739 Fairfax Boulevard, Fairfax, VA 22031",
+    "lat": 38.863591,
+    "lng": -77.280753,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Old Dominion Harley Davidson",
+    "address": "10611 Patriot Highway, Fredericksburg, VA 22408",
+    "lat": 38.250605,
+    "lng": -77.49766,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Independence Drive, Frederick County, VA 22602",
+    "lat": 39.140801,
+    "lng": -78.125813,
+    "phone": "(800) 777-4275",
+    "website": "https://www.hdwinchester.com/"
+  },
+  {
+    "name": "Waugh Enterprises Harley Davidson",
+    "address": "201 Selma Road, Orange, VA 22960",
+    "lat": 38.242987,
+    "lng": -78.097257,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Richmond Harley-Davidson",
+    "address": "12200 Harley Club Drive, Ashland, VA 23005",
+    "lat": 37.729425,
+    "lng": -77.452062,
+    "phone": "(804) 752-2800",
+    "website": "https://www.richmondharley.com/"
+  },
+  {
+    "name": "Steel Horse Harley Davidson",
+    "address": "11507 Hull Street Road, Chesterfield County, VA 23112",
+    "lat": 37.433562,
+    "lng": -77.60776,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Hampton Roads Harley-Davidson",
+    "address": "6450 George Washington Memorial Highway, Yorktown, VA 23692",
+    "lat": 37.171857,
+    "lng": -76.471525,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1701 Temple Parkway, Prince George County, VA 23875",
+    "lat": 37.250214,
+    "lng": -77.370161,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Shenandoah Harley-Davidson",
+    "address": "213 Rolling Thunder Lane, Staunton, VA 24401",
+    "lat": 38.110945,
+    "lng": -79.064926,
+    "phone": null,
+    "website": "https://www.shenandoahhd.com/"
+  },
+  {
+    "name": "Wilkins Harley-Davidson",
+    "address": "663 South Barre Road, Barre, VT 05641",
+    "lat": 44.167921,
+    "lng": -72.510681,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Rattlesnake Mountain Harley-Davidson",
+    "address": "3305 West 19th Avenue, Kennewick, WA",
+    "lat": 46.191358,
+    "lng": -119.168436,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Eastside Harley-Davidson",
+    "address": "2350 136th Place Northeast, Bellevue, WA 98005",
+    "lat": 47.630751,
+    "lng": -122.156166,
+    "phone": "(425) 702-2000",
+    "website": "https://www.eastsideharley.com/"
+  },
+  {
+    "name": "Emerald City Harley-Davidson",
+    "address": "188th Street Southwest, Lynnwood, WA 98043",
+    "lat": 47.828886,
+    "lng": -122.310734,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson Motorcycles",
+    "address": "1001 Alaskan Way, Seattle, WA 98104",
+    "lat": 47.604242,
+    "lng": -122.339781,
+    "phone": null,
+    "website": "https://www.harley-davidson.com/us/en/tools/find-a-dealer/Mt-Rainier-Harley-Davidson/2605"
+  },
+  {
+    "name": "Sound Harley Davidson",
+    "address": "16212 Smokey Point Boulevard, Marysville, WA 98271",
+    "lat": 48.143833,
+    "lng": -122.186076,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Destination Harley-Davidson",
+    "address": "9625 Provost Road Northwest, Silverdale, WA 98383",
+    "lat": 47.65119,
+    "lng": -122.707801,
+    "phone": null,
+    "website": "https://silverdaleharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "2302 Pacific Highway East, Fife, WA 98424",
+    "lat": 47.242732,
+    "lng": -122.397262,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Northwest Harley-Davidson",
+    "address": "8000 Freedom Lane Northeast, Lacey, WA 98516",
+    "lat": 47.061804,
+    "lng": -122.770787,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "East Boone Avenue, Spokane Valley, WA 99019",
+    "lat": 47.667475,
+    "lng": -117.149425,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Uke's Harley Davidson",
+    "address": "120th Avenue, Kenosha, WI",
+    "lat": 42.583313,
+    "lng": -87.951567,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Suburban Motors Harley-Davidson",
+    "address": "139 North Main Street, Thiensville, WI 53092",
+    "lat": 43.232099,
+    "lng": -87.984432,
+    "phone": "(262) 242-2464",
+    "website": "https://www.suburbanharley.com/"
+  },
+  {
+    "name": "Harley-Davidson West Bend",
+    "address": "West Washington Street, West Bend, WI 53095",
+    "lat": 43.427896,
+    "lng": -88.222789,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "House of Harley-Davidson",
+    "address": "6221 West Layton Avenue, Greenfield, WI 53220",
+    "lat": 42.958809,
+    "lng": -87.991689,
+    "phone": "(414) 282-2211",
+    "website": "https://houseofharleydavidson.com/"
+  },
+  {
+    "name": "Milwaukee Harley-Davidson",
+    "address": "West Silver Spring Road, Milwaukee, WI 53225",
+    "lat": 43.12032,
+    "lng": -88.054291,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of Madison",
+    "address": "US 12;US 18, Madison, WI 53558",
+    "lat": 43.044874,
+    "lng": -89.272563,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Kutter Harley of Monroe",
+    "address": "129 West 6th street, Monroe, WI 53566",
+    "lat": 42.607235,
+    "lng": -89.660582,
+    "phone": "(608) 329-4884",
+    "website": "http://www.kutterharley.com/"
+  },
+  {
+    "name": "Dells Harley-Davidson",
+    "address": "524 Wisconsin Dells Parkway North, Wisconsin Dells, WI 53965",
+    "lat": 43.596334,
+    "lng": -89.79322,
+    "phone": "(608) 253-2252",
+    "website": null
+  },
+  {
+    "name": "Harbor Town Harley-Davidson",
+    "address": "2433 Hecker Road, Manitowoc, WI 54220",
+    "lat": 44.069352,
+    "lng": -87.710498,
+    "phone": "(920) 684-0237",
+    "website": "https://harbortownhd.com"
+  },
+  {
+    "name": "Harley Davidson Wausau",
+    "address": "1570 CTH XX, Mosinee, WI 54455",
+    "lat": 44.8591,
+    "lng": -89.635994,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "1116 Oak Forest Drive, Onalaska, WI 54650",
+    "lat": 43.871014,
+    "lng": -91.219386,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "2801 South Wisconsin Avenue, Rice Lake, WI 54868",
+    "lat": 45.474064,
+    "lng": -91.748295,
+    "phone": "(715) 234-5400",
+    "website": "https://ricelakehd.com/"
+  },
+  {
+    "name": "Appleton Harley-Davidson",
+    "address": "Greenville Drive, Town of Grand Chute, WI 54942",
+    "lat": 44.286193,
+    "lng": -88.48826,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson of West Virginia",
+    "address": "4924 MacCorkle Avenue, South Charleston, WV 25309",
+    "lat": 38.354495,
+    "lng": -81.73283,
+    "phone": "(877) 885-6927",
+    "website": "https://www.wvharley.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "4th Avenue, Huntington, WV 25701",
+    "lat": 38.419033,
+    "lng": -82.451572,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "Fort Henry Road, Valley Camp, WV 26059",
+    "lat": 40.064046,
+    "lng": -80.592034,
+    "phone": null,
+    "website": null
+  },
+  {
+    "name": "Deluxe Harley-Davidson",
+    "address": "3300 Conestoga Drive, Gillette, WY 82718",
+    "lat": 44.293985,
+    "lng": -105.454583,
+    "phone": null,
+    "website": "https://www.chuckdeluxe.com/"
+  },
+  {
+    "name": "Harley-Davidson",
+    "address": "South Millward Street, Jackson, WY 83002",
+    "lat": 43.479264,
+    "lng": -110.764807,
+    "phone": null,
+    "website": null
+  }
+]
