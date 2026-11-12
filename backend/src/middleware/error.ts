@@ -14,7 +14,12 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
     return;
   }
   if (err instanceof MulterError) {
-    const message = err.code === "LIMIT_FILE_SIZE" ? "Each image must be 10 MB or smaller" : err.message;
+    const message =
+      err.code === "LIMIT_FILE_SIZE"
+        ? "Each image must be 20 MB or smaller"
+        : err.code === "LIMIT_FILE_COUNT"
+          ? "You can upload at most 10 images at once"
+          : err.message;
     res.status(400).json({ error: message });
     return;
   }
