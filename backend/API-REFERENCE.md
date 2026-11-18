@@ -551,8 +551,9 @@ and `images` also work as field names).
 Every image is re-encoded before it's stored: resized to fit 1600 × 1600 (never
 enlarged), rotated upright, all metadata (including GPS) removed. Opaque images
 come back as `.jpg`, images with transparency as `.webp`, so the returned URL's
-extension can differ from the file you sent. A file that isn't a readable image
-gets `400`.
+extension can differ from the file you sent. If an image can't be compressed
+(unusual format, or the request runs long), the original is stored unchanged
+rather than failing the upload.
 Response `201`: `{ "urls": ["https://<host>/uploads/ab12....jpg"] }`.
 Put the URLs in `imageUrls` (items, feedback), `avatarUrl` (profile),
 `coverImageUrl` (collections) or `attachmentUrl` (messages).
