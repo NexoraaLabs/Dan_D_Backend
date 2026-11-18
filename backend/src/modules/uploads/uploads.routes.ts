@@ -1,17 +1,24 @@
 import { Router } from "express";
 import crypto from "crypto";
 import fs from "fs";
+import os from "os";
 import path from "path";
 import multer from "multer";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { requireAuth } from "../../middleware/auth";
 import { badRequest } from "../../utils/httpError";
 import { env } from "../../config/env";
+import { compressImage, InvalidImageError } from "./compress-image";
 
 export const uploadsRouter = Router();
 
 export const uploadDir = path.resolve(env.uploadDir);
 fs.mkdirSync(uploadDir, { recursive: true });
+
+// Originals land here first and are deleted once compressed, so only the
+// re-encoded copies ever reach the public uploads folder.
+const incomingDir = path.join(os.tmpdir(), "dand-uploads");
+fs.mkdirSync(incomingDir, { recursive: true });
 
 const EXTENSIONS: Record<string, string> = {
   "image/jpeg": ".jpg",
@@ -48,10 +55,10 @@ const MAX_FILES = 10;
 const MAX_FILE_MB = 20; // modern phone camera photos are often 8–15 MB
 
 // Local disk for now (a Railway Volume in production). Swapping in S3 /
-// Cloudinary / Supabase Storage only changes this storage engine and the URL below.
+// Cloudinary / Supabase Storage only changes where compressImage writes and the URL below.
 const upload = multer({
   storage: multer.diskStorage({
-    destination: uploadDir,
+    destination: incomingDir,
     filename: (_req, file, cb) => cb(null, crypto.randomBytes(16).toString("hex") + resolveExtension(file)),
   }),
   limits: { fileSize: MAX_FILE_MB * 1024 * 1024, files: MAX_FILES },
@@ -76,13 +83,21 @@ uploadsRouter.post(
   asyncHandler(async (req, res) => {
     const all = (req.files as Express.Multer.File[] | undefined) ?? [];
     const files = all.filter((f) => ACCEPTED_FIELDS.has(f.fieldname));
-    const stray = all.filter((f) => !ACCEPTED_FIELDS.has(f.fieldname));
-    await Promise.all(stray.map((f) => fs.promises.unlink(f.path).catch(() => undefined)));
-    if (files.length === 0) {
-      const got = all.map((f) => f.fieldname).join(", ");
-      throw badRequest(`Attach at least one image as multipart field \`files\`${got ? ` (received: ${got})` : ""}`);
+    const saved: string[] = [];
+    try {
+      if (files.length === 0) {
+        const got = all.map((f) => f.fieldname).join(", ");
+        throw badRequest(`Attach at least one image as multipart field \`files\`${got ? ` (received: ${got})` : ""}`);
+      }
+      // One at a time: decoding several 20 MB photos at once can spike memory.
+      for (const f of files) saved.push(await compressImage(f.path, uploadDir));
+    } catch (err) {
+      await Promise.all(saved.map((name) => fs.promises.unlink(path.join(uploadDir, name)).catch(() => undefined)));
+      throw err instanceof InvalidImageError ? badRequest(err.message) : err;
+    } finally {
+      await Promise.all(all.map((f) => fs.promises.unlink(f.path).catch(() => undefined)));
     }
     const base = env.publicBaseUrl ?? `${req.protocol}://${req.get("host")}`;
-    res.status(201).json({ urls: files.map((f) => `${base}/uploads/${f.filename}`) });
+    res.status(201).json({ urls: saved.map((name) => `${base}/uploads/${name}`) });
   })
 );

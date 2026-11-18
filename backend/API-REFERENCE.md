@@ -546,7 +546,13 @@ Signs the user out on every device (all refresh tokens are revoked).
 
 ### `POST /api/uploads` — Auth: yes
 Upload images before referencing them. Send `multipart/form-data` with 1–10
-parts named `files` (JPEG/PNG/WebP/HEIC, max 10 MB each).
+parts named `files` (JPEG/PNG/WebP/HEIC, max 20 MB each; `file`, `image`
+and `images` also work as field names).
+Every image is re-encoded before it's stored: resized to fit 1600 × 1600 (never
+enlarged), rotated upright, all metadata (including GPS) removed. Opaque images
+come back as `.jpg`, images with transparency as `.webp`, so the returned URL's
+extension can differ from the file you sent. A file that isn't a readable image
+gets `400`.
 Response `201`: `{ "urls": ["https://<host>/uploads/ab12....jpg"] }`.
 Put the URLs in `imageUrls` (items, feedback), `avatarUrl` (profile),
 `coverImageUrl` (collections) or `attachmentUrl` (messages).
