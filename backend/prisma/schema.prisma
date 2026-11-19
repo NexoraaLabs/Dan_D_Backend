@@ -227,6 +227,9 @@ model Item {
   collection   Collection? @relation(fields: [collectionId], references: [id])
   categoryId   Int?
   category     Category?   @relation(fields: [categoryId], references: [id])
+  // The dealership the chip comes from, picked by the user after the photo.
+  dealerId     Int?
+  dealer       Dealer?     @relation(fields: [dealerId], references: [id], onDelete: SetNull)
 
   title               String
   description         String?    @db.Text
@@ -248,6 +251,7 @@ model Item {
   officialPurchase OfficialChipPurchase?
 
   @@index([ownerId, status])
+  @@index([dealerId])
   @@map("items")
 }
 
@@ -582,6 +586,7 @@ model Dealer {
   createdAt DateTime @default(now())
 
   checkIns DealerCheckIn[]
+  items    Item[]
 
   @@index([externalId])
   @@map("dealers")

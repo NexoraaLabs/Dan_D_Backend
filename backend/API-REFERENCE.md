@@ -195,7 +195,7 @@ Screens: Add Item - Camera Scan → Item Details Form → Add to Collection. **E
   "imageUrls": ["https://cdn.example.com/pin1.jpg"]
 }
 ```
-Only `title` is required. `imageUrls` are already-uploaded URLs — this endpoint does not accept file uploads (see "Known gaps" below). Response `201`: the created `Item`.
+Only `title` is required. `dealerId` is the dealership the chip comes from (pick it with `GET /api/dealers?search=`); `400` if it doesn't exist, and `PATCH /api/items/{id}` with `"dealerId": null` clears it. Items now include `dealer: { id, name, address } | null`, and `GET /api/items?dealerId=` filters by it. `imageUrls` are already-uploaded URLs — this endpoint does not accept file uploads (see "Known gaps" below). Response `201`: the created `Item`.
 
 ### `GET /api/items/{id}` — Auth: no
 Screens: Item Detail - *. Response `200`: `Item` plus `category`, `owner` (`{id, username, avatarUrl}`), and `listing` if it's on the marketplace.
@@ -663,6 +663,10 @@ Response `201`:
   "wallet": { "points": 25, "balanceCents": 250, "centsPerPoint": 10 } }
 ```
 Errors: `400 details.code = "TOO_FAR"` (+ `distanceM`), `409 details.code = "ALREADY_CHECKED_IN"` (+ `nextAt`), `404` unknown or archived dealer.
+
+### `GET /api/dealers?search=&limit=` — Auth: no
+Add Item → dealership picker. Active dealers whose name or address contains every word typed ("bristol", "kenai soldotna"); brand words like "Harley-Davidson" are ignored, so the scan's `dealership` text can be passed as is. Alphabetical, `limit` 1–50 (default 20); empty search returns the first 20.
+`[{ "id": 214, "name": "...", "address": "...", "lat": 0, "lng": 0 }]`
 
 ### `GET /api/dealers/ranking` — Auth: no
 Dealer Ships Ranking: the 20 **least visited** active dealers, fewest check-ins first.

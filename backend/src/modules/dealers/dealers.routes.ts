@@ -54,6 +54,38 @@ dealersRouter.get(
   })
 );
 
+const searchSchema = z.object({
+  search: z.string().trim().max(100).default(""),
+  limit: z.coerce.number().int().min(1).max(50).default(20),
+});
+
+// Words that are on almost every dealer's name, so they don't narrow a search.
+const FILLER = new Set(["harley", "davidson", "harley-davidson", "h-d", "hd", "of", "the", "shop", "inc", "llc", "and", "&"]);
+
+// Screen: Add Item -> pick the dealership a chip comes from. Every word typed
+// must appear in the name or the address, e.g. "bristol" or "kenai soldotna".
+dealersRouter.get(
+  "/",
+  asyncHandler(async (req, res) => {
+    const q = searchSchema.parse(req.query);
+    const words = q.search
+      .toLowerCase()
+      .split(/[\s,]+/)
+      .filter((w) => w && !FILLER.has(w))
+      .slice(0, 6);
+    const dealers = await prisma.dealer.findMany({
+      where: {
+        active: true,
+        AND: words.map((w) => ({ OR: [{ name: { contains: w } }, { address: { contains: w } }] })),
+      },
+      select: { id: true, name: true, address: true, lat: true, lng: true },
+      orderBy: { name: "asc" },
+      take: q.limit,
+    });
+    res.json(dealers);
+  })
+);
+
 // Screen: Dealer Ships Ranking. The least-visited dealers come first, so riders
 // are pointed at the stops few people have reached.
 dealersRouter.get(
