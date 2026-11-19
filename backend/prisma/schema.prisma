@@ -566,12 +566,14 @@ model Notification {
 // ---------------------------------------------------------------------------
 
 model Dealer {
-  id        Int      @id @default(autoincrement())
-  name      String
-  address   String
-  lat       Float
-  lng       Float
-  phone     String?
+  id         Int      @id @default(autoincrement())
+  // The client's dealer number (BIZID). Re-imports match on it.
+  externalId String?  @unique
+  name       String
+  address    String
+  lat        Float
+  lng        Float
+  phone      String?
   website   String?
   tags      String? // comma-separated category tags
   // Archived dealers drop off the map and rankings but keep their check-in history.
