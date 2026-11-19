@@ -204,7 +204,7 @@ Screens: Item Detail - *. Response `200`: `Item` plus `category`, `owner` (`{id,
 Request body: any subset of the create fields except `imageUrls`. Response `200`: updated `Item`. `403` if you don't own it.
 
 ### `DELETE /api/items/{id}` — Auth: yes
-No body. Response `204`. `403` if you don't own it.
+No body. Response `204`. `403` if you don't own it. `409` with a message to show if the chip has an active marketplace listing ("End the listing first") or is part of a trade offer or order.
 
 ---
 

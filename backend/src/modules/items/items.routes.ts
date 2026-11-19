@@ -4,7 +4,7 @@ import { ItemStatus, Rarity } from "@prisma/client";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { requireAuth } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
-import { HttpError, badRequest, forbidden, notFound } from "../../utils/httpError";
+import { HttpError, badRequest, conflict, forbidden, notFound } from "../../utils/httpError";
 import { assertCanAddItem } from "../plans/plan-limit";
 import { scanChip } from "./chip-scan";
 
@@ -177,9 +177,18 @@ itemsRouter.delete(
   "/:id",
   requireAuth,
   asyncHandler(async (req, res) => {
-    const existing = await prisma.item.findUnique({ where: { id: Number(req.params.id) } });
+    const existing = await prisma.item.findUnique({
+      where: { id: Number(req.params.id) },
+      include: { listing: { select: { status: true } }, _count: { select: { tradeOfferItems: true, orderItems: true } } },
+    });
     if (!existing) throw notFound("Item not found");
     if (existing.ownerId !== req.userId) throw forbidden();
+    // Trades and orders keep pointing at the chip, and a live listing would vanish
+    // under buyers; say why instead of failing on the foreign key.
+    if (existing.listing?.status === "ACTIVE") throw conflict("This chip is listed on the marketplace. End the listing before deleting it.");
+    if (existing._count.tradeOfferItems || existing._count.orderItems) {
+      throw conflict("This chip is part of a trade or an order, so it can't be deleted.");
+    }
     await prisma.item.delete({ where: { id: existing.id } });
     res.status(204).send();
   })
