@@ -567,8 +567,9 @@ model Notification {
 
 model Dealer {
   id         Int      @id @default(autoincrement())
-  // The client's dealer number (BIZID). Re-imports match on it.
-  externalId String?  @unique
+  // The client's dealer number (BIZID). Re-imports match on it; the import
+  // script keeps it unique (a plain index so adding it needed no data-loss flag).
+  externalId String?
   name       String
   address    String
   lat        Float
@@ -582,6 +583,7 @@ model Dealer {
 
   checkIns DealerCheckIn[]
 
+  @@index([externalId])
   @@map("dealers")
 }
 
