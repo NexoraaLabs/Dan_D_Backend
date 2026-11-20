@@ -3,14 +3,20 @@ import fs from "fs";
 import path from "path";
 import { prisma } from "../../config/prisma";
 
-export const DEFAULT_COLLECTIONS = [
+type DefaultCollection = { kind: string; name: string; parent?: string };
+
+// Parents come before their sub-folders, so they exist by the time the sub-folders are created.
+export const DEFAULT_COLLECTIONS: readonly DefaultCollection[] = [
   { kind: "dealer-chips", name: "Dealer Chips" },
   { kind: "dealer-plates", name: "Dealer Plates" },
   { kind: "dealer-plate-frames", name: "Dealer Plate Frames" },
   { kind: "dealer-key-rings", name: "Dealer Key Rings" },
   { kind: "dip-dots", name: "Dip Dots" },
   { kind: "merchandise", name: "Merchandise" },
-] as const;
+  { kind: "shirts", name: "Shirts", parent: "merchandise" },
+  { kind: "hats", name: "Hats", parent: "merchandise" },
+  { kind: "cups", name: "Cups", parent: "merchandise" },
+];
 
 export const coversDir = path.resolve("public/collection-covers");
 
@@ -24,12 +30,37 @@ function coverFile(kind: string) {
   return null;
 }
 
-/** Creates any of the default folders the user doesn't have yet. */
+/** Creates any of the default folders (and sub-folders) the user doesn't have yet. */
 export async function ensureDefaultCollections(ownerId: number) {
-  const existing = await prisma.collection.findMany({ where: { ownerId, kind: { not: null } }, select: { kind: true } });
+  const existing = await prisma.collection.findMany({
+    where: { ownerId, kind: { not: null } },
+    select: { id: true, kind: true },
+    orderBy: { createdAt: "asc" },
+  });
   const missing = DEFAULT_COLLECTIONS.filter((c) => !existing.some((e) => e.kind === c.kind));
   if (missing.length === 0) return;
-  await prisma.collection.createMany({ data: missing.map((c) => ({ ownerId, kind: c.kind, name: c.name })) });
+
+  const topLevel = missing.filter((c) => !c.parent);
+  if (topLevel.length) {
+    await prisma.collection.createMany({ data: topLevel.map((c) => ({ ownerId, kind: c.kind, name: c.name })) });
+  }
+  const subfolders = missing.filter((c) => c.parent);
+  if (subfolders.length === 0) return;
+
+  // The oldest of each kind wins, same as sortCollections.
+  const parents = await prisma.collection.findMany({
+    where: { ownerId, kind: { in: [...new Set(subfolders.map((c) => c.parent!))] } },
+    select: { id: true, kind: true },
+    orderBy: { createdAt: "asc" },
+  });
+  await prisma.collection.createMany({
+    data: subfolders.map((c) => ({
+      ownerId,
+      kind: c.kind,
+      name: c.name,
+      parentId: parents.find((p) => p.kind === c.parent)?.id,
+    })),
+  });
 }
 
 /** Fills in the shipped cover for a default folder that has none of its own. */

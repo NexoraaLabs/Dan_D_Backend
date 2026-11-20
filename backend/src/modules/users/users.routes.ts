@@ -24,7 +24,7 @@ async function profileStats(userId: number) {
     prisma.item.count({ where: { ownerId: userId } }),
     prisma.marketplaceListing.count({ where: { sellerId: userId, status: "ACTIVE" } }),
     prisma.tradeRequest.count({ where: { status: "COMPLETED", OR: [{ initiatorId: userId }, { recipientId: userId }] } }),
-    prisma.collection.count({ where: { ownerId: userId } }),
+    prisma.collection.count({ where: { ownerId: userId, parentId: null } }),
     prisma.wishlist.count({ where: { userId } }),
   ]);
   return { items, listings, trades, collections, wishlist };

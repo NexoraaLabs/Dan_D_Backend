@@ -187,21 +187,26 @@ model UserInterest {
 // A named grouping of items, e.g. "Collections - Events" screens (Sturgis
 // 2023, a swap-meet run, etc.) as well as a user's general collection.
 model Collection {
-  id            Int       @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   ownerId       Int
-  owner         User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner         User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   name          String
-  description   String?   @db.Text
+  description   String?      @db.Text
   coverImageUrl String?
   location      String? // event location, e.g. "Sturgis, SD"
   eventDate     DateTime?
   // Set on the default folders every user starts with ("dealer-chips", ...); null for ones the user made.
-  kind          String?   @db.VarChar(32)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  kind          String?      @db.VarChar(32)
+  // Sub-folder of another collection (Shirts / Hats / Cups inside Merchandise).
+  parentId      Int?
+  parent        Collection?  @relation("Subfolders", fields: [parentId], references: [id])
+  children      Collection[] @relation("Subfolders")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   items Item[]
 
+  @@index([parentId])
   @@map("collections")
 }
 
@@ -579,11 +584,11 @@ model Dealer {
   lat        Float
   lng        Float
   phone      String?
-  website   String?
-  tags      String? // comma-separated category tags
+  website    String?
+  tags       String? // comma-separated category tags
   // Archived dealers drop off the map and rankings but keep their check-in history.
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
 
   checkIns DealerCheckIn[]
   items    Item[]

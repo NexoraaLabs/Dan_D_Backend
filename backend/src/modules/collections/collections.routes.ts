@@ -30,7 +30,18 @@ collectionsRouter.get(
       include: { _count: { select: { items: true } } },
     });
     const base = baseUrl(req);
-    res.json(sortCollections(collections).map((c) => withCover(c, base)));
+    const sorted = sortCollections(collections).map((c) => withCover(c, base));
+    // Top-level folders only; sub-folders ride along under children, and a parent's count includes theirs.
+    res.json(
+      sorted
+        .filter((c) => c.parentId === null)
+        .map((c) => {
+          const children = sorted.filter((child) => child.parentId === c.id);
+          if (children.length === 0) return { ...c, children };
+          const items = c._count.items + children.reduce((sum, child) => sum + child._count.items, 0);
+          return { ...c, children, _count: { items } };
+        })
+    );
   })
 );
 
@@ -57,10 +68,19 @@ collectionsRouter.get(
   asyncHandler(async (req, res) => {
     const id = Number(req.params.id);
     const collection = Number.isInteger(id)
-      ? await prisma.collection.findUnique({ where: { id }, include: { items: { include: { images: true } } } })
+      ? await prisma.collection.findUnique({
+          where: { id },
+          include: {
+            items: { include: { images: true } },
+            parent: { select: { id: true, name: true } },
+            children: { include: { _count: { select: { items: true } } } },
+          },
+        })
       : null;
     if (!collection) throw notFound("Collection not found");
-    res.json(withCover(collection, baseUrl(req)));
+    const base = baseUrl(req);
+    const children = sortCollections(collection.children).map((child) => withCover(child, base));
+    res.json(withCover({ ...collection, children }, base));
   })
 );
 
