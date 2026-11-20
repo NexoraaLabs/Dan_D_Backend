@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { z } from "zod";
-import { ItemStatus, Rarity } from "@prisma/client";
+import { ItemStatus, Prisma, Rarity } from "@prisma/client";
 import { asyncHandler } from "../../utils/asyncHandler";
-import { requireAuth } from "../../middleware/auth";
+import { optionalUserId, requireAuth } from "../../middleware/auth";
 import { prisma } from "../../config/prisma";
 import { HttpError, badRequest, conflict, forbidden, notFound } from "../../utils/httpError";
 import { assertCanAddItem } from "../plans/plan-limit";
@@ -65,7 +65,10 @@ itemsRouter.get(
   "/",
   asyncHandler(async (req, res) => {
     const q = listQuerySchema.parse(req.query);
-    const where = {
+    const viewer = optionalUserId(req);
+    const where: Prisma.ItemWhereInput = {
+      // Chips in someone else's private collection are left out.
+      ...(q.ownerId !== undefined && q.ownerId === viewer ? {} : { OR: [{ collectionId: null }, { collection: { isPrivate: false } }] }),
       ownerId: q.ownerId,
       status: q.status,
       categoryId: q.categoryId,

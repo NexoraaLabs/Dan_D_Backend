@@ -201,6 +201,8 @@ model Collection {
   eventDate     DateTime?
   // Set on the default folders every user starts with ("dealer-chips", ...); null for ones the user made.
   kind          String?      @db.VarChar(32)
+  // Only the owner (and admins) can see it. Applies to the folders users make themselves.
+  isPrivate     Boolean      @default(false)
   // Sub-folder of another collection (Shirts / Hats / Cups inside Merchandise).
   parentId      Int?
   parent        Collection?  @relation("Subfolders", fields: [parentId], references: [id])

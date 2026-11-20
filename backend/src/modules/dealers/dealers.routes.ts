@@ -1,10 +1,9 @@
-import { Request, Router } from "express";
+import { Router } from "express";
 import { z } from "zod";
 import { asyncHandler } from "../../utils/asyncHandler";
 import { prisma } from "../../config/prisma";
 import { distanceKm } from "../../utils/geo";
-import { verifyAccessToken } from "../../utils/jwt";
-import { requireAuth } from "../../middleware/auth";
+import { optionalUserId, requireAuth } from "../../middleware/auth";
 import { checkIn, lastCheckIns } from "../rewards/checkins.service";
 import { CHECK_IN_COOLDOWN_MS, CHECK_IN_RADIUS_M } from "../rewards/points";
 
@@ -15,17 +14,6 @@ const nearbySchema = z.object({
   lng: z.coerce.number(),
   radiusKm: z.coerce.number().default(50),
 });
-
-// The map works signed out; a valid token only adds the user's check-in state.
-function optionalUserId(req: Request) {
-  const header = req.headers.authorization;
-  if (!header?.startsWith("Bearer ")) return undefined;
-  try {
-    return verifyAccessToken(header.slice("Bearer ".length)).sub;
-  } catch {
-    return undefined;
-  }
-}
 
 // Screens: Map, Map - Dealers List (1/2)
 dealersRouter.get(

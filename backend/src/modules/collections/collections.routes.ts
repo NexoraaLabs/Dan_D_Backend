@@ -1,7 +1,7 @@
 import { Request, Router } from "express";
 import { z } from "zod";
 import { asyncHandler } from "../../utils/asyncHandler";
-import { requireAuth } from "../../middleware/auth";
+import { optionalUserId, requireAuth } from "../../middleware/auth";
 import { env } from "../../config/env";
 import { prisma } from "../../config/prisma";
 import { badRequest, forbidden, notFound } from "../../utils/httpError";
@@ -51,6 +51,7 @@ const createSchema = z.object({
   coverImageUrl: z.string().url().optional(),
   location: z.string().max(120).optional(),
   eventDate: z.coerce.date().optional(),
+  isPrivate: z.boolean().optional(),
 });
 
 collectionsRouter.post(
@@ -77,7 +78,8 @@ collectionsRouter.get(
           },
         })
       : null;
-    if (!collection) throw notFound("Collection not found");
+    // A private collection is the owner's business; to anyone else it doesn't exist.
+    if (!collection || (collection.isPrivate && collection.ownerId !== optionalUserId(req))) throw notFound("Collection not found");
     const base = baseUrl(req);
     const children = sortCollections(collection.children).map((child) => withCover(child, base));
     res.json(withCover({ ...collection, children }, base));
@@ -91,6 +93,7 @@ collectionsRouter.patch(
     const input = createSchema.partial().parse(req.body);
     const existing = await findOwnCollection(req);
     if (existing.kind && input.name !== undefined && input.name !== existing.name) throw badRequest("Default collections can’t be renamed");
+    if (existing.kind && input.isPrivate) throw badRequest("Default collections can’t be made private");
     const collection = await prisma.collection.update({ where: { id: existing.id }, data: input });
     res.json(collection);
   })

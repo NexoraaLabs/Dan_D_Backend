@@ -17,6 +17,17 @@ declare global {
 // would be wasteful, so it's refreshed at most this often per user.
 const LAST_ACTIVE_THROTTLE_MS = 5 * 60 * 1000;
 
+/** The signed-in user on a route that also works signed out (map, public collections); undefined otherwise. */
+export function optionalUserId(req: Request) {
+  const header = req.headers.authorization;
+  if (!header?.startsWith("Bearer ")) return undefined;
+  try {
+    return verifyAccessToken(header.slice("Bearer ".length)).sub;
+  } catch {
+    return undefined;
+  }
+}
+
 /** Rejects suspended/banned accounts, so an admin action takes effect on the next request rather than at token expiry. */
 export async function assertAccountActive(userId: number) {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { id: true, status: true, suspendedUntil: true, lastActiveAt: true } });

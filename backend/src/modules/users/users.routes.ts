@@ -19,12 +19,12 @@ const publicUserSelect = {
 };
 
 // The counters on a profile header: Items / Listings / Trades / Collections / Wishlist.
-async function profileStats(userId: number) {
+async function profileStats(userId: number, { own = false } = {}) {
   const [items, listings, trades, collections, wishlist] = await Promise.all([
     prisma.item.count({ where: { ownerId: userId } }),
     prisma.marketplaceListing.count({ where: { sellerId: userId, status: "ACTIVE" } }),
     prisma.tradeRequest.count({ where: { status: "COMPLETED", OR: [{ initiatorId: userId }, { recipientId: userId }] } }),
-    prisma.collection.count({ where: { ownerId: userId, parentId: null } }),
+    prisma.collection.count({ where: { ownerId: userId, parentId: null, ...(own ? {} : { isPrivate: false }) } }),
     prisma.wishlist.count({ where: { userId } }),
   ]);
   return { items, listings, trades, collections, wishlist };
@@ -41,7 +41,7 @@ usersRouter.get(
     });
     if (!user) throw notFound("User not found");
     const { passwordHash, ...safe } = user;
-    res.json({ ...safe, preferences: readPreferences(user.preferences), stats: await profileStats(user.id) });
+    res.json({ ...safe, preferences: readPreferences(user.preferences), stats: await profileStats(user.id, { own: true }) });
   })
 );
 
