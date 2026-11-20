@@ -32,6 +32,7 @@ import { adminPlansRouter } from "./modules/admin/admin.plans.routes";
 import { adminSubscriptionsRouter } from "./modules/admin/admin.subscriptions.routes";
 import { adminPromotionsRouter } from "./modules/admin/admin.promotions.routes";
 import { adminCheckInsRouter, adminDealersRouter, adminOfficialChipsRouter, adminPointsRouter } from "./modules/admin/admin.rewards.routes";
+import { adminCollectionsRouter } from "./modules/admin/admin.collections.routes";
 import { leaderboardRouter, officialChipsRouter, walletRouter } from "./modules/rewards/rewards.routes";
 import { requireAdmin } from "./middleware/auth";
 import { errorHandler, notFoundHandler } from "./middleware/error";
@@ -106,6 +107,7 @@ export function createApp() {
   app.use("/api/admin/plans", adminPlansRouter);
   app.use("/api/admin/subscriptions", adminSubscriptionsRouter);
   app.use("/api/admin/promotions", adminPromotionsRouter);
+  app.use("/api/admin/collections", adminCollectionsRouter);
   app.use("/api/admin/dealers", adminDealersRouter);
   app.use("/api/admin/official-chips", adminOfficialChipsRouter);
   app.use("/api/admin/check-ins", adminCheckInsRouter);
