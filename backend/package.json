@@ -13,6 +13,7 @@
     "seed": "tsx prisma/seed.ts",
     "admin:grant": "tsx scripts/make-admin.ts",
     "dealers:import": "tsx scripts/import-dealers.ts",
+    "trials:extend": "tsx scripts/extend-trials.ts",
     "postman:generate": "node scripts/generate-postman.js",
     "db:deploy": "prisma db push --skip-generate && tsx prisma/seed.ts"
   },
