@@ -588,6 +588,10 @@ model Dealer {
   tags       String? // comma-separated category tags
   // Archived dealers drop off the map and rankings but keep their check-in history.
   active     Boolean  @default(true)
+  // Closed for good (or renamed by a new owner, who gets a new dealer). Unlike archived, a closed dealer
+  // stays on the map and in the chip picker, since collectors still want its chips, but gives no
+  // check-in points and leaves the least-visited ranking.
+  closedAt   DateTime?
   createdAt  DateTime @default(now())
 
   checkIns DealerCheckIn[]

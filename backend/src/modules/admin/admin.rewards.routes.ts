@@ -21,15 +21,37 @@ const dealerSchema = z.object({
   website: z.string().trim().nullish(),
   tags: z.string().trim().nullish(),
   active: z.boolean().optional(),
+  // Marks the dealership closed (or reopens it); stored as closedAt.
+  closed: z.boolean().optional(),
 });
+
+// Keeps the original closing date when a closed dealer is saved again.
+function closedAtFor(closed: boolean | undefined, current: Date | null = null) {
+  if (closed === undefined) return undefined;
+  return closed ? (current ?? new Date()) : null;
+}
 
 // Admin screen: Dealers (list, with how often each is visited).
 adminDealersRouter.get(
   "/",
   asyncHandler(async (req, res) => {
-    const q = pageQuerySchema.extend({ search: z.string().trim().optional(), active: z.enum(["true", "false"]).optional() }).parse(req.query);
+    const q = pageQuerySchema
+      .extend({
+        search: z.string().trim().optional(),
+        active: z.enum(["true", "false"]).optional(),
+        status: z.enum(["open", "closed", "archived"]).optional(),
+      })
+      .parse(req.query);
+    const status: Prisma.DealerWhereInput =
+      q.status === "open"
+        ? { active: true, closedAt: null }
+        : q.status === "closed"
+          ? { active: true, closedAt: { not: null } }
+          : q.status === "archived"
+            ? { active: false }
+            : { active: q.active === undefined ? undefined : q.active === "true" };
     const where: Prisma.DealerWhereInput = {
-      active: q.active === undefined ? undefined : q.active === "true",
+      ...status,
       ...(q.search ? { OR: [{ name: { contains: q.search } }, { address: { contains: q.search } }] } : {}),
     };
     const [items, total] = await Promise.all([
@@ -43,8 +65,8 @@ adminDealersRouter.get(
 adminDealersRouter.post(
   "/",
   asyncHandler(async (req, res) => {
-    const data = dealerSchema.parse(req.body);
-    const dealer = await prisma.dealer.create({ data });
+    const { closed, ...data } = dealerSchema.parse(req.body);
+    const dealer = await prisma.dealer.create({ data: { ...data, closedAt: closedAtFor(closed) } });
     await recordAudit(prisma, { actorId: req.userId!, action: "dealer.create", targetType: "dealer", targetId: dealer.id });
     res.status(201).json(dealer);
   })
@@ -54,10 +76,11 @@ adminDealersRouter.patch(
   "/:id",
   asyncHandler(async (req, res) => {
     const id = Number(req.params.id);
-    const data = dealerSchema.partial().parse(req.body);
-    if (!(await prisma.dealer.findUnique({ where: { id } }))) throw notFound("Dealer not found");
-    const dealer = await prisma.dealer.update({ where: { id }, data });
-    await recordAudit(prisma, { actorId: req.userId!, action: "dealer.update", targetType: "dealer", targetId: id, data });
+    const { closed, ...data } = dealerSchema.partial().parse(req.body);
+    const existing = await prisma.dealer.findUnique({ where: { id } });
+    if (!existing) throw notFound("Dealer not found");
+    const dealer = await prisma.dealer.update({ where: { id }, data: { ...data, closedAt: closedAtFor(closed, existing.closedAt) } });
+    await recordAudit(prisma, { actorId: req.userId!, action: "dealer.update", targetType: "dealer", targetId: id, data: { ...data, closed } });
     res.json(dealer);
   })
 );

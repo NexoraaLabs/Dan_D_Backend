@@ -18,6 +18,9 @@ const MAX_ACCURACY_SLACK_M = 25;
 export async function checkIn(input: { userId: number; dealerId: number; lat: number; lng: number; accuracyM?: number }) {
   const dealer = await prisma.dealer.findUnique({ where: { id: input.dealerId } });
   if (!dealer || !dealer.active) throw notFound("Dealer not found");
+  if (dealer.closedAt) {
+    throw new HttpError(400, `${dealer.name} is closed, so there are no check-in points here.`, { code: "DEALER_CLOSED" });
+  }
 
   const distanceM = distanceKm(input.lat, input.lng, dealer.lat, dealer.lng) * 1000;
   const slack = Math.min(input.accuracyM ?? 0, MAX_ACCURACY_SLACK_M);

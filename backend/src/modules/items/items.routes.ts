@@ -24,7 +24,7 @@ function takeScanSlot(userId: number) {
   recentScans.set(userId, times);
 }
 
-const DEALER_FIELDS = { id: true, name: true, address: true } as const;
+const DEALER_FIELDS = { id: true, name: true, address: true, closedAt: true } as const;
 
 async function assertDealerExists(dealerId: number | null | undefined) {
   if (dealerId == null) return;

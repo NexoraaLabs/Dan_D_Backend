@@ -78,7 +78,8 @@ dealersRouter.get(
         active: true,
         AND: words.map((w) => ({ OR: [{ name: { contains: w } }, { address: { contains: w } }] })),
       },
-      select: { id: true, name: true, address: true, lat: true, lng: true },
+      // Closed dealers stay pickable: a chip from one is still a chip from that dealer.
+      select: { id: true, name: true, address: true, lat: true, lng: true, closedAt: true },
       orderBy: { name: "asc" },
       take: q.limit,
     });
@@ -87,12 +88,12 @@ dealersRouter.get(
 );
 
 // Screen: Dealer Ships Ranking. The least-visited dealers come first, so riders
-// are pointed at the stops few people have reached.
+// are pointed at the stops few people have reached. Closed ones can't be visited, so they're left out.
 dealersRouter.get(
   "/ranking",
   asyncHandler(async (_req, res) => {
     const dealers = await prisma.dealer.findMany({
-      where: { active: true },
+      where: { active: true, closedAt: null },
       select: { id: true, name: true, address: true, lat: true, lng: true, _count: { select: { checkIns: true } } },
       orderBy: [{ checkIns: { _count: "asc" } }, { name: "asc" }],
       take: 20,
