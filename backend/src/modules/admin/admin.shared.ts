@@ -17,6 +17,7 @@ export const adminUserSelect = {
   fullName: true,
   avatarUrl: true,
   status: true,
+  suspendedUntil: true,
   isAdmin: true,
   createdAt: true,
   lastActiveAt: true,

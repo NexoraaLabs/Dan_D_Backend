@@ -1,11 +1,11 @@
 import bcrypt from "bcryptjs";
-import type { AccountStatus } from "@prisma/client";
 import crypto from "crypto";
 import { prisma } from "../../config/prisma";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../utils/jwt";
-import { badRequest, conflict, forbidden, unauthorized } from "../../utils/httpError";
+import { badRequest, conflict, unauthorized } from "../../utils/httpError";
 import { sendEmail } from "../../utils/mailer";
 import { env } from "../../config/env";
+import { assertAccountUsable } from "../users/account-status";
 
 const TRIAL_DAYS = 30;
 const CODE_TTL_MS = 10 * 60 * 1000;
@@ -52,16 +52,11 @@ export async function login(input: { email: string; password: string }, options:
   const valid = await bcrypt.compare(input.password, user.passwordHash);
   if (!valid) throw unauthorized("Invalid email or password");
 
-  assertCanSignIn(user.status);
+  await assertAccountUsable(user);
   // Same message as a wrong password for non-admins, so the admin login doesn't reveal who has an account.
   if (options.adminOnly && !user.isAdmin) throw unauthorized("Invalid email or password");
 
   return issueSession(user.id, user.email);
-}
-
-function assertCanSignIn(status: AccountStatus) {
-  if (status === "BANNED") throw forbidden("This account has been closed");
-  if (status === "SUSPENDED") throw forbidden("This account is suspended");
 }
 
 export async function refresh(refreshToken: string) {
@@ -83,7 +78,7 @@ export async function refresh(refreshToken: string) {
   await prisma.refreshToken.update({ where: { id: stored.id }, data: { revokedAt: new Date() } });
 
   const user = await prisma.user.findUniqueOrThrow({ where: { id: payload.sub } });
-  assertCanSignIn(user.status);
+  await assertAccountUsable(user);
   return issueSession(user.id, user.email);
 }
 

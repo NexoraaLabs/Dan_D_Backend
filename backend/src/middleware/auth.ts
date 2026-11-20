@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { verifyAccessToken } from "../utils/jwt";
 import { forbidden, unauthorized } from "../utils/httpError";
 import { prisma } from "../config/prisma";
+import { assertAccountUsable } from "../modules/users/account-status";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -18,10 +19,9 @@ const LAST_ACTIVE_THROTTLE_MS = 5 * 60 * 1000;
 
 /** Rejects suspended/banned accounts, so an admin action takes effect on the next request rather than at token expiry. */
 export async function assertAccountActive(userId: number) {
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { status: true, lastActiveAt: true } });
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { id: true, status: true, suspendedUntil: true, lastActiveAt: true } });
   if (!user) throw unauthorized("Account no longer exists");
-  if (user.status === "BANNED") throw forbidden("This account has been closed");
-  if (user.status === "SUSPENDED") throw forbidden("This account is suspended");
+  await assertAccountUsable(user);
   if (!user.lastActiveAt || Date.now() - user.lastActiveAt.getTime() > LAST_ACTIVE_THROTTLE_MS) {
     await prisma.user.update({ where: { id: userId }, data: { lastActiveAt: new Date() } });
   }

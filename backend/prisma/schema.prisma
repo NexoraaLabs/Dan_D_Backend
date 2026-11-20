@@ -69,11 +69,13 @@ model User {
   // defaults live in users/preferences.ts so new keys don't need a migration.
   preferences     Json?
 
-  isAdmin      Boolean       @default(false)
-  status       AccountStatus @default(ACTIVE)
-  lastActiveAt DateTime?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  isAdmin        Boolean       @default(false)
+  status         AccountStatus @default(ACTIVE)
+  // End of a timed suspension; the account reopens on its own after this. Null = until an admin restores it.
+  suspendedUntil DateTime?
+  lastActiveAt   DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 
   interests             UserInterest[]
   collections           Collection[]
@@ -99,6 +101,8 @@ model User {
   payments              Payment[]
   promotions            Promotion[]
   auditLogs             AuditLog[]
+  moderationRecords     ModerationRecord[]        @relation("ModerationRecords")
+  moderationActions     ModerationRecord[]        @relation("ModerationActions")
   verificationCodes     VerificationCode[]
   feedback              Feedback[]
   checkIns              DealerCheckIn[]
@@ -575,7 +579,7 @@ model Notification {
 // ---------------------------------------------------------------------------
 
 model Dealer {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   // The client's dealer number (BIZID). Re-imports match on it; the import
   // script keeps it unique (a plain index so adding it needed no data-loss flag).
   externalId String?
@@ -587,12 +591,12 @@ model Dealer {
   website    String?
   tags       String? // comma-separated category tags
   // Archived dealers drop off the map and rankings but keep their check-in history.
-  active     Boolean  @default(true)
+  active     Boolean   @default(true)
   // Closed for good (or renamed by a new owner, who gets a new dealer). Unlike archived, a closed dealer
   // stays on the map and in the chip picker, since collectors still want its chips, but gives no
   // check-in points and leaves the least-visited ranking.
   closedAt   DateTime?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
 
   checkIns DealerCheckIn[]
   items    Item[]
@@ -816,6 +820,33 @@ model AppSetting {
 }
 
 // Every admin action that changes another user's data ("Reason (recorded in audit log)").
+enum ModerationAction {
+  WARNING
+  SUSPENSION
+  BAN
+}
+
+// A user's warnings, suspensions and ban, with the note they were given. The admin
+// sees the history and the next step (2 days, then a week, then removed).
+model ModerationRecord {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  user      User             @relation("ModerationRecords", fields: [userId], references: [id], onDelete: Cascade)
+  adminId   Int
+  admin     User             @relation("ModerationActions", fields: [adminId], references: [id])
+  action    ModerationAction
+  reason    String           @db.Text
+  // Suspensions only: length in days and when it ends; null = until restored.
+  days      Int?
+  endsAt    DateTime?
+  // Set when an admin restores the account before endsAt.
+  liftedAt  DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, createdAt])
+  @@map("moderation_records")
+}
+
 model AuditLog {
   id         Int      @id @default(autoincrement())
   actorId    Int
