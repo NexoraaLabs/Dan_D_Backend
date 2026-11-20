@@ -9,6 +9,7 @@ export const DEFAULT_COLLECTIONS = [
   { kind: "dealer-plate-frames", name: "Dealer Plate Frames" },
   { kind: "dealer-key-rings", name: "Dealer Key Rings" },
   { kind: "dip-dots", name: "Dip Dots" },
+  { kind: "merchandise", name: "Merchandise" },
 ] as const;
 
 export const coversDir = path.resolve("public/collection-covers");
@@ -23,7 +24,7 @@ function coverFile(kind: string) {
   return null;
 }
 
-/** Creates any of the five default folders the user doesn't have yet. */
+/** Creates any of the default folders the user doesn't have yet. */
 export async function ensureDefaultCollections(ownerId: number) {
   const existing = await prisma.collection.findMany({ where: { ownerId, kind: { not: null } }, select: { kind: true } });
   const missing = DEFAULT_COLLECTIONS.filter((c) => !existing.some((e) => e.kind === c.kind));
