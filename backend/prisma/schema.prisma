@@ -25,8 +25,8 @@ model Plan {
   name             String
   description      String?        @db.Text
   features         Json? // string[] shown on the pricing page
-  priceCents       Int // 0 for the 15-day free trial
-  billingPeriod    String // "trial_15d" | "month" | "year"
+  priceCents       Int // 0 for the 30-day free trial
+  billingPeriod    String // "trial_15d" (the free trial, now 30 days; code kept so existing rows still match) | "month" | "year"
   itemLimit        Int? // null = unlimited (Platinum)
   bidLimit         Int? // bids allowed on this plan; null = unlimited (paid plans)
   tradeLimit       Int? // trades proposed or accepted; null = unlimited (paid plans)

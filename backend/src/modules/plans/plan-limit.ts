@@ -20,7 +20,7 @@ async function loadPlan(db: Db, userId: number) {
 function assertTrialActive(user: Awaited<ReturnType<typeof loadPlan>>) {
   const onTrial = user.plan?.billingPeriod === "trial_15d";
   if (onTrial && user.trialEndsAt && user.trialEndsAt < new Date()) {
-    throw upgradeRequired("Your 15-day free trial has ended. Subscribe to keep posting, bidding and trading.", {
+    throw upgradeRequired("Your 30-day free trial has ended. Subscribe to keep posting, bidding and trading.", {
       reason: "trial_ended",
       trialEndsAt: user.trialEndsAt,
     });

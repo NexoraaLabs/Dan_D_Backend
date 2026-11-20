@@ -7,7 +7,7 @@ import { badRequest, conflict, forbidden, unauthorized } from "../../utils/httpE
 import { sendEmail } from "../../utils/mailer";
 import { env } from "../../config/env";
 
-const TRIAL_DAYS = 15;
+const TRIAL_DAYS = 30;
 const CODE_TTL_MS = 10 * 60 * 1000;
 const CODE_MAX_ATTEMPTS = 5;
 
